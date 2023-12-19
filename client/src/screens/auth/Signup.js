@@ -12,37 +12,59 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {appImage, checkBoxOutline} from '../../assets/images';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { appImage, checkBoxOutline } from '../../assets/images';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { FormHelperText } from '@mui/material';
 
 function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Enter a valid email").required("Email is required"),
+    password: Yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
+    confirmPassword: Yup.string().required("Confirm Password is required").oneOf([Yup.ref("password")], "Passwords must match"),
+  });
 
-  const handleSubmit = (event) => {
+  const initialValues = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const handleSubmit = (event, values) => {
+    setLoading(true);
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      console.log('signup successfully')
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit: async (event, values) => {
+      handleSubmit(event, values)
+    },
+  });
+
+  const styles = {
+    textField: {
+      // "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      //   borderColor: "#7062F3 !important",
+      // },
+      // '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      //   borderColor: "#7062F3 !important",
+      // },
+    },
   };
 
   const handleShowPassword = () => setShowPassword((show) => !show);
@@ -53,7 +75,7 @@ function SignUp() {
     <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Container component="main" maxWidth='sm' disableGutters >
 
-        <Container style={{ display: 'flex', flexDirection : 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
+        <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
           <Box
             component="img"
             sx={{
@@ -82,30 +104,42 @@ function SignUp() {
             Create new account
           </Typography>
 
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, margin: '40px' }}>
+          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   name="name"
-                  required
                   fullWidth
                   id="name"
                   placeholder="Name"
-                  value={name}
-                  onChange={(e)=>{setName(e.target.value)}}
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  sx={styles.textField}
                 />
+                {formik.touched.name && formik.errors.name && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.name}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="email"
                   name="email"
-                  required
                   fullWidth
                   id="email"
                   placeholder="Email"
-                  value={email}
-                  onChange={(e)=>{setEmail(e.target.value)}}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  sx={styles.textField}
                 />
+                {formik.touched.email && formik.errors.email && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.email}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <OutlinedInput
@@ -124,9 +158,16 @@ function SignUp() {
                     </InputAdornment>
                   }
                   placeholder="Password"
-                  value={password}
-                  onChange={(e)=>{setPassword(e.target.value)}}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  sx={styles.textField}
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <FormHelperText error id="password">
+                    {formik.errors.password}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <OutlinedInput
@@ -145,11 +186,18 @@ function SignUp() {
                     </InputAdornment>
                   }
                   placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e)=>{setConfirmPassword(e.target.value)}}
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                  sx={styles.textField}
                 />
+                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.confirmPassword}
+                  </FormHelperText>
+                )}
               </Grid>
-              <Grid item xs={12} style={{ paddingTop: '0px', marginTop: '40px', display: 'flex', alignItems : 'center' }}>
+              <Grid item xs={12} style={{ paddingTop: '0px', marginTop: '40px', display: 'flex', alignItems: 'center' }}>
                 <Box
                   component="img"
                   sx={{
@@ -160,11 +208,11 @@ function SignUp() {
                 />
                 <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400', marginLeft: 10 }} >
                   {'Agree to all '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500'}}>
+                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500' }}>
                     Term
                   </Link>
                   {' and '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500'}}>
+                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500' }}>
                     Privacy Policy
                   </Link>
                 </Typography>

@@ -13,21 +13,43 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { appImage } from '../../assets/images';
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { FormHelperText } from '@mui/material';
 
 function Login() {
-  const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Enter a valid email").required("Email is required"),
+    password: Yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
+  });
+
+  const initialValues = {
+    email: '',
+    password: '',
   };
+
+  const handleSubmit = (event, values) => {
+    setLoading(true);
+    event.preventDefault();
+    try {
+      console.log('SignIn successfully')
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit: async (event, values) => {
+      handleSubmit(event, values)
+    },
+  });
 
   const handleShowPassword = () => setShowPassword((show) => !show);
 
@@ -64,19 +86,23 @@ function Login() {
             Login in to your account
           </Typography>
 
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, margin: '40px' }}>
+          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="email"
                   name="email"
-                  required
                   fullWidth
                   id="email"
                   placeholder="Email"
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value) }}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
                 />
+                {formik.touched.email && formik.errors.email && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.email}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <OutlinedInput
@@ -95,9 +121,15 @@ function Login() {
                     </InputAdornment>
                   }
                   placeholder="Password"
-                  value={password}
-                  onChange={(e) => { setPassword(e.target.value) }}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <FormHelperText error id="password">
+                    {formik.errors.password}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item xs={12} style={{ paddingTop: '0px', marginTop: '5px' }}>
                 <Link href="./forgotPassword" style={{ textDecoration: 'none' }}>
