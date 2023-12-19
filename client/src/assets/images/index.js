@@ -1,5 +1,3 @@
-const AppImages = {
-    appLogo : './appLogo.svg'
-}
-
-export default AppImages
+export const appLogo = require('./appLogo.svg');
+export const appImage = require('./appLogo.png');
+export const checkBoxOutline = require('./checkBoxOutline.png');
