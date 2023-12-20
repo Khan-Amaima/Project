@@ -15,7 +15,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { appImage } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormHelperText } from '@mui/material';
+import { FormHelperText, ThemeProvider } from '@mui/material';
+import theme from '../../constants/TextFieldTheme';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +55,7 @@ function Login() {
   const handleShowPassword = () => setShowPassword((show) => !show);
 
   return (
+  <ThemeProvider theme={theme}>
     <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Container component="main" maxWidth='sm' disableGutters>
 
@@ -105,21 +107,23 @@ function Login() {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <OutlinedInput
+                <TextField
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   fullWidth
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleShowPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+                  InputProps={{
+                    endAdornment:
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    
+                  }}
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -159,6 +163,8 @@ function Login() {
         </Box>
       </Container>
     </Container>
+  </ThemeProvider>
+    
   );
 }
 

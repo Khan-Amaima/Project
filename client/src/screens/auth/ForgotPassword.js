@@ -9,52 +9,12 @@ import AppColors from '../../constants/AppColors';
 import { appImage } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormHelperText } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme({
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {                           // - The TextField-root
-                                         // - For demonstration: set the TextField-root border
-          padding: '3px',               // - Make the border more distinguishable
-  
-          // (Note: space or no space after `&` matters. See SASS "parent selector".)
-          '& .MuiOutlinedInput-root': {  // - The Input-root, inside the TextField-root
-              '& fieldset': {            // - The <fieldset> inside the Input-root
-                  borderColor: AppColors.secondary,   // - Set the Input border
-              },
-              '&:hover fieldset': {
-                  borderColor: AppColors.primary, // - Set the Input border when parent has :hover
-              },
-              '&.Mui-focused fieldset': { // - Set the Input border when parent is focused 
-                  borderColor: AppColors.tertiary,
-              },
-          },
-      },
-      },
-    },
-    MuiSelect: {
-      styleOverrides: {
-        outlined: {
-          "&:hover fieldset": {
-            borderColor: AppColors.primary // use the original border color on hover
-          },
-          '&:before': {
-            borderColor: AppColors.secondary, // Change select menu border color
-          },
-          '&.Mui-focused fieldset': {
-            borderColor: AppColors.secondary, // Change border color on focus
-          },
-        },
-        icon: {
-          color: AppColors.secondary, // Change select menu icon color
-        },
-      },
-    },
-  }, 
-});
+import theme from '../../constants/TextFieldTheme';
+
+import { FormHelperText } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+
 
 function ForgotPassword() {
   const [loading, setLoading] = useState(false);
@@ -117,12 +77,12 @@ function ForgotPassword() {
         >
 
           <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
-            Forgot password ?
+            Forgot password !?
           </Typography>
 
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }} style={{ width: '85%' }}>
           <ThemeProvider theme={theme}>
-          <div >
+          
             <TextField
               autoComplete="email"
               name="email"
@@ -132,14 +92,9 @@ function ForgotPassword() {
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
-              InputProps={{
-                classes: {
-                  notchedOutline: 'Mui-disabled', // Apply the Mui-disabled class to the notchedOutline
-                },
-              }} 
-             
+              
             />
-            </div>
+          
             </ThemeProvider>
             {formik.touched.email && formik.errors.email && (
               <FormHelperText error id="confirmPassword">
