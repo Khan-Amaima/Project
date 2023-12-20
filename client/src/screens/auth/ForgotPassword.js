@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -10,7 +9,12 @@ import AppColors from '../../constants/AppColors';
 import { appImage } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+import theme from '../../constants/TextFieldTheme';
+
 import { FormHelperText } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+
 
 function ForgotPassword() {
   const [loading, setLoading] = useState(false);
@@ -73,10 +77,12 @@ function ForgotPassword() {
         >
 
           <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
-            Forgot password ?
+            Forgot password !?
           </Typography>
 
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }} style={{ width: '85%' }}>
+          <ThemeProvider theme={theme}>
+          
             <TextField
               autoComplete="email"
               name="email"
@@ -86,7 +92,10 @@ function ForgotPassword() {
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
+              
             />
+          
+            </ThemeProvider>
             {formik.touched.email && formik.errors.email && (
               <FormHelperText error id="confirmPassword">
                 {formik.errors.email}

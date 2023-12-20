@@ -15,7 +15,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { appImage, checkBoxOutline } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormHelperText } from '@mui/material';
+import { FormHelperText, ThemeProvider } from '@mui/material';
+import theme from '../../constants/TextFieldTheme';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,23 +57,14 @@ function SignUp() {
     },
   });
 
-  const styles = {
-    textField: {
-      // "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      //   borderColor: "#7062F3 !important",
-      // },
-      // '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      //   borderColor: "#7062F3 !important",
-      // },
-    },
-  };
 
   const handleShowPassword = () => setShowPassword((show) => !show);
 
   const handleShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
   return (
-    <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Container component="main" maxWidth='sm' disableGutters >
 
         <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
@@ -105,7 +97,7 @@ function SignUp() {
           </Typography>
 
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }}>
-            <Grid container spacing={3}>
+              <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   name="name"
@@ -115,7 +107,6 @@ function SignUp() {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   error={formik.touched.name && Boolean(formik.errors.name)}
-                  sx={styles.textField}
                 />
                 {formik.touched.name && formik.errors.name && (
                   <FormHelperText error id="confirmPassword">
@@ -133,7 +124,6 @@ function SignUp() {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   error={formik.touched.email && Boolean(formik.errors.email)}
-                  sx={styles.textField}
                 />
                 {formik.touched.email && formik.errors.email && (
                   <FormHelperText error id="confirmPassword">
@@ -142,26 +132,38 @@ function SignUp() {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <OutlinedInput
+                <TextField
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   fullWidth
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleShowPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+                  InputProps={{
+                    endAdornment:
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    
+                  }}
+                  // endAdornment={
+                  //   <InputAdornment position="end">
+                  //     <IconButton
+                  //       aria-label="toggle password visibility"
+                  //       onClick={handleShowPassword}
+                  //       edge="end"
+                  //     >
+                  //       {showPassword ? <VisibilityOff /> : <Visibility />}
+                  //     </IconButton>
+                  //   </InputAdornment>
+                  // }
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   error={formik.touched.password && Boolean(formik.errors.password)}
-                  sx={styles.textField}
                 />
                 {formik.touched.password && formik.errors.password && (
                   <FormHelperText error id="password">
@@ -170,26 +172,27 @@ function SignUp() {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <OutlinedInput
+                <TextField
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   fullWidth
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleShowConfirmPassword}
-                        edge="end"
-                      >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+                  InputProps={{
+                    endAdornment:
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    
+                  }}
                   placeholder="Confirm Password"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                  sx={styles.textField}
                 />
                 {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                   <FormHelperText error id="confirmPassword">
@@ -217,7 +220,8 @@ function SignUp() {
                   </Link>
                 </Typography>
               </Grid>
-            </Grid>
+              </Grid>
+           
             <Button
               type="submit"
               fullWidth
@@ -236,7 +240,8 @@ function SignUp() {
           </Box>
         </Box>
       </Container>
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 }
 
