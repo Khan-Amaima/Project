@@ -10,7 +10,7 @@ const theme = createTheme({
 
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: AppColors.secondary,
+              borderColor: AppColors.grey,
             },
             "&:hover fieldset": {
               borderColor: AppColors.primary,

@@ -77,7 +77,7 @@ function ForgotPassword() {
         >
 
           <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
-            Forgot password !?
+            Forgot password ?
           </Typography>
 
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }} style={{ width: '85%' }}>

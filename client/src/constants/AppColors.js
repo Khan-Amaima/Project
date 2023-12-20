@@ -3,6 +3,7 @@ const AppColors = {
     secondary : '#828282',
     tertiary : '#221D52',
     backgroundColor : '#F2F2F2',
+    grey : '#C4C4C4',
     white : '#FDFDFD',
 }
 
