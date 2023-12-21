@@ -14,10 +14,121 @@ import theme from '../../constants/TextFieldTheme';
 
 import { FormHelperText } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-
+import { useTheme } from '@emotion/react';
 
 function ForgotPassword() {
   const [loading, setLoading] = useState(false);
+  
+
+  
+  const AppName = {
+    xs : {
+       fontSize: 30,
+    }, 
+    sm : {
+      fontSize: 32,
+    },
+    md : {
+      fontSize: 34,
+    }, 
+
+    lg : {
+      fontSize: 36,
+    }
+
+  }
+
+  const MainHeading = {
+    xs : {
+       fontSize: 18, 
+    }, 
+    sm : {
+      fontSize: 20,
+    },
+    md : {
+      fontSize: 22,
+    }, 
+
+    lg : {
+      fontSize: 24,
+    }
+
+  }
+
+  const PrimaryHeading = {
+    xs : {
+       fontSize: 14, 
+    }, 
+    sm : {
+      fontSize: 16,
+    },
+    md : {
+      fontSize: 18,
+    }, 
+
+    lg : {
+      fontSize: 20,
+    }
+
+  }
+
+  const SecondaryHeading = {
+    xs : {
+       fontSize: "25px", 
+       color:"red",backgroundColor:""
+       
+    }, 
+    sm : {
+      fontSize: "10px",
+      color:"blue",
+    },
+    md : {
+      fontSize: 14,color:"red",
+    }, 
+
+    lg : {
+      fontSize: 13,color:"blue",
+    }
+
+  }
+
+  const SubHeading = {
+    xs : {
+       fontSize: 14, 
+    }, 
+    sm : {
+      fontSize: 13,
+    },
+    md : {
+      fontSize: 12,
+    }, 
+
+    lg : {
+      fontSize: 11,
+    }
+
+  }
+
+  const AppIcon = {
+    xs : {
+      
+      height:44,width:34},
+    sm : {
+      height:46,width:36
+    },
+    md : {
+      height:48,width:38
+    }, 
+
+    lg : {
+      height:50,width:40
+    }
+
+  }
+
+  
+
+
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Enter a valid email").required("Email is required"),
@@ -55,12 +166,11 @@ function ForgotPassword() {
           <Box
             component="img"
             sx={{
-              height: 50,
-              width: 40,
-            }}
+              box:{ xs: AppIcon.xs, sm:  AppIcon.sm, md:AppIcon.md,lg: AppIcon.lg}
+             }}
             src={appImage}
           />
-          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontSize: 36, fontWeight: 600, color: AppColors.primary }}>
+          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani',fontWeight: 600, color: AppColors.primary }} sx={{ typography: { xs: AppName.xs, sm:  AppName.sm, md:AppName.md,lg: AppName.lg}}}>
             Rostraa
           </Typography>
         </Container>
@@ -76,7 +186,7 @@ function ForgotPassword() {
           }}
         >
 
-          <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
+          <Typography component="h1" variant="h5" style={{fontFamily: 'Poppins', fontWeight: 500, color: AppColors.tertiary,marginTop: 40,}} sx={{ typography: { xs: MainHeading.xs, sm:  MainHeading.sm, md:MainHeading.md,lg: MainHeading.lg}}}>
             Forgot password ?
           </Typography>
 
@@ -89,10 +199,12 @@ function ForgotPassword() {
               fullWidth
               id="email"
               placeholder="Email"
+              // inputProps={{ xs: SecondaryHeading.xs, sm:  SecondaryHeading.sm, md:SecondaryHeading.md,lg: SecondaryHeading.lg}}
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
-              
+              // sx={styles.root}
+              style={{color:"red"}}
             />
           
             </ThemeProvider>
