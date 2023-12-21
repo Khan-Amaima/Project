@@ -12,8 +12,12 @@ import { appImage } from '../assets/images';
 import { Navigate } from "react-router-dom";
 import CustomButton from './CustomButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom'
+import { Container } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -73,19 +77,19 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
             id : 0,
             name : 'Home',
             route : '/',
-            icon : AddCircleOutlineIcon,
+            icon : HomeIcon,
         },
         {
             id : 1,
             name : 'My Uploads',
             route : '/uploads',
-            icon : AddCircleOutlineIcon,
+            icon : UploadFileIcon,
         },
         {
             id : 2,
             name : 'Settings',
             route : '/settings',
-            icon : AddCircleOutlineIcon,
+            icon : SettingsIcon,
         }
     ]
 
@@ -107,19 +111,20 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </DrawerHeader>
+            <Container style={{height: 30}}/>
             {navigation.map((item, index)=>{
                 return (
-                    <CustomButton key={index} onTap={()=>{navigate(item.route)}} prefixIcon={item.icon} text={item.name} buttonStyle={{
-                        borderRadius: 50,
-                        backgroundColor: location.pathname == item.route ? AppColors.primary : AppColors.white,
+                    <CustomButton key={index} onTap={()=>{navigate(item.route)}} prefixIcon={item.icon} text={open && item.name} buttonStyle={{
+                        borderRadius: open && 50,
+                        backgroundColor: location.pathname == item.route && open ? AppColors.primary : AppColors.white,
                         fontFamily: 'Poppins',
                         fontSize: '14px',
                         fontWeight: 600,
-                        color: location.pathname == item.route ? AppColors.white : AppColors.primary,
+                        color: location.pathname == item.route && open ? AppColors.white : location.pathname == item.route ? AppColors.primary :  AppColors.tertiary,
                         marginY: 1,
-                        marginX : 2,
+                        marginX : open && 2,
                         display: 'flex',
-                        justifyContent: 'start'
+                        justifyContent: open ? 'start' : 'center'
                       }} />
                 )
             })}
