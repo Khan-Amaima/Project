@@ -17,10 +17,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormHelperText, ThemeProvider } from '@mui/material';
 import theme from '../../constants/TextFieldTheme';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Enter a valid email").required("Email is required"),
@@ -34,9 +36,9 @@ function Login() {
 
   const handleSubmit = (event, values) => {
     setLoading(true);
-    event.preventDefault();
     try {
       console.log('SignIn successfully')
+      navigate('/')
       setLoading(false);
     } catch (error) {
       console.log(error)

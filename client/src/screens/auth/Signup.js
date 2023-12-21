@@ -17,11 +17,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormHelperText, ThemeProvider } from '@mui/material';
 import theme from '../../constants/TextFieldTheme';
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -39,9 +41,9 @@ function SignUp() {
 
   const handleSubmit = (event, values) => {
     setLoading(true);
-    event.preventDefault();
     try {
       console.log('signup successfully')
+      navigate('/')
       setLoading(false);
     } catch (error) {
       console.log(error)
@@ -149,17 +151,6 @@ function SignUp() {
                       </InputAdornment>
                     
                   }}
-                  // endAdornment={
-                  //   <InputAdornment position="end">
-                  //     <IconButton
-                  //       aria-label="toggle password visibility"
-                  //       onClick={handleShowPassword}
-                  //       edge="end"
-                  //     >
-                  //       {showPassword ? <VisibilityOff /> : <Visibility />}
-                  //     </IconButton>
-                  //   </InputAdornment>
-                  // }
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
