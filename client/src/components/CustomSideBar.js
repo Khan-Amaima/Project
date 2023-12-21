@@ -2,21 +2,18 @@ import React, { useState } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import AppColors from '../constants/AppColors';
 import { appImage } from '../assets/images';
 import { Navigate } from "react-router-dom";
+import CustomButton from './CustomButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 
 const drawerWidth = 240;
 
@@ -68,6 +65,30 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 function CustomSideBar({ theme, open, handleDrawerClose }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    console.log(location.pathname);
+    const navigation = [
+        {
+            id : 0,
+            name : 'Home',
+            route : '/',
+            icon : AddCircleOutlineIcon,
+        },
+        {
+            id : 1,
+            name : 'My Uploads',
+            route : '/uploads',
+            icon : AddCircleOutlineIcon,
+        },
+        {
+            id : 2,
+            name : 'Settings',
+            route : '/settings',
+            icon : AddCircleOutlineIcon,
+        }
+    ]
+
     return (
         <Drawer variant="permanent" open={open}>
             <DrawerHeader>
@@ -86,33 +107,22 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </DrawerHeader>
-            <List>
-                {['Home', 'My Uploads', 'Settings'].map((text, index) => (
-                    <ListItem key={text} sx={{ display: 'block', paddingY: 1, paddingX: 2 }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                backgroundColor: index == 0 && open && AppColors.primary,
-                                borderRadius : '64px'
-                            }}
-                            onClick={()=>{<Navigate to={"/signup"} />; console.log('clicked')}}
-                        >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
-                                        color : index == 0 && open && AppColors.white
-                                    }}
-                                >
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                {open && <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, color: index == 0 && AppColors.white }} />}
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
+            {navigation.map((item, index)=>{
+                return (
+                    <CustomButton key={index} onTap={()=>{navigate(item.route)}} prefixIcon={item.icon} text={item.name} buttonStyle={{
+                        borderRadius: 50,
+                        backgroundColor: location.pathname == item.route ? AppColors.primary : AppColors.white,
+                        fontFamily: 'Poppins',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: location.pathname == item.route ? AppColors.white : AppColors.primary,
+                        marginY: 1,
+                        marginX : 2,
+                        display: 'flex',
+                        justifyContent: 'start'
+                      }} />
+                )
+            })}
         </Drawer>
     )
 }
