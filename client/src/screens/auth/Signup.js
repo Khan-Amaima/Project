@@ -172,13 +172,12 @@ function SignUp() {
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={handleShowPassword}
+                          onClick={handleShowConfirmPassword}
                           edge="end"
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-                    
                   }}
                   placeholder="Confirm Password"
                   value={formik.values.confirmPassword}

@@ -15,21 +15,20 @@ const style = {
     p: 4,
 };
 
-function CustomModal({children, isModalOpen, handleModal}) {
+function CustomModal({ children, isModalOpen, handleModal }) {
 
     return (
-        <div>
-            <Modal
-                open={isModalOpen}
-                onClose={handleModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    {children}
-                </Box>
-            </Modal>
-        </div>
+        <Modal
+            open={isModalOpen}
+            onClose={handleModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            
+        >
+            <Box sx={style}>
+                {children}
+            </Box>
+        </Modal>
     )
 }
 
