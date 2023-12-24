@@ -1,7 +1,6 @@
-import React, { Children } from 'react'
-import Typography from '@mui/material/Typography';
+import React from 'react'
 import Modal from '@mui/material/Modal';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -23,7 +22,6 @@ function CustomModal({ children, isModalOpen, handleModal }) {
             onClose={handleModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            
         >
             <Box sx={style}>
                 {children}

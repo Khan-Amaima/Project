@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
-import { styled, useTheme } from '@mui/material/styles';
+import React from 'react'
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AppColors from '../constants/AppColors';
 import { appImage } from '../assets/images';
-import { Navigate } from "react-router-dom";
 import CustomButton from './CustomButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -116,11 +113,11 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                 return (
                     <CustomButton key={index} onTap={()=>{navigate(item.route)}} prefixIcon={item.icon} text={open && item.name} buttonStyle={{
                         borderRadius: open && 50,
-                        backgroundColor: location.pathname == item.route && open ? AppColors.primary : AppColors.white,
+                        backgroundColor: location.pathname === item.route && open ? AppColors.primary : AppColors.white,
                         fontFamily: 'Poppins',
                         fontSize: '14px',
                         fontWeight: 600,
-                        color: location.pathname == item.route && open ? AppColors.white : location.pathname == item.route ? AppColors.primary :  AppColors.tertiary,
+                        color: location.pathname === item.route && open ? AppColors.white : location.pathname === item.route ? AppColors.primary :  AppColors.tertiary,
                         marginY: 1,
                         marginX : open && 2,
                         display: 'flex',

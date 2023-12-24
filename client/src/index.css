@@ -21,3 +21,11 @@ code {
   font-family: 'Poppins';
   src: local("Poppins"), url('./assets/font/Poppins/Poppins-Regular.ttf');
 }
+
+.react-multiple-carousel__arrow{
+  background-color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.react-multiple-carousel__arrow--right {
+  right: calc(8% + 1px) !important;
+}

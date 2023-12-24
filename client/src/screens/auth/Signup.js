@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -8,16 +7,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import AppColors from '../../constants/AppColors';
 import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { appImage, checkBoxOutline } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FormHelperText, ThemeProvider } from '@mui/material';
-import theme from '../../constants/TextFieldTheme';
+import { FormHelperText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { CustomStyle } from '../../constants/CustomStyle';
+import CustomButton from '../../components/CustomButton';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -65,8 +64,7 @@ function SignUp() {
   const handleShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Container component="main" maxWidth='sm' disableGutters >
 
         <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
@@ -99,7 +97,7 @@ function SignUp() {
           </Typography>
 
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }}>
-              <Grid container spacing={3}>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   name="name"
@@ -108,6 +106,7 @@ function SignUp() {
                   placeholder="Name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
+                  sx={CustomStyle.inputStyle}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                 />
                 {formik.touched.name && formik.errors.name && (
@@ -125,6 +124,7 @@ function SignUp() {
                   placeholder="Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  sx={CustomStyle.inputStyle}
                   error={formik.touched.email && Boolean(formik.errors.email)}
                 />
                 {formik.touched.email && formik.errors.email && (
@@ -149,11 +149,12 @@ function SignUp() {
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-                    
+
                   }}
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  sx={CustomStyle.inputStyle}
                   error={formik.touched.password && Boolean(formik.errors.password)}
                 />
                 {formik.touched.password && formik.errors.password && (
@@ -182,6 +183,7 @@ function SignUp() {
                   placeholder="Confirm Password"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
+                  sx={CustomStyle.inputStyle}
                   error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                 />
                 {formik.touched.confirmPassword && formik.errors.confirmPassword && (
@@ -210,17 +212,21 @@ function SignUp() {
                   </Link>
                 </Typography>
               </Grid>
-              </Grid>
-           
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              style={{ backgroundColor: AppColors.primary, borderRadius: '4px', padding: '10px', color: AppColors.white, fontFamily: 'Poppins', fontSize: '15px', fontWeight: 500 }}
-            >
-              Sign Up
-            </Button>
+            </Grid>
+
+            <CustomButton type={'submit'} text={"Sign Up"} buttonStyle={{
+              borderRadius: '4px',
+              padding: '10px',
+              backgroundColor: AppColors.primary,
+              color: AppColors.white,
+              fontFamily: 'Poppins',
+              fontSize: '15px',
+              fontWeight: 500,
+              width: '100%',
+              justifyContent : 'center',
+              marginTop : 3,
+              marginBottom : 2
+            }} />
             <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400' }} align="center" >
               {'Already have an account? '}
               <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>
@@ -230,8 +236,7 @@ function SignUp() {
           </Box>
         </Box>
       </Container>
-      </Container>
-    </ThemeProvider>
+    </Container>
   );
 }
 

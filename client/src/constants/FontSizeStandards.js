@@ -13,7 +13,6 @@ export const FontSizeStandards = {
         lg: {
             fontSize: 36,
         }
-
     },
     mainHeading: {
         xs: {
@@ -29,7 +28,6 @@ export const FontSizeStandards = {
         lg: {
             fontSize: 24,
         }
-
     },
     primaryHeading: {
         xs: {
@@ -48,36 +46,44 @@ export const FontSizeStandards = {
     },
     secondaryHeading: {
         xs: {
-            fontSize: "25px",
-            color: "red", backgroundColor: ""
-
+            fontSize: 10,
         },
         sm: {
-            fontSize: "10px",
-            color: "blue",
+            fontSize: 12
         },
         md: {
-            fontSize: 14, color: "red",
+            fontSize: 14
         },
-
         lg: {
-            fontSize: 13, color: "blue",
+            fontSize: 16
         },
     },
-    subHeading: {
+    tertiaryHeading: {
         xs: {
-            fontSize: 14,
+            fontSize: 8,
         },
         sm: {
-            fontSize: 13,
+            fontSize: 10,
         },
         md: {
             fontSize: 12,
         },
-
         lg: {
-            fontSize: 11,
+            fontSize: 14,
         }
-
+    },
+    subHeading: {
+        xs: {
+            fontSize: 8,
+        },
+        sm: {
+            fontSize: 8,
+        },
+        md: {
+            fontSize: 10,
+        },
+        lg: {
+            fontSize: 12,
+        }
     },
 }

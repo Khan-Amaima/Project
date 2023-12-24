@@ -107,7 +107,6 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                                 src={deleteIcon}
                                             />
                                         </TableCell>
-
                                     </TableRow>
                                 );
                             })}

@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
-import Box from '@mui/material/Box';
+import React from 'react'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { Container } from '@mui/material';
+import CustomCard from './CustomCard';
+import { Container, Link, Typography } from '@mui/material';
+import AppColors from '../constants/AppColors';
 
-function CustomCarousel() {
+function CustomCarousel({ data, heading, subHeading, redirectTo }) {
   return (
+    <>
+      {heading && <Container style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', padding: 0, margin: 0, marginBottom: '10px', }}>
+        <Typography style={{ fontFamily: 'Poppins', fontSize: 20, fontWeight: '600', color: AppColors.tertiary, textAlign: 'center' }}>
+          {heading}
+        </Typography>
+        <Link href={redirectTo} style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '12px', fontWeight: '500', marginLeft: '5px' }}>
+          {subHeading}
+        </Link>
+      </Container>}
       <Carousel
         additionalTransfrom={0}
         arrows
@@ -14,88 +24,59 @@ function CustomCarousel() {
         className=""
         containerClass="container-with-dots"
         dotListClass=""
-        draggable
-        focusOnSelect={false}
-        infinite = {false}
-        dynamicHeight ={false}
         itemClass=""
-        keyBoardControl
+        partialVisible
         minimumTouchDrag={80}
-        pauseOnHover
         renderArrowsWhenDisabled={false}
         renderButtonGroupOutside={false}
         renderDotsOutside={false}
-        responsive={{
-          desktop: {
-            breakpoint: {
-              max: 3000,
-              min: 1024
-            },
-            items: 4,
-            partialVisibilityGutter: 40
-          },
-          mobile: {
-            breakpoint: {
-              max: 464,
-              min: 0
-            },
-            items: 1,
-            partialVisibilityGutter: 30
-          },
-          tablet: {
-            breakpoint: {
-              max: 1024,
-              min: 464
-            },
-            items: 2,
-            partialVisibilityGutter: 30
-          }
-        }}
-        rewind={false}
-        rewindWithAnimation={false}
         rtl={false}
         shouldResetAutoplay
         showDots={false}
         sliderClass=""
         slidesToSlide={1}
         swipeable
+        responsive={{
+          mobile: {
+            breakpoint: {
+              max: 464,
+              min: 0
+            },
+            items: 1,
+            partialVisibilityGutter: 20
+          },
+          tablet: {
+            breakpoint: {
+              max: 1024,
+              min: 464
+            },
+            items: 3,
+            partialVisibilityGutter: 20
+          },
+          laptop: {
+            breakpoint: {
+              max: 1724,
+              min: 1024
+            },
+            items: 5,
+            partialVisibilityGutter: 20
+          },
+          desktop: {
+            breakpoint: {
+              max: 3000,
+              min: 1724
+            },
+            items: 7,
+            partialVisibilityGutter: 20
+          },
+
+        }}
       >
-        <img
-          draggable={false}
-          style={{ cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{ cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{  cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{ cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{ cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-        />
-        <img
-          draggable={false}
-          style={{ cursor: "pointer", paddingLeft: '20px' }}
-          src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-        />
+        {data.map(card => {
+          return <CustomCard {...card} />;
+        })}
       </Carousel>
+    </>
   )
 }
 
