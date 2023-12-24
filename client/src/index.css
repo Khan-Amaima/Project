@@ -29,3 +29,8 @@ code {
 .react-multiple-carousel__arrow--right {
   right: calc(8% + 1px) !important;
 }
+
+.css-1vcjn68{
+  max-height: 80vh !important;
+  overflow-y: scroll !important;
+}
