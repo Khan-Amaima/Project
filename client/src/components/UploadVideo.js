@@ -3,7 +3,6 @@ import CustomModal from '../components/CustomModal'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CustomTable from '../components/CustomTable'
 import { CustomStyle } from '../constants/CustomStyle'
-import { appImage, uploadIcon } from '../assets/images'
 import { Box, Typography, Grid, TextField, InputAdornment, IconButton } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
@@ -15,11 +14,16 @@ function UploadVideo({ isModalOpen, handleModal }) {
     const [tableData, setTableData] = useState([])
 
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        console.log(file)
-        const url = URL.createObjectURL(file);
-        let customSize = file.size / 1024 / 1024;
-        setTableData([...tableData, { video: url, sound: true, size: `${customSize.toFixed(2)}Mb` }]);
+        try{
+            const file = event.target.files[0];
+            if(file){
+                const url = URL.createObjectURL(file);
+                let customSize = file.size / 1024 / 1024;
+                setTableData([...tableData, { video: url, sound: true, size: `${customSize.toFixed(2)}Mb` }]);
+            }
+        }catch(err){
+            console.log(err, 'upload Video error')
+        }
     };
 
     const handleDeleteFile = (id) => {
