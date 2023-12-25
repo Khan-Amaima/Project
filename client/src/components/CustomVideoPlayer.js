@@ -1,7 +1,5 @@
 import React from 'react'
 import CustomModal from './CustomModal'
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
 
 function CustomVideoPlayer({ isModalOpen, handleModal, url }) {
     return (
