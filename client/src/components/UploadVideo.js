@@ -3,10 +3,12 @@ import CustomModal from '../components/CustomModal'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CustomTable from '../components/CustomTable'
 import { CustomStyle } from '../constants/CustomStyle'
-import { uploadIcon } from '../assets/images'
+import { appImage, uploadIcon } from '../assets/images'
 import { Box, Typography, Grid, TextField, InputAdornment, IconButton } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
+import svgicons from '../assets/images/svgicons';
+import { ImageSize } from '../constants/boxSizes';
 
 function UploadVideo({ isModalOpen, handleModal }) {
     const videoInputRef = useRef();
@@ -50,13 +52,27 @@ function UploadVideo({ isModalOpen, handleModal }) {
             <Grid container width={'auto'} sx={{ width: { xs: '100%', lg: '60%' } }} style={{ border: '2px dashed', borderColor: AppColors.primary, borderRadius: '10px', padding: 20, direction: 'row', justifyContent: "center", alignItems: 'center', margin: 'auto' }}>
                 <Grid item xs={12} md={2}>
                     <Box
-                        component="img"
-                        sx={{
-                            height: 60,
-                            width: 60,
-                        }}
-                        src={uploadIcon}
-                    />
+                         style={{justifyContent:"center",alignItems:"center"}}
+                         sx={{
+                           width: {
+                             xs: ImageSize.UploadIcon.xs.width,
+                             sm: ImageSize.UploadIcon.sm.width,
+                             md: ImageSize.UploadIcon.md.width,
+                             lg: ImageSize.UploadIcon.lg.width,
+                             xl: ImageSize.UploadIcon.xl.width,
+                           },
+                           height: {
+                             xs: ImageSize.UploadIcon.xs.height,
+                             sm: ImageSize.UploadIcon.sm.height,
+                             md: ImageSize.UploadIcon.md.height,
+                             lg: ImageSize.UploadIcon.lg.height,
+                             xl: ImageSize.UploadIcon.xl.width,
+                           },
+                         }}
+                        
+                    >
+                        {svgicons.uploadIcon}
+                    </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6" component="h2" style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: '500', color: AppColors.tertiary }}>

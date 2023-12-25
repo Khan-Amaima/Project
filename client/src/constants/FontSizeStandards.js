@@ -60,13 +60,13 @@ export const FontSizeStandards = {
     },
     tertiaryHeading: {
         xs: {
-            fontSize: 8,
+            fontSize: 11,
         },
         sm: {
-            fontSize: 10,
+            fontSize: 12,
         },
         md: {
-            fontSize: 12,
+            fontSize: 13,
         },
         lg: {
             fontSize: 14,

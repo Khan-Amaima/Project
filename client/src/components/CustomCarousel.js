@@ -4,15 +4,16 @@ import 'react-multi-carousel/lib/styles.css';
 import CustomCard from './CustomCard';
 import { Container, Link, Typography } from '@mui/material';
 import AppColors from '../constants/AppColors';
+import { FontSizeStandards } from '../constants/FontSizeStandards';
 
 function CustomCarousel({ data, heading, subHeading, redirectTo }) {
   return (
     <>
       {heading && <Container style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', padding: 0, margin: 0, marginBottom: '10px', }}>
-        <Typography style={{ fontFamily: 'Poppins', fontSize: 20, fontWeight: '600', color: AppColors.tertiary, textAlign: 'center' }}>
+        <Typography style={{ fontFamily: 'Poppins',fontWeight: '600', color: AppColors.tertiary, textAlign: 'center' }} sx={{typography:FontSizeStandards.primaryHeading}}>
           {heading}
         </Typography>
-        <Link href={redirectTo} style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '12px', fontWeight: '500', marginLeft: '5px' }}>
+        <Link href={redirectTo} style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500', marginLeft: '5px' }}sx={{typography:FontSizeStandards.subHeading}}>
           {subHeading}
         </Link>
       </Container>}
