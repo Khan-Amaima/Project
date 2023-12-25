@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { CustomStyle } from '../../constants/CustomStyle';
 import CustomButton from '../../components/CustomButton';
 import { FontSizeStandards } from '../../constants/FontSizeStandards';
-import svgicons from '../../assets/images/svgicons';
+import SvgIcons from '../../assets/images/SvgIcons';
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -77,7 +77,7 @@ function SignUp() {
             }}
             
           >
-             {svgicons.appLogo}
+             {SvgIcons.appLogo}
           </Box>
           <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontWeight: 600, color: AppColors.primary }} sx={{typography:FontSizeStandards.appName}}>
             Rostraa

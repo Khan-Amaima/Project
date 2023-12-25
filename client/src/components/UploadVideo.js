@@ -7,8 +7,8 @@ import { appImage, uploadIcon } from '../assets/images'
 import { Box, Typography, Grid, TextField, InputAdornment, IconButton } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
-import svgicons from '../assets/images/svgicons';
-import { ImageSize } from '../constants/boxSizes';
+import SvgIcons from '../assets/images/SvgIcons';
+import { ImageSize } from '../constants/BoxSizes';
 
 function UploadVideo({ isModalOpen, handleModal }) {
     const videoInputRef = useRef();
@@ -71,7 +71,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
                          }}
                         
                     >
-                        {svgicons.uploadIcon}
+                        {SvgIcons.uploadIcon}
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>

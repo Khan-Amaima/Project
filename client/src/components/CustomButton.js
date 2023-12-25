@@ -3,6 +3,7 @@ import { Box, Button, CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import AppColors from "../constants/AppColors";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 
 function CustomButton({
@@ -13,38 +14,20 @@ function CustomButton({
   onTap,
   type,
 }) {
-//   const hoveredBgColor = lightenColor(buttonStyle.backgroundColor, 0.2)
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
 
   return (
     <Button
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       type={type}
       startIcon={PrefixIcon && <PrefixIcon style={{ width: 24, height: 24 }} />}
       sx={{
-        fontSize: {
-          xs: "10px",
-          sm: "11px",
-          md: "12px",
-          lg: "13px",
-          xl: "14px",
-        },
+        typography: FontSizeStandards.tertiaryHeading,
         paddingX: 2,
         paddingY: 1,
         display: "flex",
         justifyContent: "start",
         ...buttonStyle,
         "&:hover": {
-            opacity:0.5,
+          opacity: 0.8,
           backgroundColor:buttonStyle.backgroundColor ,
           color: buttonStyle.color,
         },

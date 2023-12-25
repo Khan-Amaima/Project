@@ -71,22 +71,22 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
     console.log(location.pathname);
     const navigation = [
         {
-            id : 0,
-            name : 'Home',
-            route : '/',
-            icon : HomeIcon,
+            id: 0,
+            name: 'Home',
+            route: '/',
+            icon: HomeIcon,
         },
         {
-            id : 1,
-            name : 'My Uploads',
-            route : '/uploads',
-            icon : UploadFileIcon,
+            id: 1,
+            name: 'My Uploads',
+            route: '/uploads',
+            icon: UploadFileIcon,
         },
         {
-            id : 2,
-            name : 'Settings',
-            route : '/settings',
-            icon : SettingsIcon,
+            id: 2,
+            name: 'Settings',
+            route: '/settings',
+            icon: SettingsIcon,
         }
     ]
 
@@ -108,21 +108,21 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </DrawerHeader>
-            <Container style={{height: 30}}/>
-            {navigation.map((item, index)=>{
+            <Container style={{ height: 30 }} />
+            {navigation.map((item, index) => {
                 return (
-                    <CustomButton key={index} onTap={()=>{navigate(item.route)}} prefixIcon={item.icon} text={open && item.name} buttonStyle={{
+                    <CustomButton key={index} onTap={() => { navigate(item.route) }} prefixIcon={item.icon} text={open && item.name} buttonStyle={{
                         borderRadius: open && 50,
                         backgroundColor: location.pathname === item.route && open ? AppColors.primary : AppColors.white,
                         fontFamily: 'Poppins',
                         fontSize: '14px',
                         fontWeight: 600,
-                        color: location.pathname === item.route && open ? AppColors.white : location.pathname === item.route ? AppColors.primary :  AppColors.tertiary,
+                        color: location.pathname === item.route && open ? AppColors.white : location.pathname === item.route ? AppColors.primary : AppColors.tertiary,
                         marginY: 1,
-                        marginX : open && 2,
+                        marginX: open && 2,
                         display: 'flex',
                         justifyContent: open ? 'start' : 'center'
-                      }} />
+                    }} />
                 )
             })}
         </Drawer>
