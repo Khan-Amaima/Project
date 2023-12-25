@@ -9,8 +9,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import CustomVideoPlayer from './CustomVideoPlayer'
 
 function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleModal = () => setIsModalOpen(!isModalOpen);
+    const [targetVideo, setTargetVideo] = useState();
+
 
     const columns = [
         { id: 'no', label: 'No.', minWidth: 20, align: 'center' },
@@ -64,7 +69,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                         <TableCell onClick={() => {}} align='center'>
                                             {no}
                                         </TableCell>
-                                        <TableCell onClick={() => {}}>
+                                        <TableCell onClick={() => {handleModal(); setTargetVideo(item.video)}}>
                                             <video
                                                 width={140}
                                                 height={90}
@@ -112,6 +117,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                             })}
                     </TableBody>
                 </Table>
+                <CustomVideoPlayer isModalOpen={isModalOpen} handleModal={handleModal} url={targetVideo}/>
             </TableContainer>
         </Paper>
     )

@@ -14,7 +14,7 @@ const style = {
     p: 4,
 };
 
-function CustomModal({ children, isModalOpen, handleModal }) {
+function CustomModal({ children, isModalOpen, handleModal, customStyle }) {
 
     return (
         <Modal
@@ -23,7 +23,7 @@ function CustomModal({ children, isModalOpen, handleModal }) {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={{...style, ...customStyle}}>
                 {children}
             </Box>
         </Modal>
