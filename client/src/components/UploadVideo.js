@@ -8,7 +8,7 @@ import { Box, Typography, Grid, TextField, InputAdornment, IconButton } from '@m
 import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
 
-function UploadVideo({isModalOpen, handleModal}) {
+function UploadVideo({ isModalOpen, handleModal }) {
     const videoInputRef = useRef();
     const [tableData, setTableData] = useState([])
 
@@ -120,7 +120,34 @@ function UploadVideo({isModalOpen, handleModal}) {
                 </Grid>
             </Grid>
 
-            {tableData.length > 0 && <CustomTable tableData={tableData} handleDeleteFile={handleDeleteFile} handleSetPrimarySound={handleSetPrimarySound} />}
+            {tableData.length > 0 &&
+                <CustomTable tableData={tableData} handleDeleteFile={handleDeleteFile} handleSetPrimarySound={handleSetPrimarySound} />}
+
+            {tableData.length > 0 &&
+                <Box container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', alignItems: 'center', marginTop: 8 }}>
+                    <CustomButton onTap={() => { handleModal(); setTableData([]) }} text={"Cancel"} buttonStyle={{
+                        borderRadius: 50,
+                        backgroundColor: AppColors.white,
+                        fontFamily: 'Poppins',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: AppColors.tertiary,
+                        border: '1px solid',
+                        marginRight: '20px',
+                        paddingX: 4,
+                        paddingY: 1
+                    }} />
+                    <CustomButton onTap={() => { console.log('do some functionality') }} text={"Upload Videos"} buttonStyle={{
+                        borderRadius: 50,
+                        backgroundColor: AppColors.primary,
+                        fontFamily: 'Poppins',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: AppColors.white,
+                        paddingX: 4,
+                        paddingY: 1
+                    }} />
+                </Box>}
 
         </ CustomModal>
     )

@@ -61,10 +61,10 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                 let no = index + 1;
                                 return (
                                     <TableRow hover role="checkbox" key={no}>
-                                        <TableCell onClick={() => console.log('i am clickable')} align='center'>
+                                        <TableCell onClick={() => {}} align='center'>
                                             {no}
                                         </TableCell>
-                                        <TableCell onClick={() => console.log('i am clickable')}>
+                                        <TableCell onClick={() => {}}>
                                             <video
                                                 width={140}
                                                 height={90}
@@ -72,7 +72,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                                 style={{ borderRadius: '10px' }}
                                             />
                                         </TableCell>
-                                        <TableCell onClick={() => console.log('i am clickable')} align='center' width={'10px'}>
+                                        <TableCell onClick={() => {}} align='center' width={'10px'}>
                                             <Box
                                                 component="img"
                                                 sx={{
@@ -82,12 +82,12 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                                 src={item.sound ? soundIcon : disableSoundIcon}
                                             />
                                         </TableCell>
-                                        <TableCell onClick={() => console.log('i am clickable')} align='center'>
+                                        <TableCell onClick={() => {}} align='center'>
                                             <Typography style={{ size: '16px', fontWeight: 400, color: AppColors.secondary, fontFamily: 'Poppins' }}>
                                                 {item.size}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell onClick={() => console.log('i am clickable')}>
+                                        <TableCell onClick={() => {} }>
                                             <CustomButton onTap={() => handleSetPrimarySound(index)} text={"Primary Audio"} buttonStyle={{
                                                 backgroundColor: item.sound ? AppColors.primary : AppColors.white,
                                                 border: item.sound ? '' : '1px solid',
