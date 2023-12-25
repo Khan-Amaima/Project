@@ -40,14 +40,11 @@ function SignUp() {
   };
 
   const handleSubmit = (event, values) => {
-    setLoading(true);
     try {
       console.log('signup successfully')
       navigate('/')
-      setLoading(false);
     } catch (error) {
       console.log(error)
-      setLoading(false);
     }
   };
 
@@ -217,7 +214,7 @@ function SignUp() {
               </Grid>
             </Grid>
 
-            <CustomButton type={'submit'} text={"Sign Up"} loading={true} buttonStyle={{
+            <CustomButton type={'submit'} text={"Sign Up"} loading={loading} buttonStyle={{
               borderRadius: '4px',
               padding: '10px',
               backgroundColor: AppColors.primary,
