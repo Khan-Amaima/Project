@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import CustomVideoPlayer from './CustomVideoPlayer'
+import CustomVideoCarousel from './CustomVideoCarousel'
 
 function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,7 +118,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                             })}
                     </TableBody>
                 </Table>
-                <CustomVideoPlayer isModalOpen={isModalOpen} handleModal={handleModal} url={targetVideo}/>
+                <CustomVideoCarousel isModalOpen={isModalOpen} handleModal={handleModal} videos={tableData}/>
             </TableContainer>
         </Paper>
     )

@@ -124,7 +124,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
                 <CustomTable tableData={tableData} handleDeleteFile={handleDeleteFile} handleSetPrimarySound={handleSetPrimarySound} />}
 
             {tableData.length > 0 &&
-                <Box container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', alignItems: 'center', marginTop: 8 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', alignItems: 'center', marginTop: 8 }}>
                     <CustomButton onTap={() => { handleModal(); setTableData([]) }} text={"Cancel"} buttonStyle={{
                         borderRadius: 50,
                         backgroundColor: AppColors.white,
