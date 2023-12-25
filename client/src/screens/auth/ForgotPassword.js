@@ -127,7 +127,7 @@ function ForgotPassword() {
               marginBottom : 2
             }} />
             <Link href="./login" style={{ textDecoration: 'none' }}>
-              <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400' }} align="center" >
+              <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins",  fontWeight: '400' }} sx={{typography:FontSizeStandards.tertiaryHeading}}  align="center" >
                 {'Go Back'}
               </Typography>
             </Link>

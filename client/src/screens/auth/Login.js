@@ -17,7 +17,7 @@ import { FormHelperText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { CustomStyle } from '../../constants/CustomStyle';
 import CustomButton from '../../components/CustomButton';
-
+import { FontSizeStandards } from '../../constants/FontSizeStandards';
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ function Login() {
             }}
             src={appImage}
           />
-          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontSize: 36, fontWeight: 600, color: AppColors.primary }}>
+          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontWeight: 600, color: AppColors.primary }}sx={{typography:FontSizeStandards.appName}}>
             Rostraa
           </Typography>
         </Container>
@@ -84,7 +84,7 @@ function Login() {
           }}
         >
 
-          <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
+          <Typography component="h1" variant="h5" style={{ marginTop: 40, fontFamily: 'Poppins', fontWeight: '500', color: AppColors.tertiary }} sx={{typography:FontSizeStandards.mainHeading}}>
             Login in to your account
           </Typography>
 
@@ -139,7 +139,7 @@ function Login() {
               </Grid>
               <Grid item xs={12} style={{ paddingTop: '0px', marginTop: '5px' }}>
                 <Link href="./forgotPassword" style={{ textDecoration: 'none' }}>
-                  <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400' }} align="end" >
+                  <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400' }} sx={{typography:FontSizeStandards.tertiaryHeading}} align="end" >
                     {'Forgot Password? '}
                   </Typography>
                 </Link>
@@ -158,9 +158,9 @@ function Login() {
               marginTop : 3,
               marginBottom : 2
             }} />
-            <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400' }} align="center" >
+            <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400' }} sx={{typography:FontSizeStandards.tertiaryHeading}} align="center" >
               {'New here? '}
-              <Link href="./signup" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>
+              <Link href="./signup" style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500', textDecoration: 'none' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
                 Sign Up
               </Link>
               {' instead'}

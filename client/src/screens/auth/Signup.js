@@ -10,14 +10,15 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { appImage, checkBoxOutline } from '../../assets/images';
+import { appImage, appLogo, checkBoxOutline } from '../../assets/images';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormHelperText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { CustomStyle } from '../../constants/CustomStyle';
 import CustomButton from '../../components/CustomButton';
-
+import { FontSizeStandards } from '../../constants/FontSizeStandards';
+import svgicons from '../../assets/images/svgicons';
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -69,14 +70,16 @@ function SignUp() {
 
         <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
           <Box
-            component="img"
+           
             sx={{
               height: 50,
               width: 40,
             }}
-            src={appImage}
-          />
-          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontSize: 36, fontWeight: 600, color: AppColors.primary }}>
+            
+          >
+             {svgicons.appLogo}
+          </Box>
+          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontWeight: 600, color: AppColors.primary }} sx={{typography:FontSizeStandards.appName}}>
             Rostraa
           </Typography>
         </Container>
@@ -92,7 +95,7 @@ function SignUp() {
           }}
         >
 
-          <Typography component="h1" variant="h5" style={{ marginTop: '40px', fontFamily: 'Poppins', fontSize: 24, fontWeight: '500', color: AppColors.tertiary }}>
+          <Typography component="h1" variant="h5" style={{ marginTop: '40px', fontFamily: 'Poppins', fontWeight: '500', color: AppColors.tertiary }} sx={{typography:FontSizeStandards.mainHeading}}>
             Create new account
           </Typography>
 
@@ -201,20 +204,20 @@ function SignUp() {
                   }}
                   src={checkBoxOutline}
                 />
-                <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400', marginLeft: 10 }} >
+                <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400', marginLeft: 10 }}  sx={{typography:FontSizeStandards.tertiaryHeading}}>
                   {'Agree to all '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500' }}>
+                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
                     Term
                   </Link>
                   {' and '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500' }}>
+                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins",fontWeight: '500' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
                     Privacy Policy
                   </Link>
                 </Typography>
               </Grid>
             </Grid>
 
-            <CustomButton type={'submit'} text={"Sign Up"} buttonStyle={{
+            <CustomButton type={'submit'} text={"Sign Up"} loading={true} buttonStyle={{
               borderRadius: '4px',
               padding: '10px',
               backgroundColor: AppColors.primary,
@@ -227,9 +230,9 @@ function SignUp() {
               marginTop : 3,
               marginBottom : 2
             }} />
-            <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '400' }} align="center" >
+            <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400' }}sx={{typography:FontSizeStandards.tertiaryHeading}} align="center" >
               {'Already have an account? '}
-              <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>
+              <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins",fontWeight: '500', textDecoration: 'none' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
                 Log In
               </Link>
             </Typography>
