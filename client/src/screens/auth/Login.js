@@ -94,6 +94,9 @@ function Login() {
                 <TextField
                   name="email"
                   fullWidth
+                  InputProps={{
+                    sx:{typography:{xs:FontSizeStandards.secondaryHeading.xs,sm:FontSizeStandards.secondaryHeading.sm,md:FontSizeStandards.secondaryHeading.md,lg:FontSizeStandards.secondaryHeading.lg,}},
+                  }}
                   id="email"
                   placeholder="Email"
                   value={formik.values.email}
@@ -113,6 +116,7 @@ function Login() {
                   type={showPassword ? 'text' : 'password'}
                   fullWidth
                   InputProps={{
+                    sx:{typography:{xs:FontSizeStandards.secondaryHeading.xs,sm:FontSizeStandards.secondaryHeading.sm,md:FontSizeStandards.secondaryHeading.md,lg:FontSizeStandards.secondaryHeading.lg,}},
                     endAdornment:
                       <InputAdornment position="end">
                         <IconButton

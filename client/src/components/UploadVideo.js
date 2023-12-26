@@ -6,7 +6,7 @@ import { CustomStyle } from '../constants/CustomStyle'
 import { Box, Typography, Grid, TextField, InputAdornment, IconButton } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
-import SvgIcons from '../assets/images/SvgIcons';
+import SvgIcons from '../assets/images/svgicons';
 import { ImageSize } from '../constants/BoxSizes';
 
 function UploadVideo({ isModalOpen, handleModal }) {
