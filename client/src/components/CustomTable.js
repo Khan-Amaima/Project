@@ -118,7 +118,6 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                             })}
                     </TableBody>
                 </Table>
-                {/* <CustomVideoCarousel isModalOpen={isModalOpen} handleModal={handleModal} videos={tableData}/> */}
             </TableContainer>
         </Paper>
     )
