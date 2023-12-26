@@ -18,14 +18,14 @@ function Home() {
     "https://images.unsplash.com/photo-1550064824-8f993041ffd3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
   ];
   const texts = [
-    "Appending currency sign to a purchase form in your e-commerce site using plain JavaScript.",
+    "Appending currency sign to a purchase form in your e-",
     "Fixing CSS load order/style.chunk.css incorrect in Nextjs",
     "React Carousel with Server Side Rendering Support – Part 1",
     "React Carousel with Server Side Rendering Support – Part 2",
     "Flutter Xcode couldn’t find any iOS App Development provisioning profiles",
     "Flutter Xcode couldn’t find any iOS App Development provisioning profiles",
     "Flutter Xcode couldn’t find any iOS App Development provisioning profiles",
-    "Appending currency sign to a purchase form in your e-commerce site using plain JavaScript.",
+    "Appending currency sign to a purchase form in your e-",
     "React Carousel with Server Side Rendering Support – Part 2",
     "React Carousel with Server Side Rendering Support – Part 1",
     "Flutter Xcode couldn’t find any iOS App Development provisioning profiles",

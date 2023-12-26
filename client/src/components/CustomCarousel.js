@@ -67,7 +67,7 @@ function CustomCarousel({ data, heading, subHeading, redirectTo }) {
               max: 3000,
               min: 1724
             },
-            items: 7,
+            items: 6,
             partialVisibilityGutter: 20
           },
 

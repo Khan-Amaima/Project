@@ -34,3 +34,7 @@ code {
   max-height: 80vh !important;
   overflow-y: scroll !important;
 }
+
+.react-multi-carousel-item{
+  width: 'auto' !important;
+}

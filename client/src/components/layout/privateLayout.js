@@ -33,10 +33,10 @@ function PrivateLayout({children}) {
       <CssBaseline />
       <CustomAppBar toggleDrawer={toggleDrawer} open={open}/>
       <CustomSideBar theme={theme} open={open} handleDrawerClose={handleDrawerClose}/>
-      <Container fixed maxWidth='440px' sx={{ flexGrow: 1, padding : 5, margin: 'auto'}}>
+      <div style={{width: `calc(100% - 200px)`, flexGrow: 1, padding : '35px',}}>
         <DrawerHeader/>
         {children}
-      </Container>
+      </div>
     </Box>
   )
 }

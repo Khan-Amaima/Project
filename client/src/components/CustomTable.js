@@ -73,7 +73,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                                         <TableCell onClick={() => {handleModal(); setTargetVideo(item.video)}}>
                                             <video
                                                 width={140}
-                                                height={90}
+                                                controls
                                                 src={item.video}
                                                 style={{ borderRadius: '10px' }}
                                             />
@@ -118,7 +118,7 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                             })}
                     </TableBody>
                 </Table>
-                <CustomVideoCarousel isModalOpen={isModalOpen} handleModal={handleModal} videos={tableData}/>
+                {/* <CustomVideoCarousel isModalOpen={isModalOpen} handleModal={handleModal} videos={tableData}/> */}
             </TableContainer>
         </Paper>
     )
