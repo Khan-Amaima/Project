@@ -1,50 +1,56 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import AppColors from '../../constants/AppColors';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { appImage, appLogo, checkBoxOutline } from '../../assets/images';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { FormHelperText } from '@mui/material';
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import AppColors from "../../constants/AppColors";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { appImage, appLogo, checkBoxOutline } from "../../assets/images";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FormHelperText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { CustomStyle } from '../../constants/CustomStyle';
-import CustomButton from '../../components/CustomButton';
-import { FontSizeStandards } from '../../constants/FontSizeStandards';
-import SvgIcons from '../../assets/images/SvgIcons';
+import { CustomStyle } from "../../constants/CustomStyle";
+import CustomButton from "../../components/CustomButton";
+import { FontSizeStandards } from "../../constants/FontSizeStandards";
+import SvgIcons from "../../assets/images/svgicons";
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Enter a valid email").required("Email is required"),
-    password: Yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
-    confirmPassword: Yup.string().required("Confirm Password is required").oneOf([Yup.ref("password")], "Passwords must match"),
+    email: Yup.string()
+      .email("Enter a valid email")
+      .required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters"),
+    confirmPassword: Yup.string()
+      .required("Confirm Password is required")
+      .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const initialValues = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const handleSubmit = (event, values) => {
     try {
-      console.log('signup successfully')
-      navigate('/')
+      console.log("signup successfully");
+      navigate("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -52,56 +58,102 @@ function SignUp() {
     initialValues,
     validationSchema: validationSchema,
     onSubmit: async (event, values) => {
-      handleSubmit(event, values)
+      handleSubmit(event, values);
     },
   });
 
-
   const handleShowPassword = () => setShowPassword((show) => !show);
 
-  const handleShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
 
   return (
-    <Container maxWidth='auto' style={{ height: '100vh', backgroundColor: AppColors.backgroundColor, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Container component="main" maxWidth='sm' disableGutters >
-
-        <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
+    <Container
+      maxWidth="auto"
+      style={{
+        height: "100vh",
+        backgroundColor: AppColors.backgroundColor,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Container component="main" maxWidth="sm" disableGutters>
+        <Container
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 32,
+          }}
+        >
           <Box
-           
             sx={{
               height: 50,
               width: 40,
             }}
-            
           >
-             {SvgIcons.appLogo}
+            {SvgIcons.appLogo}
           </Box>
-          <Typography component="h1" variant="h5" style={{ fontFamily: 'Rajdhani', fontWeight: 600, color: AppColors.primary }} sx={{typography:FontSizeStandards.appName}}>
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              fontFamily: "Rajdhani",
+              fontWeight: 600,
+              color: AppColors.primary,
+            }}
+            sx={{ typography: FontSizeStandards.appName }}
+          >
             Rostraa
           </Typography>
         </Container>
 
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'white',
-            borderRadius: '12px',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            borderRadius: "12px",
           }}
         >
-
-          <Typography component="h1" variant="h5" style={{ marginTop: '40px', fontFamily: 'Poppins', fontWeight: '500', color: AppColors.tertiary }} sx={{typography:FontSizeStandards.mainHeading}}>
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              marginTop: "40px",
+              fontFamily: "Poppins",
+              fontWeight: "500",
+              color: AppColors.tertiary,
+            }}
+            sx={{ typography: FontSizeStandards.mainHeading }}
+          >
             Create new account
           </Typography>
 
-          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 3, margin: '40px' }}>
+          <Box
+            component="form"
+            onSubmit={formik.handleSubmit}
+            sx={{ mt: 3, margin: "40px" }}
+          >
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   name="name"
                   fullWidth
+                  InputProps={{
+                    sx: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
+                  }}
                   id="name"
                   placeholder="Name"
                   value={formik.values.name}
@@ -120,6 +172,16 @@ function SignUp() {
                   autoComplete="email"
                   name="email"
                   fullWidth
+                  InputProps={{
+                    sx: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
+                  }}
                   id="email"
                   placeholder="Email"
                   value={formik.values.email}
@@ -136,10 +198,18 @@ function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   fullWidth
                   InputProps={{
-                    endAdornment:
+                    sx: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
+                    endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
@@ -149,13 +219,15 @@ function SignUp() {
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-
+                    ),
                   }}
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   sx={CustomStyle.inputStyle}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
                 />
                 {formik.touched.password && formik.errors.password && (
                   <FormHelperText error id="password">
@@ -166,33 +238,59 @@ function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   fullWidth
                   InputProps={{
-                    endAdornment:
+                    sx: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
+                    endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={handleShowConfirmPassword}
                           edge="end"
                         >
-                          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
                         </IconButton>
                       </InputAdornment>
+                    ),
                   }}
                   placeholder="Confirm Password"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   sx={CustomStyle.inputStyle}
-                  error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                  error={
+                    formik.touched.confirmPassword &&
+                    Boolean(formik.errors.confirmPassword)
+                  }
                 />
-                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                  <FormHelperText error id="confirmPassword">
-                    {formik.errors.confirmPassword}
-                  </FormHelperText>
-                )}
+                {formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword && (
+                    <FormHelperText error id="confirmPassword">
+                      {formik.errors.confirmPassword}
+                    </FormHelperText>
+                  )}
               </Grid>
-              <Grid item xs={12} style={{ paddingTop: '0px', marginTop: '40px', display: 'flex', alignItems: 'center' }}>
+              <Grid
+                item
+                xs={12}
+                style={{
+                  paddingTop: "0px",
+                  marginTop: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   component="img"
                   sx={{
@@ -201,35 +299,81 @@ function SignUp() {
                   }}
                   src={checkBoxOutline}
                 />
-                <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400', marginLeft: 10 }}  sx={{typography:FontSizeStandards.tertiaryHeading}}>
-                  {'Agree to all '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
+                <Typography
+                  style={{
+                    color: AppColors.secondary,
+                    fontFamily: "Poppins",
+                    fontWeight: "400",
+                    marginLeft: 10,
+                  }}
+                  sx={{ typography: FontSizeStandards.tertiaryHeading }}
+                >
+                  {"Agree to all "}
+                  <Link
+                    href="./login"
+                    style={{
+                      color: AppColors.primary,
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                    }}
+                    sx={{ typography: FontSizeStandards.tertiaryHeading }}
+                  >
                     Term
                   </Link>
-                  {' and '}
-                  <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins",fontWeight: '500' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
+                  {" and "}
+                  <Link
+                    href="./login"
+                    style={{
+                      color: AppColors.primary,
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                    }}
+                    sx={{ typography: FontSizeStandards.tertiaryHeading }}
+                  >
                     Privacy Policy
                   </Link>
                 </Typography>
               </Grid>
             </Grid>
 
-            <CustomButton type={'submit'} text={"Sign Up"} loading={loading} buttonStyle={{
-              borderRadius: '4px',
-              padding: '10px',
-              backgroundColor: AppColors.primary,
-              color: AppColors.white,
-              fontFamily: 'Poppins',
-              fontSize: '15px',
-              fontWeight: 500,
-              width: '100%',
-              justifyContent : 'center',
-              marginTop : 3,
-              marginBottom : 2
-            }} />
-            <Typography style={{ color: AppColors.secondary, fontFamily: "Poppins", fontWeight: '400' }}sx={{typography:FontSizeStandards.tertiaryHeading}} align="center" >
-              {'Already have an account? '}
-              <Link href="./login" style={{ color: AppColors.primary, fontFamily: "Poppins",fontWeight: '500', textDecoration: 'none' }}sx={{typography:FontSizeStandards.tertiaryHeading}}>
+            <CustomButton
+              type={"submit"}
+              text={"Sign Up"}
+              loading={loading}
+              buttonStyle={{
+                borderRadius: "4px",
+                padding: "10px",
+                backgroundColor: AppColors.primary,
+                color: AppColors.white,
+                fontFamily: "Poppins",
+                fontSize: "15px",
+                fontWeight: 500,
+                width: "100%",
+                justifyContent: "center",
+                marginTop: 3,
+                marginBottom: 2,
+              }}
+            />
+            <Typography
+              style={{
+                color: AppColors.secondary,
+                fontFamily: "Poppins",
+                fontWeight: "400",
+              }}
+              sx={{ typography: FontSizeStandards.tertiaryHeading }}
+              align="center"
+            >
+              {"Already have an account? "}
+              <Link
+                href="./login"
+                style={{
+                  color: AppColors.primary,
+                  fontFamily: "Poppins",
+                  fontWeight: "500",
+                  textDecoration: "none",
+                }}
+                sx={{ typography: FontSizeStandards.tertiaryHeading }}
+              >
                 Log In
               </Link>
             </Typography>
