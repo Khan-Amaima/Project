@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  escribemd:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: escribemd
+    restart: unless-stopped
+    ports: 
+      - "8000:8000"
+    command: sh -c 'python manage.py migrate && python ./scripts/seedproduct.py && python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - ../:/app
+    networks:
+      - escribemd
+
+networks:
+  escribemd:
+    driver: bridge
