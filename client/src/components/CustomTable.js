@@ -12,10 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import CustomVideoPlayer from './CustomVideoPlayer'
 import CustomVideoCarousel from './CustomVideoCarousel'
 
-function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
+function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound ,handleDragRef,handleDraggedOverRef ,handleSorting }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleModal = () => setIsModalOpen(!isModalOpen);
     const [targetVideo, setTargetVideo] = useState();
+    const [isDraggingOver, setDraggingOver] = useState(false);
 
 
     const columns = [
@@ -61,13 +62,29 @@ function CustomTable({ tableData, handleDeleteFile, handleSetPrimarySound }) {
                             ))}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody style={{overflow:'hidden',overscrollBehavior:'auto',scrollBehavior:'smooth'}} > 
                         {tableData
                             .map((item, index) => {
                                 let no = index + 1;
                                 return (
-                                    <TableRow hover role="checkbox" key={no}>
-                                        <TableCell onClick={() => {}} align='center'>
+                                    <TableRow 
+                                    draggable='true'
+                                    onDragStart={()=>handleDragRef(index)}
+                                    onDragEnter={()=>handleDraggedOverRef(index)}
+                                    onDragEnd={()=>{if(isDraggingOver){handleSorting()}}}
+                                    onDragOver={
+                                        (e)=>{e.preventDefault()
+                                          setDraggingOver(true)
+                                          console.log("setting dragOver",isDraggingOver);}}
+                                    onDragLeave={()=>{setDraggingOver(false) 
+                                        console.log("left")}}
+
+
+                                    hover role="checkbox" key={no} 
+                                    
+                                    
+                                    >
+                                        <TableCell onClick={() => {}} align='center' style={{cursor:'move'}}>
                                             {no}
                                         </TableCell>
                                         <TableCell onClick={() => {handleModal(); setTargetVideo(item.video)}}>

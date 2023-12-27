@@ -11,6 +11,8 @@ import { ImageSize } from '../constants/BoxSizes';
 
 function UploadVideo({ isModalOpen, handleModal }) {
     const videoInputRef = useRef();
+    const dragTabRef = useRef(0); 
+    const draggedOverTabRef = useRef(0);
     const [tableData, setTableData] = useState([])
 
     const handleFileChange = (event) => {
@@ -43,6 +45,25 @@ function UploadVideo({ isModalOpen, handleModal }) {
         });
         setTableData(updatedVideosWithSound);
     }
+    const handleDragRef = (index) => {   
+         dragTabRef.current=index;
+         console.log("dragStart")
+      };
+     
+    const handleDraggedOverRef = (index) => {
+         draggedOverTabRef.current=index;
+         console.log("drag Over")
+      };
+
+    const handleSorting = () => {
+        const temp = tableData[dragTabRef.current]
+        tableData[dragTabRef.current]=tableData[draggedOverTabRef.current]
+        tableData[draggedOverTabRef.current]=temp
+        setTableData([...tableData])
+        console.log(tableData, '------------------------------')
+        
+     };
+
 
     const handleChoose = () => {
         videoInputRef.current.click();
@@ -141,7 +162,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             </Grid>
 
             {tableData.length > 0 &&
-                <CustomTable tableData={tableData} handleDeleteFile={handleDeleteFile} handleSetPrimarySound={handleSetPrimarySound} />}
+                <CustomTable tableData={tableData} handleDeleteFile={handleDeleteFile} handleSetPrimarySound={handleSetPrimarySound} handleDragRef={handleDragRef} handleDraggedOverRef={handleDraggedOverRef} handleSorting={handleSorting} />}
 
             {tableData.length > 0 &&
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', alignItems: 'center', marginTop: 8 }}>
