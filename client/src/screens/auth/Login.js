@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
+import ApiManager from "../../api/ApiManager";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,10 +38,10 @@ function Login() {
     password: "",
   };
 
-  const handleSubmit = (event, values) => {
+  const handleSubmit = async (event, values) => {
     setLoading(true);
     try {
-      console.log("SignIn successfully");
+      let response = await ApiManager.loginUser(event.name, event.password)
       navigate("/");
       setLoading(false);
     } catch (error) {

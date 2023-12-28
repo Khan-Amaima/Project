@@ -19,6 +19,7 @@ import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import SvgIcons from "../../assets/images/svgicons";
+import ApiManager from "../../api/ApiManager";
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -45,9 +46,9 @@ function SignUp() {
     confirmPassword: "",
   };
 
-  const handleSubmit = (event, values) => {
+  const handleSubmit = async (event, values) => {
     try {
-      console.log("signup successfully");
+      let response = await ApiManager.signUpUser(event.name, event.email, event.password)
       navigate("/");
     } catch (error) {
       console.log(error);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import CustomCarousel from '../components/CustomCarousel';
-import ApiManager from '../api/ApiManager';
 
 function Home() {
 
@@ -41,12 +40,6 @@ function Home() {
         description: texts[index]
       };
     });
-
-  useEffect(() => {
-    // ApiManager.signUpUser('test', 'test2', 'test3')
-    // ApiManager.loginUser('test2', 'test3')
-  }, [])
-  
     
   return (
     <>
