@@ -8,36 +8,47 @@ import AppColors from '../constants/AppColors'
 import CustomButton from '../components/CustomButton'
 import SvgIcons from '../assets/images/svgicons';
 import { ImageSize } from '../constants/BoxSizes';
+import { tab } from '@testing-library/user-event/dist/tab';
+import { CommitSharp } from '@mui/icons-material';
 
 function UploadVideo({ isModalOpen, handleModal }) {
     const videoInputRef = useRef();
     const dragTabRef = useRef(0); 
     const draggedOverTabRef = useRef(0);
     const [tableData, setTableData] = useState([])
+    const [disableButton,setButtonDisable]= useState(); 
 
     const handleFileChange = (event) => {
+        if(tableData.length>=0 && tableData.length<4){
         try{
             const file = event.target.files[0];
             if(file){
+              
                 const url = URL.createObjectURL(file);
                 let customSize = file.size / 1024 / 1024;
                 setTableData([...tableData, { video: url, sound: true, size: `${customSize.toFixed(2)}Mb` }]);
+                if(tableData.length===3){setButtonDisable(true)}   
+            
             }
         }catch(err){
             console.log(err, 'upload Video error')
         }
+    }
     };
 
     const handleDeleteFile = (id) => {
         let extractedVideos = tableData.filter((video, index) => index != id)
+        
+        
         setTableData(extractedVideos);
+        if(tableData.length===4){ setButtonDisable(false)}
     }
 
-    const handleSetPrimarySound = (id) => {
+    const handleSetPrimarySound = (id,sound) => {
         const updatedVideosWithSound = tableData.map((item, index) => {
             if (index === id) {
                 // Set 'sound' to true for the specific object
-                return { ...item, sound: true };
+                return { ...item, sound: !sound };
             } else {
                 // Set 'sound' to false for other objects
                 return { ...item, sound: false };
@@ -103,9 +114,19 @@ function UploadVideo({ isModalOpen, handleModal }) {
                     <Typography variant="h6" component="h2" style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: '500', color: AppColors.tertiary }}>
                         Select a file or drag and drop here
                     </Typography>
+                   { disableButton ?
+                    <Typography style={{ marginTop: '5px', fontFamily: 'Poppins', fontSize: 12, fontWeight: '500', color: "red" }}>
+                     Can't Add more than 4 Videos
+                    </Typography> :
+                    
                     <Typography style={{ marginTop: '5px', fontFamily: 'Poppins', fontSize: 12, fontWeight: '500', color: AppColors.secondary }}>
-                        MP3, MP4 or flash, file size no more than 10MB
-                    </Typography>
+                    MP3, MP4 or flash, file size no more than 10MB
+                    </Typography> 
+                    
+                    
+                    
+                    
+                    }
                 </Grid>
                 <Grid item xs={12} lg={4}>
                     <input
@@ -115,7 +136,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
                         onChange={handleFileChange}
                         accept=".mov,.mp4"
                     />
-                    <CustomButton onTap={() => { handleChoose() }} text={"Select Videos"} buttonStyle={{
+                    <CustomButton onTap={() => {if(!disableButton){ handleChoose()} }} isDisable={disableButton} cursor={disableButton? 'not-allowed' : 'pointer'} text={"Select Videos"} buttonStyle={{
                         borderRadius: 50,
                         backgroundColor: AppColors.tint,
                         fontFamily: 'Poppins',

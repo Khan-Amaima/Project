@@ -14,7 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom'
-import { Container } from '@mui/material';
+import { Container, SvgIcon } from '@mui/material';
+import { Logout, LogoutOutlined } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -108,8 +109,10 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </DrawerHeader>
-            <Container style={{ height: 30 }} />
-            {navigation.map((item, index) => {
+            <Container style={{ height: 30, }} />
+            <Box width={"90%"} height={"100%"} style={{flexDirection:"column",justifyContent:'space-between',display:'flex',}}>
+             <Box>
+             {navigation.map((item, index) => {
                 return (
                     <CustomButton key={index} onTap={() => { navigate(item.route) }} prefixIcon={item.icon} text={open && item.name} buttonStyle={{
                         borderRadius: open && 50,
@@ -121,10 +124,30 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
                         marginY: 1,
                         marginX: open && 2,
                         display: 'flex',
-                        justifyContent: open ? 'start' : 'center'
+                        justifyContent: open ? 'start' : 'center',
+                        width:"100%",
+                       
                     }} />
                 )
             })}
+             </Box>
+
+                   <CustomButton key={"log"} onTap={() => { navigate("") }} prefixIcon={LogoutOutlined} text={open && "Log Out"} buttonStyle={{
+                        borderRadius:open && 50,
+                        backgroundColor:  open ? AppColors.tint: AppColors.white,
+                        fontFamily: 'Poppins',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: AppColors.tertiary ,
+                        marginY: 1,
+                        marginX: open && 2,
+                        display: 'flex',
+                        justifyContent: open ? 'start' : 'center',
+                        width:"100%",
+                        marginBottom:"100px"
+                    }} />
+
+            </Box>
         </Drawer>
     )
 }

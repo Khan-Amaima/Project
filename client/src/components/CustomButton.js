@@ -10,14 +10,19 @@ function CustomButton({
   prefixIcon: PrefixIcon,
   text,
   loading,
+  isDisable,
+  cursor,
   buttonStyle,
   onTap,
   type,
 }) {
 
+  console.log("disable",isDisable)
   return (
     <Button
+      // disabled={isDisable}
       type={type}
+      style={{cursor:cursor,}}
       startIcon={PrefixIcon && <PrefixIcon style={{ width: 24, height: 24 }} />}
       sx={{
         typography: FontSizeStandards.tertiaryHeading,

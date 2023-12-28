@@ -66,5 +66,34 @@ export const ImageSize = {
       window:24
     }
 },
+
+profilePhoto: {
+  xs: {
+    height: 60,
+    width: 60,
+    borderRadius:"30px"
+  },
+  sm: {
+    height: 70,
+    width: 70,
+    borderRadius:"35px"
+  },
+  md: {
+    height: 80,
+    width: 80,
+    borderRadius:"40px"
+  },
+
+  lg: {
+    height: 90,
+    width: 90,
+    borderRadius:"45px"
+  },
+  xl:{
+    height:100,
+    window:100,
+    borderRadius:"50px"
+  }
+},
   
   }
