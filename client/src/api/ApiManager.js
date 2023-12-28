@@ -22,7 +22,7 @@ const ApiManager = {
     loginUser : async (userName, password) => {
         const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.login
         const loginData = {
-            "username" : userName,
+            "username" : 'tset',
             "password": password
         }
         try {

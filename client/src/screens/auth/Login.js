@@ -19,10 +19,14 @@ import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import ApiManager from "../../api/ApiManager";
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { setCurrentUserAuthToken } from '../../redux/actions/userActions';
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -42,6 +46,7 @@ function Login() {
     setLoading(true);
     try {
       let response = await ApiManager.loginUser(event.name, event.password)
+      dispatch(setCurrentUserAuthToken(response.data.token));
       navigate("/");
       setLoading(false);
     } catch (error) {
@@ -271,4 +276,8 @@ function Login() {
   );
 }
 
-export default Login;
+const mapDispatchToProps = {
+  setCurrentUserAuthToken,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

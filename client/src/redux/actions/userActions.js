@@ -1,9 +1,9 @@
-export const SET_CURRENT_UUID = 'SET_CURRENT_UUID';
+export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 
-export function setCurrentUser(uuid = '') {
+export function setCurrentUserAuthToken(authToken = '') {
     return {
-      type: SET_CURRENT_UUID,
-      payload: uuid,
+      type: SET_AUTH_TOKEN,
+      payload: authToken,
     };
   }
   

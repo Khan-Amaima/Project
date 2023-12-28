@@ -1,14 +1,14 @@
 import { produce } from 'immer';
-import { SET_CURRENT_UUID} from '../actions/userActions';
+import { SET_AUTH_TOKEN} from '../actions/userActions';
 
 const INITIAL_STATE = {
-  uuid: '',
+  authToken: '',
 };
 
 const userReducer = produce((state, action) => {
   switch (action.type) {
-    case SET_CURRENT_UUID:
-      state.uuid = action.payload;
+    case SET_AUTH_TOKEN:
+      state.authToken = action.payload;
       break;
   }
 }, INITIAL_STATE);
