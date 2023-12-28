@@ -24,7 +24,7 @@ class UserSignupView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)
-        return Response({'token': token.key, 'user' : request.data}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'token': token.key, 'user-info' : {'username' : request.data['username'], 'email' : request.data['email']}}, status=status.HTTP_201_CREATED, headers=headers)
   
 class UserLoginView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
@@ -34,6 +34,6 @@ class UserLoginView(generics.CreateAPIView):
         serializer = self.get_serializer(data=self.request.data,
             context={ 'request': self.request })
         serializer.is_valid(raise_exception=True)
-        # user = serializer.validated_data['user']
-        # login(request, user)
-        return Response(request.data, status=status.HTTP_202_ACCEPTED)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key, 'user-info' : {'username' : request.data['username']}}, status=status.HTTP_202_ACCEPTED)
