@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomCarousel from '../components/CustomCarousel';
+import ApiManager from '../api/ApiManager';
 
 function Home() {
 
@@ -41,6 +42,12 @@ function Home() {
       };
     });
 
+  useEffect(() => {
+    ApiManager.signUpUser('test', 'test2', 'test3')
+    // ApiManager.loginUser('test2', 'test3')
+  }, [])
+  
+    
   return (
     <>
       <CustomCarousel data={fakerData} heading={'New Creators'} subHeading={'Explore All'} redirectTo={'./uploads'} />
