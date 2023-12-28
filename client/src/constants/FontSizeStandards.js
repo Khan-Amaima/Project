@@ -74,7 +74,7 @@ export const FontSizeStandards = {
     },
     subHeading: {
         xs: {
-            fontSize: 8,
+            fontSize: 6,
         },
         sm: {
             fontSize: 8,

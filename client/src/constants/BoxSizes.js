@@ -43,6 +43,28 @@ export const ImageSize = {
       }
   },
   
-  
+  UploadPicIcon: {
+    xs: {
+      height: 19,
+      width: 19,
+    },
+    sm: {
+      height: 20,
+      width: 20,
+    },
+    md: {
+      height: 22,
+      width: 22,
+    },
+
+    lg: {
+      height: 23,
+      width: 23,
+    },
+    xl:{
+      height:24,
+      window:24
+    }
+},
   
   }
