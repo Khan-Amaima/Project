@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
-import SvgIcons from "../../assets/images/SvgIcons";
+import SvgIcons from "../../assets/images/svgicons";
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

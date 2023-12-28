@@ -6,7 +6,7 @@ import CustomButton from '../components/CustomButton'
 import { FontSizeStandards } from '../constants/FontSizeStandards'
 import UploadVideo from '../components/UploadVideo'
 import { ImageSize } from '../constants/BoxSizes'
-import SvgIcons from '../assets/images/SvgIcons'
+import SvgIcons from '../assets/images/svgicons'
 
 function Uploads() {
   const [loading, setLoading] = useState(false);

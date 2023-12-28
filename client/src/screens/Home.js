@@ -43,7 +43,7 @@ function Home() {
     });
 
   useEffect(() => {
-    ApiManager.signUpUser('test', 'test2', 'test3')
+    // ApiManager.signUpUser('test', 'test2', 'test3')
     // ApiManager.loginUser('test2', 'test3')
   }, [])
   
