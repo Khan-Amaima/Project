@@ -19,11 +19,16 @@ import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import SvgIcons from "../../assets/images/svgicons";
+import ApiManager from "../../api/ApiManager";
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { setCurrentUserAuthToken } from '../../redux/actions/userActions';
+
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -45,9 +50,10 @@ function SignUp() {
     confirmPassword: "",
   };
 
-  const handleSubmit = (event, values) => {
+  const handleSubmit = async (event, values) => {
     try {
-      console.log("signup successfully");
+      let response = await ApiManager.signUpUser(event.name, event.email, event.password)
+      dispatch(setCurrentUserAuthToken(response.data.token));
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -384,4 +390,8 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+const mapDispatchToProps = {
+  setCurrentUserAuthToken,
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);

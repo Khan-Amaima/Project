@@ -1,8 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import CustomCarousel from '../components/CustomCarousel';
-import ApiManager from '../api/ApiManager';
+import React, { useEffect, useState } from "react";
+import CustomCarousel from "../components/CustomCarousel";
+import ApiManager from "../api/ApiManager";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { setCurrentUserDetail } from "../redux/actions/userActions";
 
 function Home() {
+  const dispatch = useDispatch();
+  const userReducerState = useSelector((state) => state.userRed);
+
+  async function fetchUserData() {
+    let response = await ApiManager.userDetail(userReducerState?.authToken);
+    console.log("--------FETCH USER DATA CALL--------");
+    dispatch(setCurrentUserDetail(response.data["user-info"]));
+  }
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const images = [
     "https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
@@ -16,7 +30,7 @@ function Home() {
     "https://images.unsplash.com/photo-1549737328-8b9f3252b927?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     "https://images.unsplash.com/photo-1549833284-6a7df91c1f65?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
     "https://images.unsplash.com/photo-1549985908-597a09ef0a7c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1550064824-8f993041ffd3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+    "https://images.unsplash.com/photo-1550064824-8f993041ffd3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
   ];
   const texts = [
     "Appending currency sign to a purchase form in your e-",
@@ -38,21 +52,24 @@ function Home() {
       return {
         image: images[index],
         headline: "front-end studio",
-        description: texts[index]
+        description: texts[index],
       };
     });
 
-  useEffect(() => {
-    // ApiManager.signUpUser('test', 'test2', 'test3')
-    // ApiManager.loginUser('test2', 'test3')
-  }, [])
-  
-    
   return (
     <>
-      <CustomCarousel data={fakerData} heading={'New Creators'} subHeading={'Explore All'} redirectTo={'./uploads'} />
+      <CustomCarousel
+        data={fakerData}
+        heading={"New Creators"}
+        subHeading={"Explore All"}
+        redirectTo={"./uploads"}
+      />
     </>
   );
 }
 
-export default Home
+const mapDispatchToProps = {
+  setCurrentUserDetail,
+};
+
+export default connect(null, mapDispatchToProps)(Home);

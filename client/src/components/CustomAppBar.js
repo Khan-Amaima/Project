@@ -16,6 +16,7 @@ import CustomButton from './CustomButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar, Container } from '@mui/material';
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -91,6 +92,7 @@ function CustomAppBar({ toggleDrawer, open }) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const userReducerState = useSelector(state => state.userRed);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -166,10 +168,10 @@ function CustomAppBar({ toggleDrawer, open }) {
           <Avatar sx={{ bgcolor: AppColors.primary }}>N</Avatar>
           <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
             <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: 500, color: AppColors.tertiary }}>
-              Christian Mark
+              {userReducerState?.userDetail?.username}
             </Typography>
             <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontSize: 10, fontWeight: 400, color: AppColors.secondary }}>
-              chris123@gmail.com
+            {userReducerState?.userDetail?.email}
             </Typography>
           </Container>
         </Box>
@@ -224,13 +226,13 @@ function CustomAppBar({ toggleDrawer, open }) {
             display: { xs: 'none', md: 'flex' }
           }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: 'center', marginLeft: 6 }}>
-            <Avatar sx={{ bgcolor: AppColors.primary }}>N</Avatar>
+            <Avatar sx={{ bgcolor: AppColors.primary }}>{userReducerState?.userDetail?.name}</Avatar>
             <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
               <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontWeight: 500, color: AppColors.tertiary }} sx={{fontSize: {xs : '12px', lg : '14px'}}}>
-                Christian Mark
+                {userReducerState?.userDetail?.username}
               </Typography>
               <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontWeight: 400, color: AppColors.secondary }} sx={{fontSize: {xs : '10px', lg : '12px'}}}>
-                chris123@gmail.com
+                {userReducerState?.userDetail?.email}
               </Typography>
             </Container>
             <IconButton

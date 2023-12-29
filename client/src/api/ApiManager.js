@@ -4,24 +4,62 @@ import axios from 'axios';
 const ApiManager = {
     signUpUser : async (userName, email, password) => {
         const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.signUp
-        console.log(url, userName, email, password)
-        const postData = {
-            "username" : "A2BCsDc8ssssss",
-            "password": "1234",
-            "email": "Ab2cssscsdss8s@gmail.com"
+        const signupData = {
+            "username" : userName,
+            "email": email,
+            "password": password
         }
         try {
-            const response = await axios.post('http://localhost:8000/Account/user-signup', postData);
+            const response = await axios.post(url, signupData);
             console.log(response);
+            return response;
         } 
         catch (error) {
             console.error(error);
+            return error;
         }
     },
-    loginUser : (userName, password) => {
+    loginUser : async (userName, password) => {
         const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.login
-        console.log(url, userName, password)
-        return url
+        const loginData = {
+            "username" : 'tset',
+            "password": password
+        }
+        try {
+            const response = await axios.post(url, loginData);
+            console.log(response);
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
+    },
+    logoutUser : async (authToken) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.logout
+        try {
+            const response = await axios.post(url, {},{
+                headers: {"Authorization" : `Token ${authToken}`}
+            });
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
+    },
+    userDetail : async (authToken) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.userDetail
+        try {
+            const response = await axios.get(url, {
+                headers: {"Authorization" : `Token ${authToken}`}
+            });
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }
 

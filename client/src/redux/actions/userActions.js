@@ -1,9 +1,16 @@
-export const SET_CURRENT_UUID = 'SET_CURRENT_UUID';
+export const SET_AUTH_TOKEN = "SET_AUTH_TOKEN";
+export const SET_USER_DETAIL = "SET_USER_DETAIL";
 
-export function setCurrentUser(uuid = '') {
-    return {
-      type: SET_CURRENT_UUID,
-      payload: uuid,
-    };
-  }
-  
+export function setCurrentUserAuthToken(authToken = "") {
+  return {
+    type: SET_AUTH_TOKEN,
+    payload: authToken,
+  };
+}
+
+export function setCurrentUserDetail(userData = {}) {
+  return {
+    type: SET_USER_DETAIL,
+    payload: userData,
+  };
+}
