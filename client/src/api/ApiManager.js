@@ -34,6 +34,19 @@ const ApiManager = {
             console.error(error);
             return error;
         }
+    },
+    logoutUser : async (authToken) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.logout
+        try {
+            const response = await axios.post(url, {},{
+                headers: {"Authorization" : `Token ${authToken}`}
+            });
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }
 
