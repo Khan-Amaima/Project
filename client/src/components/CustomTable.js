@@ -27,10 +27,11 @@ function CustomTable({
   const [targetVideo, setTargetVideo] = useState();
   
 
-  const [startDragging, setstartDragging] = useState(false);
+  const [startDragging, setStartDragging] = useState(false);
   const [isDraggingOver, setDraggingOver] = useState(false);
 
   const columns = [
+    { id: "drag", label: "", minWidth: 24, align: "center" },
     { id: "no", label: "No.", minWidth: 20, align: "center" },
     {
       id: "video",
@@ -107,13 +108,13 @@ function CustomTable({
                   onDragStart={() => handleDragRef(index)}
                   onDragEnter={() => {
                     handleDraggedOverRef(index);
-                    setstartDragging(false);
+                    setStartDragging(false);
                   }}
                   onDragEnd={() => {
                     if (isDraggingOver) {
                       handleSorting();
                     }
-                    setstartDragging(false);
+                    setStartDragging(false);
                   }}
                   onDragOver={(e) => {
                     e.preventDefault();
@@ -130,24 +131,27 @@ function CustomTable({
                 >
                   <TableCell
                     onTouchStart={() => {
-                      setstartDragging(true);
+                      setStartDragging(true);
                     }}
                     onTouchEnd={() => {
-                      setstartDragging(false);
+                      setStartDragging(false);
                     }}
                     onMouseDown={() => {
-                      setstartDragging(true);
+                      setStartDragging(true);
                     }}
                     onMouseUp={() => {
-                      setstartDragging(false);
+                      setStartDragging(false);
                     }}
+                    width={24}
                     align="center"
                   >
                     <Box
                       style={{
+                        align:"",
                         justifyContent: "center",
                         alignItems: "center",
                         cursor: "move",
+                        marginInline:"20px"
                       }}
                       sx={{
                         width: {
@@ -170,8 +174,10 @@ function CustomTable({
                     </Box>
                   </TableCell>
 
-                  <TableCell>{no}</TableCell>
+                  <TableCell width={20} align="center"> {no}</TableCell>
                   <TableCell
+                    
+                    align="start"
                     onClick={() => {
                       handleModal();
                       setTargetVideo(item.video);
@@ -179,20 +185,41 @@ function CustomTable({
                   >
                     <video
                       width={140}
+                      height={80}
                       controls
                       src={item.video}
                       style={{ borderRadius: "10px" }}
                     />
                   </TableCell>
                   <TableCell onClick={() => {}} align="center" width={"10px"}>
-                    <Box
-                      component="img"
-                      sx={{
-                        width: 25,
-                        height: 25,
+                  <Box
+                      style={{
+                        align:"",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "move",
+                        marginInline:"20px",
+                       
                       }}
-                      src={item.sound ? soundIcon : disableSoundIcon}
-                    />
+                      sx={{
+                        width: {
+                          xs: ImageSize.UploadPicIcon.xs.width,
+                          sm: ImageSize.UploadPicIcon.sm.width,
+                          md: ImageSize.UploadPicIcon.md.width,
+                          lg: ImageSize.UploadPicIcon.lg.width,
+                          xl: ImageSize.UploadPicIcon.xl.width,
+                        },
+                        height: {
+                          xs: ImageSize.UploadPicIcon.xs.height,
+                          sm: ImageSize.UploadPicIcon.sm.height,
+                          md: ImageSize.UploadPicIcon.md.height,
+                          lg: ImageSize.UploadPicIcon.lg.height,
+                          xl: ImageSize.UploadPicIcon.xl.width,
+                        },
+                      }}
+                    >
+                      {item.sound? SvgIcons.soundIcon:SvgIcons.muteIcon}
+                    </Box>
                   </TableCell>
                   <TableCell onClick={() => {}} align="center">
                     <Typography
@@ -208,7 +235,8 @@ function CustomTable({
                   </TableCell>
                   <TableCell onClick={() => {}}>
                     <CustomButton
-                      onTap={() => handleSetPrimarySound(index,item.sound)}
+                      onTap={() => {handleSetPrimarySound(index)}}
+                      
                       text={"Primary Audio"}
                       buttonStyle={{
                         backgroundColor: item.sound
@@ -223,14 +251,34 @@ function CustomTable({
                     />
                   </TableCell>
                   <TableCell onClick={() => handleDeleteFile(index)}>
-                    <Box
-                      component="img"
-                      sx={{
-                        width: 20,
-                        height: 20,
+                  <Box
+                      style={{
+                        align:"",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "move",
+                        marginInline:"20px",
+                        
                       }}
-                      src={deleteIcon}
-                    />
+                      sx={{
+                        width: {
+                          xs: ImageSize.UploadPicIcon.xs.width,
+                          sm: ImageSize.UploadPicIcon.sm.width,
+                          md: ImageSize.UploadPicIcon.md.width,
+                          lg: ImageSize.UploadPicIcon.lg.width,
+                          xl: ImageSize.UploadPicIcon.xl.width,
+                        },
+                        height: {
+                          xs: ImageSize.UploadPicIcon.xs.height,
+                          sm: ImageSize.UploadPicIcon.sm.height,
+                          md: ImageSize.UploadPicIcon.md.height,
+                          lg: ImageSize.UploadPicIcon.lg.height,
+                          xl: ImageSize.UploadPicIcon.xl.width,
+                        },
+                      }}
+                    >
+                      {SvgIcons.deleteIcon}
+                    </Box>
                   </TableCell>
                 </TableRow>
               );
