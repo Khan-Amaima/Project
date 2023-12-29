@@ -74,7 +74,7 @@ function CustomCarousel({ data, heading, subHeading, redirectTo }) {
         }}
       >
         {data.map(card => {
-          return <CustomCard {...card} />;
+          return <CustomCard {...card} key={card.image} />;
         })}
       </Carousel>
     </>
