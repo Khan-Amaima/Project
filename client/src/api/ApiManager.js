@@ -47,6 +47,19 @@ const ApiManager = {
             console.error(error);
             return error;
         }
+    },
+    userDetail : async (authToken) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.userDetail
+        try {
+            const response = await axios.get(url, {
+                headers: {"Authorization" : `Token ${authToken}`}
+            });
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }
 

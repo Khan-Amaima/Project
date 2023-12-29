@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import CustomCarousel from '../components/CustomCarousel';
+import ApiManager from '../api/ApiManager';
+import { connect, useDispatch, useSelector } from "react-redux";
+import { setCurrentUserAuthToken } from '../redux/actions/userActions';
 
 function Home() {
+  const dispatch = useDispatch();
+  const userReducerState = useSelector(state => state.userRed);
+
+  useEffect( () => {
+    // let response = ApiManager.userDetail(userReducerState?.authToken)
+    // dispatch();
+  }, [])
+  
 
   const images = [
     "https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
@@ -48,4 +59,8 @@ function Home() {
   );
 }
 
-export default Home
+const mapDispatchToProps = {
+  setCurrentUserAuthToken,
+};
+
+export default connect(null, mapDispatchToProps)(Home);
