@@ -17,7 +17,7 @@ function CustomButton({
   type,
 }) {
 
-  console.log("disable",isDisable)
+  // console.log("disable",isDisable)
   return (
     <Button
       // disabled={isDisable}
