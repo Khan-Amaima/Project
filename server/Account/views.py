@@ -51,3 +51,17 @@ class UserLogoutView(APIView):
         user_token.delete()        
 
         return Response({"success": ("Successfully logged out.")}, status=status.HTTP_200_OK)
+
+class UserDetailView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, request):
+
+        try:
+            user_token = Token.objects.get(user=request.user)
+            serializer = UserProfileSerializer(request.user, many=False)
+            return Response({'user-info' : {'username' : serializer.data['username'], 'email' : serializer.data['email']}}, status=status.HTTP_202_ACCEPTED)
+
+        except Token.DoesNotExist:
+            return Response({'error': 'Token does not exist'}, status=status.HTTP_404_NOT_FOUND)
