@@ -9,7 +9,7 @@ function Home() {
   const userReducerState = useSelector((state) => state.userRed);
 
   async function fetchUserData() {
-    let response = await ApiManager.userDetail('userReducerState?.authToken');
+    let response = await ApiManager.userDetail(userReducerState?.authToken);
     console.log("--------FETCH USER DATA CALL--------");
     dispatch(setCurrentUserDetail(response.data["user-info"]));
   }
