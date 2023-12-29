@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from .serializers import UserProfileSerializer, UserSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from rest_framework.permissions import IsAuthenticated
 
 def index(request):
     return HttpResponse("Hello, You're at the Account index.")
@@ -42,18 +43,11 @@ class UserLoginView(generics.CreateAPIView):
         return Response({'token': token.key, 'user-info' : {'username' : request.data['username']}}, status=status.HTTP_202_ACCEPTED)
     
 class UserLogoutView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    # def post(self, request):
-    #     return self.logout(request)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print("ASJDALSJDL ", request.user)
-        try:
-            user_token = Token.objects.get(user=request.user)
-            user_token.delete()
-            # request.user.auth_token.delete()
-        # except (AttributeError, Token.DoesNotExist):
-        except Exception as e:
-            print('fail => ', e)
+        user_token = Token.objects.get(user=request.user)
+        user_token.delete()        
 
         return Response({"success": ("Successfully logged out.")}, status=status.HTTP_200_OK)
