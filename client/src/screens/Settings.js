@@ -14,10 +14,12 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Cancel } from "@mui/icons-material";
 
 function Settings() {
   const navigate = useNavigate();
   const pictureInputRef = useRef();
+  const [pictureFile, setPicture] = useState(null);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -67,6 +69,27 @@ function Settings() {
   const handleChoose = () => {
     pictureInputRef.current.click();
   };
+
+
+  const handleFileChange = (event) => {
+    try{
+        const file = event.target.files[0];
+        if(file){
+
+            const url = URL.createObjectURL(file);
+            console.log(file, '//////////////////////////////', url)
+
+            // let customSize = file.size / 1024 / 1024;
+            setPicture(url);
+        }
+    }catch(err){
+        console.log(err, 'upload Picture error')
+    }
+};
+
+const handleDeleteFile = () => {
+    setPicture(null);
+}
 
   return (
     <Grid
@@ -290,12 +313,17 @@ function Settings() {
             item
             xs={5.5}
             md={5.5}
+            direction={"column"}
+            wrap="nowrap"
             style={{
               borderColor: AppColors.primary,
-              direction: "row",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: pictureFile!==null? "center":"start",
               margin: "auto",
+              backgroundColor:"",
+              display:"flex"
+            
+
             }}
           >
             <Typography
@@ -311,7 +339,49 @@ function Settings() {
             >
               Upload Picture
             </Typography>
-            <Grid
+            {
+              pictureFile!==null ?
+              
+             <Grid>
+                <Box width={"100px"} height={'100px'} style={{backgroundColor:"white",borderRadius:"50px" , position:"relative"}}>
+                 {pictureFile && (<Box width={"100px"} height={'100px'} style={{backgroundColor:"white",borderRadius:"50px",position:"absolute",borderColor: AppColors.primary,}}>
+                 <img src={pictureFile}  style={{ objectFit: 'cover', width: '100%', height: '100%',borderRadius:"50px" }} />
+                 
+                 <IconButton 
+                   onClick={()=>handleDeleteFile()}
+                   style={{ position: 'absolute',top :"0px",right:"-10px",}}>
+                 <Cancel sx={{
+                            width: {
+                              xs: ImageSize.UploadPicIcon.xs.width,
+                              sm: ImageSize.UploadPicIcon.sm.width,
+                              md: ImageSize.UploadPicIcon.md.width,
+                              lg: ImageSize.UploadPicIcon.lg.width,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                            height: {
+                              xs: ImageSize.UploadPicIcon.xs.height,
+                              sm: ImageSize.UploadPicIcon.sm.height,
+                              md: ImageSize.UploadPicIcon.md.height,
+                              lg: ImageSize.UploadPicIcon.lg.height,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                          }}
+                          style={{color:"red"}}
+                          />
+              
+              </IconButton> 
+                 
+                 </Box>)}
+                
+                </Box>
+             </Grid>
+
+                          
+
+
+              
+              :
+              <Grid
               container
               onClick={() => handleChoose()}
               width={"auto"}
@@ -381,11 +451,15 @@ function Settings() {
                   ref={pictureInputRef}
                   style={{ display: "none", backgroundColor: "red" }}
                   type="file"
-                  // onChange={handleFileChange}
+                  onChange={handleFileChange}
                   accept=".jpg, .jpeg, .png, .gif"
                 />
               </Grid>
-            </Grid>
+            </Grid>}
+
+
+
+
           </Grid>
         </Grid>
       </Grid>
@@ -401,6 +475,7 @@ function Settings() {
           borderColor: AppColors.primary,
           backgroundColor: "#F5F5F5",
           borderRadius: "10px",
+          display:"flex",
           padding: 20,
           direction: "row",
           justifyContent: "center",
@@ -430,17 +505,19 @@ function Settings() {
         </Grid>
 
         <Grid
-          width={"auto"}
-          sx={{ width: { xs: "100%", lg: "100%" } }}
-          style={{
-            borderColor: AppColors.primary,
-            backgroundColor: "#F5F5F5",
-            display: "flex",
-            direction: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "auto",
-          }}
+           gap={2}
+           container
+           width={"auto"}
+           sx={{ width: { xs: "100%", lg: "100%" } }}
+           style={{
+             borderColor: AppColors.primary,
+             backgroundColor: "#F5F5F5",
+             display: "flex",
+             direction: "row",
+             justifyContent: "center",
+             alignItems: "center",
+             margin: "auto",
+           }}
         >
           <Grid
             spacing={0}
@@ -641,9 +718,8 @@ function Settings() {
               }
             />
           </Grid>
-        </Grid>
-
-        <Grid
+        
+          <Grid
           item
           xs={11.5}
           md={11.5}
@@ -678,6 +754,10 @@ function Settings() {
             }}
           />
         </Grid>
+        
+        </Grid>
+
+       
       </Grid>
     </Grid>
   );
