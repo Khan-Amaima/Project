@@ -75,7 +75,6 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
   const dispatch = useDispatch();
   const userReducerState = useSelector(state => state.userRed);
 
-  console.log(location.pathname);
   const navigation = [
     {
       id: 0,
