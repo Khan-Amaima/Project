@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import { Cancel } from "@mui/icons-material";
-
+import { FormHelperText } from "@mui/material";
 import SvgIcons from "../assets/images/svgicons";
 import AppColors from "../constants/AppColors";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
@@ -16,6 +16,10 @@ import CustomButton from "./CustomButton";
 
 function UpdateProfile({}) {
   const navigate = useNavigate();
+
+  const[isDisableButton,setIsDisableButton] = useState(true);
+  const[isNameChanged, setIsNameChanged] = useState(false);
+  const[isEmailChanged , setIsEmailChanged] = useState(false);
   const pictureInputRef = useRef();
   const [pictureFile, setPicture] = useState(null);
 
@@ -24,11 +28,24 @@ function UpdateProfile({}) {
     email: Yup.string()
       .email("Enter a valid email")
       .required("Email is required"),
+    // phone:  Yup.string()
+    // .phone("Enter a valid num")
+    // .required("num is required"),
   });
 
   const initialValues = {
-    name: "",
-    email: "",
+    name: "sdf",
+    email: "dsf@gmail.com",
+    phone:"",
+  };
+
+  const handleSubmit = (event, values) => {
+    try {
+      console.log(" success",event);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const formik = useFormik({
@@ -38,15 +55,54 @@ function UpdateProfile({}) {
       handleSubmit(event, values);
     },
   });
-
-  const handleSubmit = (event, values) => {
-    try {
-      console.log("signup successfully");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
+  
+  const handleNameChange = (event) => {
+    // Update the state with the new value from the text field
+    if(event.target.value=="Jason"){
+        setIsNameChanged(false);
+        if(!isEmailChanged){
+            console.log("nothing Changed")
+            setIsDisableButton(true);
+        }
+        else{
+            console.log("name not but email");
+            setIsDisableButton(false);}
     }
+    else{
+        console.log("Name changed")
+        setIsNameChanged(true)
+        setIsDisableButton(false);    
+    }
+    
+    console.log(event.target.value)
   };
+
+  const handleEmailChange = (event) => {
+    // Update the state with the new value from the text field
+    if(event.target.value=="Jason@gmail.com"){
+        setIsEmailChanged(false);
+        if(!isNameChanged){
+            console.log("nothing changed");
+            setIsDisableButton(true);
+        }
+        else{
+            console.log("email not but name");
+            setIsDisableButton(false);
+        }
+        // setIsDisableButton(false);
+    }
+    
+    else{
+        console.log("email changed");
+        setIsEmailChanged(true);
+        setIsDisableButton(false);
+    
+    }
+    
+    console.log(event.target.value)
+  };
+
+  
 
   const handleChoose = () => {
     pictureInputRef.current.click();
@@ -74,6 +130,8 @@ function UpdateProfile({}) {
   return (
     <Grid
       container
+      component="form"
+      onSubmit={formik.handleSubmit}
       className="Personal Information"
       gap={3}
       width={"auto"}
@@ -166,12 +224,17 @@ function UpdateProfile({}) {
             }}
             id="name"
             placeholder="Enter your name"
-            defaultValue={"Christian Mark"}
-            //  value={formik.values.email}
+            // defaultValue={"Jason"}
+            value={formik.values.name}
             onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
+            error={formik.touched.name && Boolean(formik.errors.name)}
             sx={CustomStyle.inputStyle}
           />
+           {formik.touched.name && formik.errors.name && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.name}
+                  </FormHelperText>
+                )}
         </Grid>
 
         <Grid
@@ -215,12 +278,17 @@ function UpdateProfile({}) {
             }}
             id="email"
             placeholder="Enter Your Email"
-            defaultValue={"chris123@gmail.com"}
-            //  value={formik.values.email}
+            // defaultValue={"Jason@gmail.com"}
+            value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
             sx={CustomStyle.inputStyle}
           />
+           {formik.touched.email && formik.errors.email && (
+                  <FormHelperText error id="confirmPassword">
+                    {formik.errors.email}
+                  </FormHelperText>
+                )}
         </Grid>
 
         <Grid
@@ -263,9 +331,9 @@ function UpdateProfile({}) {
             }}
             id="phoneNumber"
             placeholder="Enter Your Number"
-            value={formik.values.email}
+            value={formik.values.phone}
             onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
             sx={CustomStyle.inputStyle}
           />
         </Grid>
@@ -438,13 +506,12 @@ function UpdateProfile({}) {
           }}
         >
           <CustomButton
-            onTap={() => {
-              console.log("Updating Profile");
-            }}
+            type={"submit"}
             text={"Update Profile"}
+            isDisable={isDisableButton}
             buttonStyle={{
               borderRadius: 50,
-              backgroundColor: AppColors.primary,
+              backgroundColor: isDisableButton ? AppColors.grey:AppColors.primary,
               fontFamily: "Poppins",
               fontSize: {
                 typography: {
