@@ -23,9 +23,9 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const dragTabRef = useRef(0);
   const draggedOverTabRef = useRef(0);
   const [tableData, setTableData] = useState([]);
-  const [disableButton, setButtonDisable] = useState();
-  const [isPrimarySound , setPrimarySound] = useState();
-  const [ selectedSoundIndex , setSelectedSoundIndex] = useState();
+  const [isDisableButton, setButtonDisable] = useState();
+  const [isPrimarySound, setPrimarySound] = useState(true);
+  const [selectedSoundIndex, setSelectedSoundIndex] = useState(undefined);
 
   const handleFileChange = (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
@@ -52,35 +52,40 @@ function UploadVideo({ isModalOpen, handleModal }) {
     let extractedVideos = tableData.filter((video, index) => index != id);
 
     setTableData(extractedVideos);
-    if (tableData.length === 4) {
+    if (tableData.length <= 4) {
       setButtonDisable(false);
     }
   };
 
-  const handleSetPrimarySound = (id, sound) => {
+  const handleSetPrimarySound = (id) => {
     const updatedVideosWithSound = tableData.map((item, index) => {
-      if (index === id) {
-        // Set 'sound' to true for the specific object
-        setSelectedSoundIndex(index);
-        if(index==selectedSoundIndex){setPrimarySound(false)}else{setPrimarySound(true)}
-        
-        return { ...item, sound: !sound };
+      if (id == selectedSoundIndex) {
+        console.log("Call reset");
+        setSelectedSoundIndex(undefined);
+        return { ...item, sound: true };
       } else {
-        // Set 'sound' to false for other objects
-        return { ...item, sound: false };
+        console.log("Call set");
+        if (index === id) {
+          // Set 'sound' to true for the specific object
+          setSelectedSoundIndex(index);
+
+          return { ...item, sound: true };
+        } else {
+          // Set 'sound' to false for other objects
+          return { ...item, sound: false };
+        }
       }
     });
     setTableData(updatedVideosWithSound);
   };
-  
+
   const handleDragRef = (index) => {
     dragTabRef.current = index;
-    console.log("dragStart");
   };
 
   const handleDraggedOverRef = (index) => {
     draggedOverTabRef.current = index;
-    console.log("drag Over");
+    setSelectedSoundIndex(index);
   };
 
   const handleSorting = () => {
@@ -88,7 +93,6 @@ function UploadVideo({ isModalOpen, handleModal }) {
     tableData[dragTabRef.current] = tableData[draggedOverTabRef.current];
     tableData[draggedOverTabRef.current] = temp;
     setTableData([...tableData]);
-    console.log(tableData, "------------------------------");
   };
 
   const handleChoose = () => {
@@ -162,7 +166,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           >
             Select a file or drag and drop here
           </Typography>
-          {disableButton ? (
+          {isDisableButton ? (
             <Typography
               style={{
                 marginTop: "5px",
@@ -198,12 +202,11 @@ function UploadVideo({ isModalOpen, handleModal }) {
           />
           <CustomButton
             onTap={() => {
-              if (!disableButton) {
+              if (!isDisableButton) {
                 handleChoose();
               }
             }}
-            isDisable={disableButton}
-            cursor={disableButton ? "not-allowed" : "pointer"}
+            isDisable={isDisableButton}
             text={"Select Videos"}
             buttonStyle={{
               borderRadius: 50,
@@ -296,6 +299,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             onTap={() => {
               handleModal();
               setTableData([]);
+              setButtonDisable(false)
             }}
             text={"Cancel"}
             buttonStyle={{

@@ -11,7 +11,7 @@ function Home() {
   async function fetchUserData() {
     let response = await ApiManager.userDetail(userReducerState?.authToken);
     console.log("--------FETCH USER DATA CALL--------");
-    dispatch(setCurrentUserDetail(response?.data["user-info"]));
+    dispatch(setCurrentUserDetail(response?.data && response?.data["user-info"]));
   }
 
   useEffect(() => {

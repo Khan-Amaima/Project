@@ -13,6 +13,7 @@ import CustomVideoPlayer from "./CustomVideoPlayer";
 import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
+import CustomIcon from "./CustomIcon";
 
 function CustomTable({
   tableData,
@@ -25,7 +26,6 @@ function CustomTable({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const [targetVideo, setTargetVideo] = useState();
-  
 
   const [startDragging, setStartDragging] = useState(false);
   const [isDraggingOver, setDraggingOver] = useState(false);
@@ -145,39 +145,23 @@ function CustomTable({
                     width={24}
                     align="center"
                   >
-                    <Box
-                      style={{
-                        align:"",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "move",
-                        marginInline:"20px"
-                      }}
-                      sx={{
-                        width: {
-                          xs: ImageSize.UploadPicIcon.xs.width,
-                          sm: ImageSize.UploadPicIcon.sm.width,
-                          md: ImageSize.UploadPicIcon.md.width,
-                          lg: ImageSize.UploadPicIcon.lg.width,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                        height: {
-                          xs: ImageSize.UploadPicIcon.xs.height,
-                          sm: ImageSize.UploadPicIcon.sm.height,
-                          md: ImageSize.UploadPicIcon.md.height,
-                          lg: ImageSize.UploadPicIcon.lg.height,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                      }}
-                    >
-                      {SvgIcons.dragIcon}
-                    </Box>
+                    <CustomIcon
+                      icon={SvgIcons.dragIcon}
+                      boxSize={ImageSize.UploadPicIcon}
+                      align=""
+                      justifyContent="center"
+                      alignItems="center"
+                      cursor="move"
+                      marginInline="20px"
+                    />
                   </TableCell>
 
-                  <TableCell width={20} align="center"> {no}</TableCell>
-                  
+                  <TableCell width={20} align="center">
+                    {" "}
+                    {no}
+                  </TableCell>
+
                   <TableCell
-                    align="start"
                     onClick={() => {
                       handleModal();
                       setTargetVideo(item.video);
@@ -192,34 +176,14 @@ function CustomTable({
                     />
                   </TableCell>
                   <TableCell onClick={() => {}} align="center" width={"10px"}>
-                    <Box
-                      style={{
-                        align:"",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "move",
-                        marginInline:"20px",
-                       
-                      }}
-                      sx={{
-                        width: {
-                          xs: ImageSize.UploadPicIcon.xs.width,
-                          sm: ImageSize.UploadPicIcon.sm.width,
-                          md: ImageSize.UploadPicIcon.md.width,
-                          lg: ImageSize.UploadPicIcon.lg.width,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                        height: {
-                          xs: ImageSize.UploadPicIcon.xs.height,
-                          sm: ImageSize.UploadPicIcon.sm.height,
-                          md: ImageSize.UploadPicIcon.md.height,
-                          lg: ImageSize.UploadPicIcon.lg.height,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                      }}
-                    >
-                      {item.sound? SvgIcons.soundIcon:SvgIcons.muteIcon}
-                    </Box>
+                    <CustomIcon
+                      icon={item.sound ? SvgIcons.soundIcon : SvgIcons.muteIcon}
+                      boxSize={ImageSize.UploadPicIcon}
+                      align=""
+                      justifyContent="center"
+                      alignItems="center"
+                      marginInline="20px"
+                    />
                   </TableCell>
                   <TableCell onClick={() => {}} align="center">
                     <Typography
@@ -235,8 +199,9 @@ function CustomTable({
                   </TableCell>
                   <TableCell onClick={() => {}}>
                     <CustomButton
-                      onTap={() => {handleSetPrimarySound(index)}}
-                      
+                      onTap={() => {
+                        handleSetPrimarySound(index);
+                      }}
                       text={"Primary Audio"}
                       buttonStyle={{
                         backgroundColor: item.sound
@@ -251,34 +216,15 @@ function CustomTable({
                     />
                   </TableCell>
                   <TableCell onClick={() => handleDeleteFile(index)}>
-                    <Box
-                      style={{
-                        align:"",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "move",
-                        marginInline:"20px",
-                        
-                      }}
-                      sx={{
-                        width: {
-                          xs: ImageSize.UploadPicIcon.xs.width,
-                          sm: ImageSize.UploadPicIcon.sm.width,
-                          md: ImageSize.UploadPicIcon.md.width,
-                          lg: ImageSize.UploadPicIcon.lg.width,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                        height: {
-                          xs: ImageSize.UploadPicIcon.xs.height,
-                          sm: ImageSize.UploadPicIcon.sm.height,
-                          md: ImageSize.UploadPicIcon.md.height,
-                          lg: ImageSize.UploadPicIcon.lg.height,
-                          xl: ImageSize.UploadPicIcon.xl.width,
-                        },
-                      }}
-                    >
-                      {SvgIcons.deleteIcon}
-                    </Box>
+                    <CustomIcon
+                      icon={SvgIcons.deleteIcon}
+                      boxSize={ImageSize.UploadPicIcon}
+                      align=""
+                      justifyContent="center"
+                      alignItems="center"
+                      cursor="pointer"
+                      marginInline="20px"
+                    />
                   </TableCell>
                 </TableRow>
               );
