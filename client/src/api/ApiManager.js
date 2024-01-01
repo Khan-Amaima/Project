@@ -19,10 +19,10 @@ const ApiManager = {
             return error;
         }
     },
-    loginUser : async (userName, password) => {
+    loginUser : async (email, password) => {
         const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.login
         const loginData = {
-            "username" : 'tset',
+            "email" : email,
             "password": password
         }
         try {

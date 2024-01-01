@@ -45,7 +45,7 @@ function Login() {
   const handleSubmit = async (event, values) => {
     setLoading(true);
     try {
-      let response = await ApiManager.loginUser(event.name, event.password)
+      let response = await ApiManager.loginUser(event.email, event.password)
       dispatch(setCurrentUserAuthToken(response.data.token));
       navigate("/");
       setLoading(false);
