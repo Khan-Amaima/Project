@@ -24,7 +24,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const draggedOverTabRef = useRef(0);
   const [tableData, setTableData] = useState([]);
   const [disableButton, setButtonDisable] = useState();
-
+  const [isPrimarySound , setPrimarySound] = useState();
+  const [ storedIndex , setStoredIndex] = useState();
   const handleFileChange = (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
@@ -59,6 +60,9 @@ function UploadVideo({ isModalOpen, handleModal }) {
     const updatedVideosWithSound = tableData.map((item, index) => {
       if (index === id) {
         // Set 'sound' to true for the specific object
+        setStoredIndex(index);
+        if(index==storedIndex){setPrimarySound(false)}else{setPrimarySound(true)}
+        
         return { ...item, sound: !sound };
       } else {
         // Set 'sound' to false for other objects
