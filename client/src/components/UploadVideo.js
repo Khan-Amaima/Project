@@ -17,8 +17,11 @@ import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import { tab } from "@testing-library/user-event/dist/tab";
 import { CommitSharp } from "@mui/icons-material";
+import ApiManager from "../api/ApiManager";
 
 function UploadVideo({ isModalOpen, handleModal }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const videoInputRef = useRef();
   const dragTabRef = useRef(0);
   const draggedOverTabRef = useRef(0);
@@ -36,7 +39,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           let customSize = file.size / 1024 / 1024;
           setTableData([
             ...tableData,
-            { video: url, sound: true, size: `${customSize.toFixed(2)}Mb` },
+            { video: url, sound: true, size: `${customSize.toFixed(2)}Mb`, file: file },
           ]);
           if (tableData.length === 3) {
             setButtonDisable(true);
@@ -248,6 +251,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
             id="title"
             placeholder="Video title"
             sx={CustomStyle.inputStyle}
+            value={title}
+            onChange={e=>setTitle(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -267,6 +272,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
             style={{ marginTop: "6px" }}
             multiline={true}
             rows={4}
+            value={description}
+            onChange={e=>setDescription(e.target.value)}
           />
         </Grid>
       </Grid>
@@ -312,7 +319,15 @@ function UploadVideo({ isModalOpen, handleModal }) {
             }}
           />
           <CustomButton
-            onTap={() => {
+            onTap={ async () => {
+              try{
+                let response = await ApiManager.uploadVideo('tset', title, description, tableData)
+                handleModal();
+                console.log(response, '--------response-------')
+              }
+              catch(err){
+                console.log(err)
+              }
               console.log("do some functionality");
             }}
             text={"Upload Videos"}

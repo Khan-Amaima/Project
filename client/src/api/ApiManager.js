@@ -60,6 +60,24 @@ const ApiManager = {
             console.error(error);
             return error;
         }
+    },
+    uploadVideo : async (username, title, description, videos) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.uploadVideo
+        try {
+            let formData = new FormData()
+            formData.append('username', username)
+            formData.append('title', title)
+            formData.append('description', description)
+            for (let i = 0; i < videos.length; i++) {
+                formData.append(videos[i].file.name, videos[i].file)
+            }
+            const response = await axios.post(url, formData);
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }
 
