@@ -6,7 +6,7 @@ import {ReactComponent as DragIcon } from './Drag.svg'
 import {ReactComponent as LogOutIcon } from './Logout.svg'
 import {ReactComponent as DeleteIcon } from './Delete.svg'
 import {ReactComponent as SoundIcon } from './Sound.svg'
-import {ReactComponent as MuteSoundIcon } from './Sound (1).svg'
+import {ReactComponent as MuteSoundIcon } from './MuteSound.svg'
 const SvgIcons = {
   appLogo: <AppLogo />,
   dragIcon: <DragIcon/>,
