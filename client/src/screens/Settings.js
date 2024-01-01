@@ -9,7 +9,6 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { CustomStyle } from "../constants/CustomStyle";
 import CustomButton from "../components/CustomButton";
-
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -70,33 +69,31 @@ function Settings() {
     pictureInputRef.current.click();
   };
 
-
   const handleFileChange = (event) => {
-    try{
-        const file = event.target.files[0];
-        if(file){
+    try {
+      const file = event.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        console.log(file, "//////////////////////////////", url);
 
-            const url = URL.createObjectURL(file);
-            console.log(file, '//////////////////////////////', url)
-
-            // let customSize = file.size / 1024 / 1024;
-            setPicture(url);
-        }
-    }catch(err){
-        console.log(err, 'upload Picture error')
+        // let customSize = file.size / 1024 / 1024;
+        setPicture(url);
+      }
+    } catch (err) {
+      console.log(err, "upload Picture error");
     }
-};
+  };
 
-const handleDeleteFile = () => {
+  const handleDeleteFile = () => {
     setPicture(null);
-}
+  };
 
   return (
     <Grid
-      Container
+      container
       className="Main"
       gap={3}
-      spacing={1}
+      // spacing={1}
       width={"auto"}
       sx={{ width: { xs: "100%", lg: "100%" } }}
       style={{
@@ -114,7 +111,7 @@ const handleDeleteFile = () => {
         container
         className="Personal Information"
         gap={3}
-        spacing={1}
+        // spacing={1}
         width={"auto"}
         sx={{ width: { xs: "100%", lg: "100%" } }}
         style={{
@@ -313,17 +310,13 @@ const handleDeleteFile = () => {
             item
             xs={5.5}
             md={5.5}
-            direction={"column"}
-            wrap="nowrap"
             style={{
               borderColor: AppColors.primary,
               justifyContent: "center",
-              alignItems: pictureFile!==null? "center":"start",
+              alignItems: pictureFile !== null ? "center" : "start",
               margin: "auto",
-              backgroundColor:"",
-              display:"flex"
-            
-
+              backgroundColor: "",
+              wrap:"nowrap"
             }}
           >
             <Typography
@@ -339,18 +332,48 @@ const handleDeleteFile = () => {
             >
               Upload Picture
             </Typography>
-            {
-              pictureFile!==null ?
-              
-             <Grid>
-                <Box width={"100px"} height={'100px'} style={{backgroundColor:"white",borderRadius:"50px" , position:"relative"}}>
-                 {pictureFile && (<Box width={"100px"} height={'100px'} style={{backgroundColor:"white",borderRadius:"50px",position:"absolute",borderColor: AppColors.primary,}}>
-                 <img src={pictureFile}  style={{ objectFit: 'cover', width: '100%', height: '100%',borderRadius:"50px" }} />
-                 
-                 <IconButton 
-                   onClick={()=>handleDeleteFile()}
-                   style={{ position: 'absolute',top :"0px",right:"-10px",}}>
-                 <Cancel sx={{
+            {pictureFile !== null ? (
+              <Grid>
+                <Box
+                  width={"100px"}
+                  height={"100px"}
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "50px",
+                    position: "relative",
+                  }}
+                >
+                  {pictureFile && (
+                    <Box
+                      width={"100px"}
+                      height={"100px"}
+                      style={{
+                        backgroundColor: "white",
+                        borderRadius: "50px",
+                        position: "absolute",
+                        borderColor: AppColors.primary,
+                      }}
+                    >
+                      <img
+                        src={pictureFile}
+                        style={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50px",
+                        }}
+                      />
+
+                      <IconButton
+                        onClick={() => handleDeleteFile()}
+                        style={{
+                          position: "absolute",
+                          top: "0px",
+                          right: "-10px",
+                        }}
+                      >
+                        <Cancel
+                          sx={{
                             width: {
                               xs: ImageSize.UploadPicIcon.xs.width,
                               sm: ImageSize.UploadPicIcon.sm.width,
@@ -366,100 +389,90 @@ const handleDeleteFile = () => {
                               xl: ImageSize.UploadPicIcon.xl.width,
                             },
                           }}
-                          style={{color:"red"}}
-                          />
-              
-              </IconButton> 
-                 
-                 </Box>)}
-                
+                          style={{ color: "red" }}
+                        />
+                      </IconButton>
+                    </Box>
+                  )}
                 </Box>
-             </Grid>
-
-                          
-
-
-              
-              :
+              </Grid>
+            ) : (
               <Grid
-              container
-              onClick={() => handleChoose()}
-              width={"auto"}
-              sx={{ width: { xs: "100%", lg: "100%" } }}
-              style={{
-                border: "2px dashed",
-                borderColor: AppColors.grey,
-                borderRadius: "5px",
-                padding: "5px",
-                direction: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
-              <Grid item xs={3} md={1}>
-                <Box
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                  sx={{
-                    width: {
-                      xs: ImageSize.UploadPicIcon.xs.width,
-                      sm: ImageSize.UploadPicIcon.sm.width,
-                      md: ImageSize.UploadPicIcon.md.width,
-                      lg: ImageSize.UploadPicIcon.lg.width,
-                      xl: ImageSize.UploadPicIcon.xl.width,
-                    },
-                    height: {
-                      xs: ImageSize.UploadPicIcon.xs.height,
-                      sm: ImageSize.UploadPicIcon.sm.height,
-                      md: ImageSize.UploadPicIcon.md.height,
-                      lg: ImageSize.UploadPicIcon.lg.height,
-                      xl: ImageSize.UploadPicIcon.xl.width,
-                    },
-                  }}
-                >
-                  {SvgIcons.uploadPicIcon}
-                </Box>
+                container
+                onClick={() => handleChoose()}
+                width={"auto"}
+                sx={{ width: { xs: "100%", lg: "100%" } }}
+                style={{
+                  border: "2px dashed",
+                  borderColor: AppColors.grey,
+                  borderRadius: "5px",
+                  padding: "5px",
+                  direction: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Grid item xs={3} md={1}>
+                  <Box
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                    sx={{
+                      width: {
+                        xs: ImageSize.UploadPicIcon.xs.width,
+                        sm: ImageSize.UploadPicIcon.sm.width,
+                        md: ImageSize.UploadPicIcon.md.width,
+                        lg: ImageSize.UploadPicIcon.lg.width,
+                        xl: ImageSize.UploadPicIcon.xl.width,
+                      },
+                      height: {
+                        xs: ImageSize.UploadPicIcon.xs.height,
+                        sm: ImageSize.UploadPicIcon.sm.height,
+                        md: ImageSize.UploadPicIcon.md.height,
+                        lg: ImageSize.UploadPicIcon.lg.height,
+                        xl: ImageSize.UploadPicIcon.xl.width,
+                      },
+                    }}
+                  >
+                    {SvgIcons.uploadPicIcon}
+                  </Box>
+                </Grid>
+
+                <Grid item xs={9} md={6}>
+                  <Typography
+                    variant="h6"
+                    component="h2"
+                    style={{
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                      color: AppColors.secondary,
+                    }}
+                    sx={{ typography: FontSizeStandards.subHeading }}
+                  >
+                    Upload Photo
+                  </Typography>
+                  <Typography
+                    style={{
+                      marginTop: "5px",
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                      color: AppColors.secondary,
+                    }}
+                    sx={{ typography: FontSizeStandards.subHeading }}
+                  >
+                    (. tiff, . tif, . jpeg, . jpg, . jpe, . png)
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} lg={6}>
+                  <input
+                    ref={pictureInputRef}
+                    style={{ display: "none", backgroundColor: "red" }}
+                    type="file"
+                    onChange={handleFileChange}
+                    accept=".jpg, .jpeg, .png, .gif"
+                  />
+                </Grid>
               </Grid>
-
-              <Grid item xs={9} md={6}>
-                <Typography
-                  variant="h6"
-                  component="h2"
-                  style={{
-                    fontFamily: "Poppins",
-                    fontWeight: "500",
-                    color: AppColors.secondary,
-                  }}
-                  sx={{ typography: FontSizeStandards.subHeading }}
-                >
-                  Upload Photo
-                </Typography>
-                <Typography
-                  style={{
-                    marginTop: "5px",
-                    fontFamily: "Poppins",
-                    fontWeight: "500",
-                    color: AppColors.secondary,
-                  }}
-                  sx={{ typography: FontSizeStandards.subHeading }}
-                >
-                  (. tiff, . tif, . jpeg, . jpg, . jpe, . png)
-                </Typography>
-              </Grid>
-              <Grid item xs={6} lg={6}>
-                <input
-                  ref={pictureInputRef}
-                  style={{ display: "none", backgroundColor: "red" }}
-                  type="file"
-                  onChange={handleFileChange}
-                  accept=".jpg, .jpeg, .png, .gif"
-                />
-              </Grid>
-            </Grid>}
-
-
-
-
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -468,14 +481,14 @@ const handleDeleteFile = () => {
         container
         className="Change Password"
         gap={3}
-        spacing={1}
+        // spacing={1}
         width={"auto"}
         sx={{ width: { xs: "100%", lg: "100%" } }}
         style={{
           borderColor: AppColors.primary,
           backgroundColor: "#F5F5F5",
           borderRadius: "10px",
-          display:"flex",
+          display: "flex",
           padding: 20,
           direction: "row",
           justifyContent: "center",
@@ -505,22 +518,22 @@ const handleDeleteFile = () => {
         </Grid>
 
         <Grid
-           gap={2}
-           container
-           width={"auto"}
-           sx={{ width: { xs: "100%", lg: "100%" } }}
-           style={{
-             borderColor: AppColors.primary,
-             backgroundColor: "#F5F5F5",
-             display: "flex",
-             direction: "row",
-             justifyContent: "center",
-             alignItems: "center",
-             margin: "auto",
-           }}
+          gap={2}
+          container
+          width={"auto"}
+          sx={{ width: { xs: "100%", lg: "100%" } }}
+          style={{
+            borderColor: AppColors.primary,
+            backgroundColor: "#F5F5F5",
+            display: "flex",
+            direction: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "auto",
+          }}
         >
           <Grid
-            spacing={0}
+            // spacing={0}
             item
             xs={5.5}
             md={5.5}
@@ -619,7 +632,7 @@ const handleDeleteFile = () => {
           </Grid>
 
           <Grid
-            spacing={0}
+            // spacing={0}
             item
             xs={5.5}
             md={5.5}
@@ -718,46 +731,43 @@ const handleDeleteFile = () => {
               }
             />
           </Grid>
-        
-          <Grid
-          item
-          xs={11.5}
-          md={11.5}
-          alignItems={"end"}
-          justifyContent={"end"}
-          style={{
-            display: "flex",
-            direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
-          }}
-        >
-          <CustomButton
-            onTap={() => {
-              console.log("Updating Password");
-            }}
-            text={"Update Password"}
-            buttonStyle={{
-              borderRadius: 50,
-              backgroundColor: AppColors.primary,
-              fontFamily: "Poppins",
-              fontSize: {
-                typography: {
-                  xs: FontSizeStandards.secondaryHeading.xs,
-                  sm: FontSizeStandards.secondaryHeading.sm,
-                  md: FontSizeStandards.secondaryHeading.md,
-                  lg: FontSizeStandards.secondaryHeading.lg,
-                },
-              },
-              fontWeight: 500,
-              color: AppColors.white,
-            }}
-          />
-        </Grid>
-        
-        </Grid>
 
-       
+          <Grid
+            item
+            xs={11.5}
+            md={11.5}
+            alignItems={"end"}
+            justifyContent={"end"}
+            style={{
+              display: "flex",
+              direction: "row",
+              justifyContent: "end",
+              alignItems: "end",
+            }}
+          >
+            <CustomButton
+              onTap={() => {
+                console.log("Updating Password");
+              }}
+              text={"Update Password"}
+              buttonStyle={{
+                borderRadius: 50,
+                backgroundColor: AppColors.primary,
+                fontFamily: "Poppins",
+                fontSize: {
+                  typography: {
+                    xs: FontSizeStandards.secondaryHeading.xs,
+                    sm: FontSizeStandards.secondaryHeading.sm,
+                    md: FontSizeStandards.secondaryHeading.md,
+                    lg: FontSizeStandards.secondaryHeading.lg,
+                  },
+                },
+                fontWeight: 500,
+                color: AppColors.white,
+              }}
+            />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -175,8 +175,8 @@ function CustomTable({
                   </TableCell>
 
                   <TableCell width={20} align="center"> {no}</TableCell>
+                  
                   <TableCell
-                    
                     align="start"
                     onClick={() => {
                       handleModal();
@@ -192,7 +192,7 @@ function CustomTable({
                     />
                   </TableCell>
                   <TableCell onClick={() => {}} align="center" width={"10px"}>
-                  <Box
+                    <Box
                       style={{
                         align:"",
                         justifyContent: "center",
@@ -251,7 +251,7 @@ function CustomTable({
                     />
                   </TableCell>
                   <TableCell onClick={() => handleDeleteFile(index)}>
-                  <Box
+                    <Box
                       style={{
                         align:"",
                         justifyContent: "center",
