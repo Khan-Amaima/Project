@@ -1,6 +1,5 @@
 # Create your views here.
 from rest_framework import status
-from rest_framework import status
 from rest_framework import generics
 from django.http import HttpResponse
 from rest_framework import permissions
