@@ -8,6 +8,9 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 from .models import UserMedia
 from .models import Video
+from UploadVideo.serializers import UserMediaFetchSerializer
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 def index(request):
@@ -42,6 +45,12 @@ class UploadVideoView(APIView):
         return Response({"success": "Video upload successfully."}, status=status.HTTP_200_OK)
     
 class GetVideoView(APIView):
-    permission_classes = (AllowAny,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        return Response({"success": "Video data fetched successfully."}, status=status.HTTP_200_OK)
+        user = request.user
+        mediaObjects = UserMedia.objects.filter(user__username = user.username)
+        serializer = UserMediaFetchSerializer(mediaObjects, many = True)
+        
+        return Response({"success": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)

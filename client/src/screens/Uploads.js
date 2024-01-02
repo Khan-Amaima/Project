@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import { Container, Box, Typography, Grid } from "@mui/material";
-import AppColors from "../constants/AppColors";
-import { uploadVideoImage } from "../assets/images";
-import CustomButton from "../components/CustomButton";
-import { FontSizeStandards } from "../constants/FontSizeStandards";
-import UploadVideo from "../components/UploadVideo";
-import { ImageSize } from "../constants/BoxSizes";
-import SvgIcons from "../assets/images/svgicons";
+import React, { useEffect, useState } from 'react'
+import { Container, Box, Typography } from '@mui/material'
+import AppColors from '../constants/AppColors'
+import { uploadVideoImage } from '../assets/images'
+import CustomButton from '../components/CustomButton'
+import { FontSizeStandards } from '../constants/FontSizeStandards'
+import UploadVideo from '../components/UploadVideo'
+import { ImageSize } from '../constants/BoxSizes'
+import SvgIcons from '../assets/images/svgicons'
 import CustomTable from "../components/CustomTable";
 import UploadedVideosTable from "../components/VideoPreviewTable";
 import { AddCircleOutline } from "@mui/icons-material";
+import ApiManager from '../api/ApiManager'
+import { connect, useDispatch, useSelector } from "react-redux";
+
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
   const [uploadedVideos, setUploadedVideos] = useState([2, 1]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
-  console.log("length", uploadedVideos.length);
-  return uploadedVideos.length == 0 ? (
-    <Container
-      maxWidth="100vw"
-      style={{
-        height: "82vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Container
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+  const userReducerState = useSelector(state => state.userRed);
+
+  const fetchVideos = async () =>{
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken)
+    console.log(response, '------------------')
+  }
+  
+  useEffect(() => {
+    fetchVideos();
+  }, [])
+  
+
+  return (
+    uploadedVideos.length == 0 ? (
+    <Container maxWidth="100vw" style={{ height: "82vh", display: "flex", justifyContent: "center", alignItems: "center", }}>
+      <Container style={{ display: "flex", flexDirection: "column", justifyContent: "center",alignItems: "center", }}>
         <Container
           style={{
             display: "flex",
