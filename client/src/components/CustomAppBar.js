@@ -18,7 +18,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Avatar, Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import getCurrentLocation from "../shared-services/SharedFunctions";
+import { getCurrentLocation } from "../shared-services/SharedFunctions";
 
 const drawerWidth = 240;
 

@@ -41,11 +41,5 @@ export const AllRoutes = [
         name: "Setting",
         component: <Setting />,
         isPublic: false,
-    }, 
-    { 
-        path: "*",
-        name: "PageNotfound",
-        component: <PageNotFound/>,
-        isPublic: true,
-    }, 
+    }
 ] 

@@ -20,7 +20,6 @@ function App() {
                 key={route.name}
                 path={route.path}
                 element={
-                  route.path=="*"? <PageNotFound/>:
                   !route.isPublic ? (
                     <PrivateRoute>
                       <PrivateLayout>{route.component}</PrivateLayout>
@@ -34,6 +33,7 @@ function App() {
               />
             );
           })}
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
       </PersistGate>
     </Provider>

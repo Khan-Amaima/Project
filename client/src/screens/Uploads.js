@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Box, Typography } from '@mui/material'
+import { Container, Box, Typography, Grid } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import { uploadVideoImage } from '../assets/images'
 import CustomButton from '../components/CustomButton'
@@ -16,7 +16,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
-  const [uploadedVideos, setUploadedVideos] = useState([2, 1]);
+  const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector(state => state.userRed);
@@ -97,7 +97,7 @@ function Uploads() {
       <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
     </Container>
   ) : (
-    <Container>
+    <>
       <Grid
         item
         xs={11.5}
@@ -109,7 +109,7 @@ function Uploads() {
           alignItems: "end",
         }}
       >
-        <CustomButton
+        {/* <CustomButton
           type={"submit"}
           text={"SortBy"}
           isDisable={false}
@@ -128,7 +128,7 @@ function Uploads() {
             fontWeight: 500,
             color: AppColors.tertiary,
           }}
-        />
+        /> */}
 
         <CustomButton
           type={"submit"}
@@ -153,10 +153,9 @@ function Uploads() {
           }}
         />
       </Grid>
-
       <UploadedVideosTable tableData={uploadedVideos} />
-    </Container>
-  );
+    </>
+  ));
 }
 
 export default Uploads;
