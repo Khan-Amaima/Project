@@ -20,8 +20,10 @@ function UpdateProfile({}) {
   const[isDisableButton,setIsDisableButton] = useState(true);
   const[isNameChanged, setIsNameChanged] = useState(false);
   const[isEmailChanged , setIsEmailChanged] = useState(false);
+  const[pictureFile, setPicture] = useState(null);
+  const [focusedField, setFocusedField] = useState(null);
   const pictureInputRef = useRef();
-  const [pictureFile, setPicture] = useState(null);
+  const textFieldRef = useRef(); 
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -34,8 +36,8 @@ function UpdateProfile({}) {
   });
 
   const initialValues = {
-    name: "sdf",
-    email: "dsf@gmail.com",
+    name: "Jason",
+    email: "Jason@gmail.com",
     phone:"",
   };
 
@@ -48,59 +50,64 @@ function UpdateProfile({}) {
     }
   };
 
+  const handleFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
+    
     onSubmit: async (event, values) => {
+        // console.log(innerRef.name)
       handleSubmit(event, values);
     },
+    validate: (values) => {
+        console.log(textFieldRef)
+        if(focusedField=='email'){
+            if (values.email == initialValues.email) {
+               setIsEmailChanged(false);
+               if(!isNameChanged){
+                  console.log("nothing changed");
+                  setIsDisableButton(true);
+                }
+               else{
+                  console.log("email not but name");
+                  setIsDisableButton(false);
+                }
+            }
+            else{ 
+                 console.log("email changed");
+                 setIsEmailChanged(true);
+                 setIsDisableButton(false);
+            }
+            
+            console.log("name field")
+        }
+        else if(focusedField=="name"){
+            if(values.name == initialValues.name){
+                setIsNameChanged(false);
+                if(!isEmailChanged){
+                    console.log("nothing Changed")
+                    setIsDisableButton(true);
+                }
+                else{
+                    console.log("name not but email");
+                    setIsDisableButton(false);}
+            }
+            else{
+                console.log("Name changed")
+                setIsNameChanged(true)
+                setIsDisableButton(false);    
+            }
+            
+          };
+                  
+      },
   });
   
-  const handleNameChange = (event) => {
-    // Update the state with the new value from the text field
-    if(event.target.value=="Jason"){
-        setIsNameChanged(false);
-        if(!isEmailChanged){
-            console.log("nothing Changed")
-            setIsDisableButton(true);
-        }
-        else{
-            console.log("name not but email");
-            setIsDisableButton(false);}
-    }
-    else{
-        console.log("Name changed")
-        setIsNameChanged(true)
-        setIsDisableButton(false);    
-    }
-    
-    console.log(event.target.value)
-  };
 
-  const handleEmailChange = (event) => {
-    // Update the state with the new value from the text field
-    if(event.target.value=="Jason@gmail.com"){
-        setIsEmailChanged(false);
-        if(!isNameChanged){
-            console.log("nothing changed");
-            setIsDisableButton(true);
-        }
-        else{
-            console.log("email not but name");
-            setIsDisableButton(false);
-        }
-        // setIsDisableButton(false);
-    }
-    
-    else{
-        console.log("email changed");
-        setIsEmailChanged(true);
-        setIsDisableButton(false);
-    
-    }
-    
-    console.log(event.target.value)
-  };
 
   
 
@@ -223,8 +230,8 @@ function UpdateProfile({}) {
               },
             }}
             id="name"
+            onFocus={() => handleFocus('name')}
             placeholder="Enter your name"
-            // defaultValue={"Jason"}
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
@@ -263,6 +270,7 @@ function UpdateProfile({}) {
             Email
           </Typography>
           <TextField
+          disabled
             autoComplete="email"
             name="email"
             fullWidth
@@ -277,6 +285,8 @@ function UpdateProfile({}) {
               },
             }}
             id="email"
+            onFocus={() => handleFocus('email')}
+            inputRef={textFieldRef}
             placeholder="Enter Your Email"
             // defaultValue={"Jason@gmail.com"}
             value={formik.values.email}
@@ -330,6 +340,7 @@ function UpdateProfile({}) {
               },
             }}
             id="phoneNumber"
+            onFocus={() => handleFocus('phoneNumber')}
             placeholder="Enter Your Number"
             value={formik.values.phone}
             onChange={formik.handleChange}
