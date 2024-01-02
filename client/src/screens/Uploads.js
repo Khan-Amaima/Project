@@ -9,9 +9,10 @@ import { ImageSize } from '../constants/BoxSizes'
 import SvgIcons from '../assets/images/svgicons'
 import CustomTable from "../components/CustomTable";
 import UploadedVideosTable from "../components/VideoPreviewTable";
-import { AddCircleOutline } from "@mui/icons-material";
+import { AddCircleOutline, KeyboardArrowDown } from "@mui/icons-material";
 import ApiManager from '../api/ApiManager'
 import { connect, useDispatch, useSelector } from "react-redux";
+import { keyboard } from '@testing-library/user-event/dist/keyboard'
 
 
 function Uploads() {
@@ -109,9 +110,9 @@ function Uploads() {
           alignItems: "end",
         }}
       >
-        {/* <CustomButton
-          type={"submit"}
-          text={"SortBy"}
+        <CustomButton
+          text={"Sort by"}
+          suffixIcon={KeyboardArrowDown}
           isDisable={false}
           buttonStyle={{
             borderRadius: 50,
@@ -124,16 +125,18 @@ function Uploads() {
                 md: FontSizeStandards.secondaryHeading.md,
                 lg: FontSizeStandards.secondaryHeading.lg,
               },
+            
             },
             fontWeight: 500,
             color: AppColors.tertiary,
           }}
-        /> */}
+        />
 
         <CustomButton
-          type={"submit"}
+          // type={"submit"}
+          onTap={() => {handleModal();}}
           text={"Upload Video"}
-          // prefixIcon={<AddCircleOutline/>}
+          prefixIcon={AddCircleOutline}
           isDisable={false}
           buttonStyle={{
             borderRadius: 50,
@@ -152,6 +155,7 @@ function Uploads() {
             color: AppColors.white,
           }}
         />
+         <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
       </Grid>
       <UploadedVideosTable tableData={uploadedVideos} />
     </>
