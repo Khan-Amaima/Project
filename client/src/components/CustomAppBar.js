@@ -1,86 +1,88 @@
-import React, { useState } from 'react'
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AppColors from '../constants/AppColors';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import CustomButton from './CustomButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Avatar, Container } from '@mui/material';
+import React, { useState } from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppColors from "../constants/AppColors";
+import InputBase from "@mui/material/InputBase";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import CustomButton from "./CustomButton";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Avatar, Container } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import getCurrentLocation from "../shared-services/SharedFunctions";
 
 const drawerWidth = 240;
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: '6px',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: "6px",
   color: AppColors.grey,
   borderColor: AppColors.grey,
-  border: '1px solid',
-  '&:hover': {
+  border: "1px solid",
+  "&:hover": {
     borderColor: AppColors.primary,
   },
-  '&:focused': {
+  "&:focused": {
     borderColor: AppColors.primary,
   },
   // marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('xs')]: {
+  width: "100%",
+  [theme.breakpoints.up("xs")]: {
     // marginLeft: theme.spacing(1),
-    width: '40%',
+    width: "40%",
   },
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up("lg")]: {
     // marginLeft: theme.spacing(3),
-    width: '50%',
+    width: "50%",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -90,9 +92,10 @@ const AppBar = styled(MuiAppBar, {
 function CustomAppBar({ toggleDrawer, open }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const location = useLocation();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const userReducerState = useSelector(state => state.userRed);
+  const userReducerState = useSelector((state) => state.userRed);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -111,19 +114,19 @@ function CustomAppBar({ toggleDrawer, open }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -133,45 +136,79 @@ function CustomAppBar({ toggleDrawer, open }) {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <CustomButton prefixIcon={AddCircleOutlineIcon} text={'upload video'} buttonStyle={{
-          borderRadius: 50,
-          backgroundColor: AppColors.tint,
-          fontFamily: 'Poppins',
-          fontSize: '14px',
-          fontWeight: 600,
-          color: AppColors.primary,
-        }} />
+        <CustomButton
+          prefixIcon={AddCircleOutlineIcon}
+          text={"upload video"}
+          buttonStyle={{
+            borderRadius: 50,
+            backgroundColor: AppColors.tint,
+            fontFamily: "Poppins",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: AppColors.primary,
+          }}
+        />
       </MenuItem>
-      <MenuItem>
-
-      </MenuItem>
+      <MenuItem></MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Avatar sx={{ bgcolor: AppColors.primary }}>N</Avatar>
-          <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-            <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: 500, color: AppColors.tertiary }}>
+          <Container
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "10px",
+            }}
+          >
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{
+                fontFamily: "Poppins",
+                fontSize: 14,
+                fontWeight: 500,
+                color: AppColors.tertiary,
+              }}
+            >
               {userReducerState?.userDetail?.username}
             </Typography>
-            <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontSize: 10, fontWeight: 400, color: AppColors.secondary }}>
-            {userReducerState?.userDetail?.email}
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{
+                fontFamily: "Poppins",
+                fontSize: 10,
+                fontWeight: 400,
+                color: AppColors.secondary,
+              }}
+            >
+              {userReducerState?.userDetail?.email}
             </Typography>
           </Container>
         </Box>
@@ -181,7 +218,11 @@ function CustomAppBar({ toggleDrawer, open }) {
 
   return (
     <>
-      <AppBar position="absolute" open={open} style={{ backgroundColor: AppColors.white }}>
+      <AppBar
+        position="absolute"
+        open={open}
+        style={{ backgroundColor: AppColors.white }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -189,10 +230,9 @@ function CustomAppBar({ toggleDrawer, open }) {
             color={AppColors.primary}
             onClick={toggleDrawer}
             aria-label="open drawer"
-
             sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
+              marginRight: "36px",
+              ...(open && { display: "none" }),
             }}
           >
             <MenuIcon />
@@ -201,9 +241,13 @@ function CustomAppBar({ toggleDrawer, open }) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ color: AppColors.tertiary, display: { xs: 'none', sm: 'block' }, marginRight: { xs: 4, lg: 12 } }}
+            sx={{
+              color: AppColors.tertiary,
+              display: { xs: "none", sm: "block" },
+              marginRight: { xs: 4, lg: 12 },
+            }}
           >
-            Home
+            {getCurrentLocation(location)}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Search>
@@ -212,26 +256,65 @@ function CustomAppBar({ toggleDrawer, open }) {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <CustomButton prefixIcon={AddCircleOutlineIcon} text={'upload video'} buttonStyle={{
-            borderRadius: 50,
-            backgroundColor: AppColors.tint,
-            fontFamily: 'Poppins',
-            fontSize: '14px',
-            fontWeight: 600,
-            color: AppColors.primary,
-            marginLeft: 6,
-            display: { xs: 'none', md: 'flex' }
-          }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: 'center', marginLeft: 6 }}>
-            <Avatar sx={{ bgcolor: AppColors.primary }}>{userReducerState?.userDetail?.name}</Avatar>
-            <Container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-              <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontWeight: 500, color: AppColors.tertiary }} sx={{fontSize: {xs : '12px', lg : '14px'}}}>
+          <CustomButton
+            prefixIcon={AddCircleOutlineIcon}
+            text={"upload video"}
+            buttonStyle={{
+              borderRadius: 50,
+              backgroundColor: AppColors.tint,
+              fontFamily: "Poppins",
+              fontSize: "14px",
+              fontWeight: 600,
+              color: AppColors.primary,
+              marginLeft: 6,
+              display: { xs: "none", md: "flex" },
+            }}
+          />
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 6,
+            }}
+          >
+            <Avatar sx={{ bgcolor: AppColors.primary }}>
+              {userReducerState?.userDetail?.name}
+            </Avatar>
+            <Container
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "10px",
+              }}
+            >
+              <Typography
+                component="h1"
+                variant="h5"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 500,
+                  color: AppColors.tertiary,
+                }}
+                sx={{ fontSize: { xs: "12px", lg: "14px" } }}
+              >
                 {userReducerState?.userDetail?.username}
               </Typography>
-              <Typography component="h1" variant="h5" style={{ fontFamily: 'Poppins', fontWeight: 400, color: AppColors.secondary }} sx={{fontSize: {xs : '10px', lg : '12px'}}}>
+              <Typography
+                component="h1"
+                variant="h5"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  color: AppColors.secondary,
+                }}
+                sx={{ fontSize: { xs: "10px", lg: "12px" } }}
+              >
                 {userReducerState?.userDetail?.email}
               </Typography>
             </Container>
@@ -247,7 +330,7 @@ function CustomAppBar({ toggleDrawer, open }) {
               <KeyboardArrowDownIcon />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -264,7 +347,7 @@ function CustomAppBar({ toggleDrawer, open }) {
       {renderMobileMenu}
       {renderMenu}
     </>
-  )
+  );
 }
 
-export default CustomAppBar
+export default CustomAppBar;
