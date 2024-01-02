@@ -16,34 +16,29 @@ import CustomButton from "./CustomButton";
 
 function UpdateProfile({}) {
   const navigate = useNavigate();
-
-  const[isDisableButton,setIsDisableButton] = useState(true);
-  const[isNameChanged, setIsNameChanged] = useState(false);
-  const[isEmailChanged , setIsEmailChanged] = useState(false);
-  const[pictureFile, setPicture] = useState(null);
+  const [isDisableButton, setIsDisableButton] = useState(true);
+  const [isNameChanged, setIsNameChanged] = useState(false);
+  const [isEmailChanged, setIsEmailChanged] = useState(false);
+  const [pictureFile, setPictureFile] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
   const pictureInputRef = useRef();
-  const textFieldRef = useRef(); 
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
       .email("Enter a valid email")
       .required("Email is required"),
-    // phone:  Yup.string()
-    // .phone("Enter a valid num")
-    // .required("num is required"),
   });
 
   const initialValues = {
     name: "Jason",
     email: "Jason@gmail.com",
-    phone:"",
+    phone: "",
   };
 
   const handleSubmit = (event, values) => {
     try {
-      console.log(" success",event);
+      console.log(" success", event);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -54,62 +49,44 @@ function UpdateProfile({}) {
     setFocusedField(fieldName);
   };
 
-
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    
+
     onSubmit: async (event, values) => {
-        // console.log(innerRef.name)
       handleSubmit(event, values);
     },
     validate: (values) => {
-        console.log(textFieldRef)
-        if(focusedField=='email'){
-            if (values.email == initialValues.email) {
-               setIsEmailChanged(false);
-               if(!isNameChanged){
-                  console.log("nothing changed");
-                  setIsDisableButton(true);
-                }
-               else{
-                  console.log("email not but name");
-                  setIsDisableButton(false);
-                }
-            }
-            else{ 
-                 console.log("email changed");
-                 setIsEmailChanged(true);
-                 setIsDisableButton(false);
-            }
-            
-            console.log("name field")
+      if (focusedField == "email") {
+        if (values.email == initialValues.email) {
+          setIsEmailChanged(false);
+          if (!isNameChanged) {
+            setIsDisableButton(true);
+          } else {
+            setIsDisableButton(false);
+          }
+        } else {
+          setIsEmailChanged(true);
+          setIsDisableButton(false);
         }
-        else if(focusedField=="name"){
-            if(values.name == initialValues.name){
-                setIsNameChanged(false);
-                if(!isEmailChanged){
-                    console.log("nothing Changed")
-                    setIsDisableButton(true);
-                }
-                else{
-                    console.log("name not but email");
-                    setIsDisableButton(false);}
-            }
-            else{
-                console.log("Name changed")
-                setIsNameChanged(true)
-                setIsDisableButton(false);    
-            }
-            
-          };
-                  
-      },
+      } else if (focusedField == "name") {
+        if (values.name == initialValues.name) {
+          setIsNameChanged(false);
+          if (!isEmailChanged) {
+            console.log("nothing Changed");
+            setIsDisableButton(true);
+          } else {
+            console.log("name not but email");
+            setIsDisableButton(false);
+          }
+        } else {
+          console.log("Name changed");
+          setIsNameChanged(true);
+          setIsDisableButton(false);
+        }
+      }
+    },
   });
-  
-
-
-  
 
   const handleChoose = () => {
     pictureInputRef.current.click();
@@ -120,10 +97,7 @@ function UpdateProfile({}) {
       const file = event.target.files[0];
       if (file) {
         const url = URL.createObjectURL(file);
-        console.log(file, "//////////////////////////////", url);
-
-        // let customSize = file.size / 1024 / 1024;
-        setPicture(url);
+        setPictureFile(url);
       }
     } catch (err) {
       console.log(err, "upload Picture error");
@@ -131,7 +105,7 @@ function UpdateProfile({}) {
   };
 
   const handleDeleteFile = () => {
-    setPicture(null);
+    setPictureFile(null);
   };
 
   return (
@@ -230,18 +204,18 @@ function UpdateProfile({}) {
               },
             }}
             id="name"
-            onFocus={() => handleFocus('name')}
+            onFocus={() => handleFocus("name")}
             placeholder="Enter your name"
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
             sx={CustomStyle.inputStyle}
           />
-           {formik.touched.name && formik.errors.name && (
-                  <FormHelperText error id="confirmPassword">
-                    {formik.errors.name}
-                  </FormHelperText>
-                )}
+          {formik.touched.name && formik.errors.name && (
+            <FormHelperText error id="confirmPassword">
+              {formik.errors.name}
+            </FormHelperText>
+          )}
         </Grid>
 
         <Grid
@@ -270,7 +244,7 @@ function UpdateProfile({}) {
             Email
           </Typography>
           <TextField
-          disabled
+            disabled
             autoComplete="email"
             name="email"
             fullWidth
@@ -285,20 +259,18 @@ function UpdateProfile({}) {
               },
             }}
             id="email"
-            onFocus={() => handleFocus('email')}
-            inputRef={textFieldRef}
+            onFocus={() => handleFocus("email")}
             placeholder="Enter Your Email"
-            // defaultValue={"Jason@gmail.com"}
             value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
             sx={CustomStyle.inputStyle}
           />
-           {formik.touched.email && formik.errors.email && (
-                  <FormHelperText error id="confirmPassword">
-                    {formik.errors.email}
-                  </FormHelperText>
-                )}
+          {formik.touched.email && formik.errors.email && (
+            <FormHelperText error id="confirmPassword">
+              {formik.errors.email}
+            </FormHelperText>
+          )}
         </Grid>
 
         <Grid
@@ -340,7 +312,7 @@ function UpdateProfile({}) {
               },
             }}
             id="phoneNumber"
-            onFocus={() => handleFocus('phoneNumber')}
+            onFocus={() => handleFocus("phoneNumber")}
             placeholder="Enter Your Number"
             value={formik.values.phone}
             onChange={formik.handleChange}
@@ -522,7 +494,9 @@ function UpdateProfile({}) {
             isDisable={isDisableButton}
             buttonStyle={{
               borderRadius: 50,
-              backgroundColor: isDisableButton ? AppColors.grey:AppColors.primary,
+              backgroundColor: isDisableButton
+                ? AppColors.grey
+                : AppColors.primary,
               fontFamily: "Poppins",
               fontSize: {
                 typography: {
