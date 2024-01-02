@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Box, Typography } from '@mui/material'
 import AppColors from '../constants/AppColors'
 import { uploadVideoImage } from '../assets/images'
@@ -7,11 +7,24 @@ import { FontSizeStandards } from '../constants/FontSizeStandards'
 import UploadVideo from '../components/UploadVideo'
 import { ImageSize } from '../constants/BoxSizes'
 import SvgIcons from '../assets/images/svgicons'
+import ApiManager from '../api/ApiManager'
+import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
+  const userReducerState = useSelector(state => state.userRed);
+
+  const fetchVideos = async () =>{
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken)
+    console.log(response, '------------------')
+  }
+  
+  useEffect(() => {
+    fetchVideos();
+  }, [])
+  
 
   return (
     <Container maxWidth='100vw' style={{ height: '82vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

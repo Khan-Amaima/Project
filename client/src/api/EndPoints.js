@@ -5,7 +5,8 @@ const EndPoints = {
     logout : 'user-logout',
     userDetail : 'user-detail',
     media : '/UploadVideo/',
-    uploadVideo : 'upload-video' 
+    uploadVideo : 'upload-video', 
+    fetchVideo : 'fetch-video' 
 }
 
 export default EndPoints;
