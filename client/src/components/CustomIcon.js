@@ -21,18 +21,18 @@ function CustomIcon({
       }}
       sx={{
         width: {
-          xs: boxSize.xs.width,
-          sm: boxSize.sm.width,
-          md: boxSize.md.width,
-          lg: boxSize.lg.width,
-          xl: boxSize.xl.width,
+          xs: boxSize && boxSize.xs.width,
+          sm: boxSize && boxSize.sm.width,
+          md: boxSize && boxSize.md.width,
+          lg: boxSize && boxSize.lg.width,
+          xl: boxSize && boxSize.xl.width,
         },
         height: {
-          xs: boxSize.xs.height,
-          sm: boxSize.sm.height,
-          md: boxSize.md.height,
-          lg: boxSize.lg.height,
-          xl: boxSize.xl.width,
+          xs: boxSize && boxSize.xs.height,
+          sm: boxSize && boxSize.sm.height,
+          md: boxSize && boxSize.md.height,
+          lg: boxSize && boxSize.lg.height,
+          xl: boxSize && boxSize.xl.width,
         },
       }}
     >

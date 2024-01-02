@@ -8,6 +8,7 @@ import {ReactComponent as DeleteIcon } from './Delete.svg'
 import {ReactComponent as SoundIcon } from './Sound.svg'
 import {ReactComponent as MuteSoundIcon } from './MuteSound.svg'
 import {ReactComponent as PageNotFound } from './Page404.svg'
+import {ReactComponent as EditIcon} from './Edit.svg'
 
 const SvgIcons = {
   appLogo: <AppLogo />,
@@ -20,6 +21,7 @@ const SvgIcons = {
   uploadPicIcon: <UploadPicIcon/>,
   videoIcon: <VideoIcon />,
   pageNotFound: <PageNotFound />,
+  editIcon:<EditIcon/>,
   
 };
 
