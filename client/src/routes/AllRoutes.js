@@ -4,7 +4,7 @@ import Uploads from "../screens/Uploads";
 import ForgotPassword from "../screens/auth/ForgotPassword";
 import Login from "../screens/auth/Login";
 import Signup from "../screens/auth/Signup";
-
+import PageNotFound from "./PageNotFound";
 export const AllRoutes = [
     {
         path: "/signup",
@@ -41,5 +41,11 @@ export const AllRoutes = [
         name: "Setting",
         component: <Setting />,
         isPublic: false,
+    }, 
+    { 
+        path: "*",
+        name: "PageNotfound",
+        component: <PageNotFound/>,
+        isPublic: true,
     }, 
 ] 

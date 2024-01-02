@@ -7,6 +7,7 @@ import PrivateLayout from "../components/layout/privateLayout";
 import { Provider } from 'react-redux';
 import store, { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import PageNotFound from "../routes/PageNotFound";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                 key={route.name}
                 path={route.path}
                 element={
+                  route.path=="*"? <PageNotFound/>:
                   !route.isPublic ? (
                     <PrivateRoute>
                       <PrivateLayout>{route.component}</PrivateLayout>

@@ -9,16 +9,14 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AppColors from "../constants/AppColors";
 import { appImage } from "../assets/images";
 import CustomButton from "./CustomButton";
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Container, SvgIcon } from "@mui/material";
 import { Logout, LogoutOutlined } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { setCurrentUserAuthToken } from '../redux/actions/userActions';
+import { setCurrentUserAuthToken } from "../redux/actions/userActions";
+import navigation from "../constants/Navigation";
 
 const drawerWidth = 240;
 
@@ -73,28 +71,7 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const userReducerState = useSelector(state => state.userRed);
-
-  const navigation = [
-    {
-      id: 0,
-      name: "Home",
-      route: "/",
-      icon: HomeIcon,
-    },
-    {
-      id: 1,
-      name: "My Uploads",
-      route: "/uploads",
-      icon: UploadFileIcon,
-    },
-    {
-      id: 2,
-      name: "Settings",
-      route: "/settings",
-      icon: SettingsIcon,
-    },
-  ];
+  const userReducerState = useSelector((state) => state.userRed);
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -177,9 +154,11 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
           prefixIcon={LogoutOutlined}
           text={open && "Log Out"}
           onTap={async () => {
-            let response = await ApiManager.logoutUser(userReducerState?.authToken);
-            dispatch(setCurrentUserAuthToken(''));
-            return response
+            let response = await ApiManager.logoutUser(
+              userReducerState?.authToken
+            );
+            dispatch(setCurrentUserAuthToken(""));
+            return response;
           }}
           buttonStyle={{
             borderRadius: open && 50,
