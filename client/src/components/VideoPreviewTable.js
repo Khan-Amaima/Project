@@ -118,7 +118,7 @@ function VideoPreviewTable({
               let no = index + 1;
               return (
                 <TableRow hover role="checkbox" key={no}>
-                  <TableCell width={24} align="center">
+                  <TableCell width={24} align="start">
                     <IconButton
                       size="large"
                       edge="start"
@@ -149,6 +149,7 @@ function VideoPreviewTable({
                   </TableCell>
 
                   <TableCell
+                    height={80}
                     align="start"
                     style={{ width: "250px", direction: "column" }}
                   >
@@ -158,6 +159,7 @@ function VideoPreviewTable({
                         fontWeight: 600,
                         color: AppColors.tertiary,
                         fontFamily: "Poppins",
+                        textOverflow: "clip"
                       }}
                     >
                       {"Post Malone - Motley Crew"}
@@ -169,10 +171,9 @@ function VideoPreviewTable({
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
+                        textOverflow:"clip"
                       }}
                     >
-                      {" "}
-                      & d
                       {
                         "The pressure makes diamonds, iamonds make more pressure..."
                       }
@@ -192,7 +193,7 @@ function VideoPreviewTable({
                     </Typography>
                   </TableCell>
 
-                  <TableCell width={100} onClick={() => {}} align="start">
+                  <TableCell width={100} onClick={() => {}} align="center">
                     <Typography
                       style={{
                         size: "16px",

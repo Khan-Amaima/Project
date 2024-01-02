@@ -8,6 +8,7 @@ import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function CustomButton({
   prefixIcon: PrefixIcon,
+  suffixIcon: SuffixIcon,
   text,
   loading,
   isDisable,
@@ -22,6 +23,7 @@ function CustomButton({
       disabled={isDisable}
       type={type}
       startIcon={PrefixIcon && <PrefixIcon style={{ width: 24, height: 24 }} />}
+      endIcon= {SuffixIcon && <SuffixIcon style={{ width: 24, height: 24 }} />}
       sx={{
         typography: FontSizeStandards.tertiaryHeading,
         paddingX: 2,
