@@ -5,7 +5,7 @@ import CustomButton from "./CustomButton";
 import AppColors from "../constants/AppColors";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 
-function ConfirmationModel({
+function ConfirmationModal({
   isModelOpen,
   confirmationText,
   leftButtonText,
@@ -95,4 +95,4 @@ function ConfirmationModel({
     </CustomModal>
   );
 }
-export default ConfirmationModel;
+export default ConfirmationModal;

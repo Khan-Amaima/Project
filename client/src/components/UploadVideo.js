@@ -63,7 +63,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   };
 
   const handleSetPrimarySound = (id) => {
-    const updatedVideosWithSound = tableData.map((item, index) => {
+    const updatedVideosWithSound = tableData?.map((item, index) => {
       if (id == selectedSoundIndex) {
         console.log("Call reset");
         setSelectedSoundIndex(undefined);

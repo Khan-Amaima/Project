@@ -8,7 +8,7 @@ import { userIcon } from "../assets/images";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
 import Carousel from "react-multi-carousel";
-import ConfirmationModel from "./CustomConfirmModel";
+import ConfirmationModal from "./ConfirmationModal";
 
 function VideoDetail({ handleShowVideo }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,6 +37,7 @@ function VideoDetail({ handleShowVideo }) {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "5px",
+          marginRight : "20px",
           borderRadius: "5px",
           backgroundColor: "#F5F5F5",
         }}
@@ -50,38 +51,25 @@ function VideoDetail({ handleShowVideo }) {
           <KeyboardBackspace />
         </IconButton>
 
-        <Grid
-          item
-          xs={5.5}
-          md={5.5}
-          style={{
-            display: "flex",
-            direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
-            borderRadius: "5px",
+        <CustomButton
+          onTap={() => {
+            handleModal();
           }}
-        >
-          <CustomButton
-            onTap={() => {
-              handleModal();
-            }}
-            text={"upload Video"}
-            loading={false}
-            buttonStyle={{
-              borderRadius: 50,
-              backgroundColor: AppColors.primary,
-              fontFamily: "Poppins",
-              fontSize: "14px",
-              fontWeight: 600,
-              color: AppColors.white,
-              marginY: 1,
-              marginX: 2,
-              paddingX: 4,
-            }}
-          />
-          <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
-        </Grid>
+          text={"upload Video"}
+          loading={false}
+          buttonStyle={{
+            borderRadius: 50,
+            backgroundColor: AppColors.primary,
+            fontFamily: "Poppins",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: AppColors.white,
+            marginY: 1,
+            marginX: 2,
+            paddingX: 4,
+          }}
+        />
+        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
       </Grid>
 
       <Grid
@@ -182,18 +170,10 @@ function VideoDetail({ handleShowVideo }) {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-        xs={11}
-        md={11}
+      <Box
         style={{
-          height: "70vh",
-          display: "flex",
-          direction: "row",
-          justifyContent: "end",
-          alignItems: "end",
+          margin : "16px",
           borderRadius: "5px",
-          backgroundColor: "red",
         }}
       >
         <Carousel
@@ -249,14 +229,15 @@ function VideoDetail({ handleShowVideo }) {
                 preload="true"
                 key={singleVideo}
                 src={singleVideo}
-                width="100vw"
+                width={"100%"}
+                // height={"30%"}
                 style={{ borderRadius: "10px" }}
                 controls
               />
             );
           })}
         </Carousel>
-      </Grid>
+      </Box>
 
       <Grid
         item
@@ -333,9 +314,9 @@ function VideoDetail({ handleShowVideo }) {
               paddingX: 2,
             }}
           />
-          <ConfirmationModel
+          <ConfirmationModal
             isModelOpen={isConfirmModalOpen}
-            confirmationText={"Are you Sure! You Want to Delete this file ?"}
+            confirmationText={"Are you sure, you want to delete this file?"}
             leftButtonText={"Cancel"}
             rightButtonText={"Delete"}
             leftButtonFunction={handleConfirmModal}
@@ -344,14 +325,8 @@ function VideoDetail({ handleShowVideo }) {
         </Grid>
       </Grid>
 
-      <Grid
-        xs={11.5}
-        md={11.5}
+      <Box
         style={{
-          display: "flex",
-          direction: "row",
-          justifyContent: "end",
-          alignItems: "end",
           padding: "10px",
           borderRadius: "5px",
           backgroundColor: "#F5F5F5",
@@ -367,7 +342,8 @@ function VideoDetail({ handleShowVideo }) {
         >
           {videoDescription}
         </Typography>
-      </Grid>
+      </Box>
+      
     </Grid>
   );
 }

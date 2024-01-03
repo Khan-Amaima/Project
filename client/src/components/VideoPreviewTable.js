@@ -25,7 +25,7 @@ import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 function VideoPreviewTable({
-  tableData = [],
+  tableData,
   handleShowVideo,
   handleDeleteFile,
   handleSetPrimarySound,
@@ -125,7 +125,7 @@ function VideoPreviewTable({
               scrollBehavior: "smooth",
             }}
           >
-            {tableData.map((item, index) => {
+            {tableData.length > 0 && tableData?.map((item, index) => {
               let no = index + 1;
               return (
                 <TableRow hover role="checkbox" key={no}>
