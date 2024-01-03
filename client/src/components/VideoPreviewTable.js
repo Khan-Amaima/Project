@@ -70,11 +70,11 @@ function VideoPreviewTable({
   ];
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "32px" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden",}}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
+          <TableHead >
+            <TableRow >
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -84,6 +84,7 @@ function VideoPreviewTable({
                     color: AppColors.tertiary,
                     fontSize: "16px",
                     fontWeight: 600,
+                    backgroundColor:"#F5F5F5"
                   }}
                 >
                   {column.id == "checkButton" ? (
@@ -218,7 +219,7 @@ function VideoPreviewTable({
 
                   <TableCell
                     width={24}
-                    onClick={() => handleDeleteFile(index)}
+                    onClick={() => {}}
                     align="start"
                   >
                     <CustomIcon
