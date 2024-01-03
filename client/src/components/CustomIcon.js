@@ -9,6 +9,7 @@ function CustomIcon({
   alignItems,
   cursor,
   marginInline,
+  bgColor,
 }) {
   return (
     <Box
@@ -18,6 +19,7 @@ function CustomIcon({
         alignItems: alignItems,
         cursor: cursor,
         marginInline: marginInline,
+        backgroundColor:bgColor,
       }}
       sx={{
         width: {

@@ -26,6 +26,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 function VideoPreviewTable({
   tableData = [],
+  handleShowVideo,
   handleDeleteFile,
   handleSetPrimarySound,
   handleDragRef,
@@ -145,8 +146,9 @@ function VideoPreviewTable({
                     height={80}
                     style={{ align: "start" }}
                     onClick={() => {
-                      handleModal();
-                      setTargetVideo(item.video);
+                      handleShowVideo(true);
+                      // handleModal();
+                      // setTargetVideo(item.video);
                     }}
                   >
                     <video
