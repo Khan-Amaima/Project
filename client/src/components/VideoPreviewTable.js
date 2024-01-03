@@ -22,7 +22,7 @@ import {
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 function VideoPreviewTable({
-  tableData,
+  tableData = [],
   handleDeleteFile,
   handleSetPrimarySound,
   handleDragRef,
@@ -144,7 +144,7 @@ function VideoPreviewTable({
                       width={140}
                       height={80}
                       controls
-                      src={item.video}
+                      src={item.videos[0].video}
                       style={{ borderRadius: "3px" }}
                     />
                   </TableCell>
@@ -163,7 +163,7 @@ function VideoPreviewTable({
                         textOverflow: "clip"
                       }}
                     >
-                      {"Post Malone - Motley Crew"}
+                      {item.title}
                     </Typography>
 
                     <Typography
@@ -175,9 +175,7 @@ function VideoPreviewTable({
                         textOverflow:"clip"
                       }}
                     >
-                      {
-                        "The pressure makes diamonds, iamonds make more pressure..."
-                      }
+                      {item.description}
                     </Typography>
                   </TableCell>
 
@@ -211,7 +209,6 @@ function VideoPreviewTable({
                     <CustomIcon
                       icon={SvgIcons.editIcon}
                       boxSize={ImageSize.UploadPicIcon}
-                      s
                       cursor="pointer"
                       marginInline="20px"
                     />

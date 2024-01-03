@@ -8,15 +8,16 @@ import UploadVideo from "../components/UploadVideo";
 import { ImageSize } from "../constants/BoxSizes";
 import SvgIcons from "../assets/images/svgicons";
 import CustomTable from "../components/CustomTable";
-import UploadedVideosTable from "../components/VideoPreviewTable";
+import VideoPreviewTable from "../components/VideoPreviewTable";
 import { AddCircleOutline, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, KeyboardArrowDown, KeyboardArrowLeft, KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
-import ApiManager from "../api/ApiManager";
+import ApiManager from '../api/ApiManager'
 import { connect, useDispatch, useSelector } from "react-redux";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import VideoPreviewTable from "../components/VideoPreviewTable";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState([])
   const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
@@ -27,11 +28,17 @@ function Uploads() {
     console.log(response, "------------------");
   };
 
+  const fetchVideos = async () =>{
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken)
+    setUserData(response.data.data)
+    console.log(userData, '------------------')
+  }
+  
   useEffect(() => {
     fetchVideos();
   }, []);
 
-  return uploadedVideos.length == 0 ? (
+  return userData.length == 0 ? (
     <Container
       maxWidth="100vw"
       style={{
@@ -241,7 +248,8 @@ function Uploads() {
       </Grid>
      
       </Grid>
-      <VideoPreviewTable tableData={uploadedVideos} />
+
+      <VideoPreviewTable tableData={userData} />
     </>
   );
 }
