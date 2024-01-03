@@ -54,3 +54,17 @@ class GetVideoView(APIView):
         serializer = UserMediaFetchSerializer(mediaObjects, many = True)
         
         return Response({"success": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
+
+class DeleteVideoView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        mediaObjectId = request.data.get('id')
+        if not mediaObjectId:
+            return Response({"message": "Item id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        retrieveMedia = UserMedia.objects.filter(id = mediaObjectId)
+        if not retrieveMedia.first():
+            return Response({"message": "Video is not retrieved."}, status=status.HTTP_400_BAD_REQUEST)
+        retrieveMedia.delete()
+        return Response({"success": "Video deleted successfully."}, status=status.HTTP_200_OK)
