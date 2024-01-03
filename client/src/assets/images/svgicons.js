@@ -9,6 +9,7 @@ import {ReactComponent as SoundIcon } from './Sound.svg'
 import {ReactComponent as MuteSoundIcon } from './MuteSound.svg'
 import {ReactComponent as PageNotFound } from './Page404.svg'
 import {ReactComponent as EditIcon} from './Edit.svg'
+import {ReactComponent as EllipseIcon} from './Ellipse.svg'
 
 const SvgIcons = {
   appLogo: <AppLogo />,
@@ -22,6 +23,7 @@ const SvgIcons = {
   videoIcon: <VideoIcon />,
   pageNotFound: <PageNotFound />,
   editIcon:<EditIcon/>,
+  ellipseIcon:<EllipseIcon/>,
   
 };
 

@@ -8,3 +8,4 @@ export const disableSoundIcon = require('./disableSound.png');
 export const deleteIcon = require('./delete.png');
 export const thumbnailIcon1 = require('./thumbnail1.png');
 export const thumbnailIcon2 = require('./thumbnail2.png');
+export const userIcon = require('./user.jpg');

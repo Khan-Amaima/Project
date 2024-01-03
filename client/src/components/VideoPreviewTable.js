@@ -23,6 +23,7 @@ import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 function VideoPreviewTable({
   tableData = [],
+  handleShowVideo,
   handleDeleteFile,
   handleSetPrimarySound,
   handleDragRef,
@@ -136,8 +137,9 @@ function VideoPreviewTable({
                     height={80}
                     style={{ align: "start" }}
                     onClick={() => {
-                      handleModal();
-                      setTargetVideo(item.video);
+                      handleShowVideo(true);
+                      // handleModal();
+                      // setTargetVideo(item.video);
                     }}
                   >
                     <video

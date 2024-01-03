@@ -13,26 +13,32 @@ import { AddCircleOutline, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, K
 import ApiManager from '../api/ApiManager'
 import { connect, useDispatch, useSelector } from "react-redux";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
+import VideoDetail from "../components/VideoDetail";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([])
   const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
 
   const fetchVideos = async () =>{
     let response = await ApiManager.fetchVideos(userReducerState?.authToken)
-    setUserData(response.data.data)
+    setUserData(response.data)
     console.log(userData, '------------------')
+  }
+
+  const handleShowVideo = (val) => {
+    setShowVideo(val);
   }
   
   useEffect(() => {
     fetchVideos();
   }, []);
 
-  return userData.length == 0 ? (
+  return uploadedVideos.length == 0 ? (
     <Container
       maxWidth="100vw"
       style={{
@@ -111,7 +117,9 @@ function Uploads() {
       </Container>
       <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
     </Container>
-  ) : (
+  ) : (uploadedVideos.length>0 && !showVideo)? (
+
+    
     <>
       <Grid
         item
@@ -129,6 +137,9 @@ function Uploads() {
       >
         <CustomButton
           text={"Sort by"}
+          onTap={() => {
+            handleShowVideo(true);
+          }}
           suffixIcon={KeyboardArrowDown}
           isDisable={false}
           buttonStyle={{
@@ -243,9 +254,9 @@ function Uploads() {
      
       </Grid>
 
-      <VideoPreviewTable tableData={userData} />
+      <VideoPreviewTable tableData={userData}  handleShowVideo={handleShowVideo} />
     </>
-  );
+  ):(<VideoDetail handleShowVideo={handleShowVideo}/>);
 }
 
 export default Uploads;
