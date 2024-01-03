@@ -15,6 +15,7 @@ from django.contrib.auth import logout
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
+from Account.models import UserProfile
 
 def index(request):
     return HttpResponse("Hello, You're at the Account index.")
@@ -25,6 +26,7 @@ class UserSignupView(generics.CreateAPIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
+        first_name = request.data.get('name')
         user = User.objects.filter(email=email).first()
         if user:
             return Response({'message' : 'User already exists.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -33,6 +35,7 @@ class UserSignupView(generics.CreateAPIView):
         hashed_password = make_password(password)
         user = User.objects.create(
             username=username[0],
+            first_name = first_name,
             email=email,
             password=hashed_password
         )
@@ -87,4 +90,26 @@ class UserDetailView(APIView):
         serializer = UserGETSerializer(user)
         return Response({'user-info' : serializer.data}, status=status.HTTP_200_OK)
 
-        
+class UserUpdateProfileView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request):
+        user = request.user
+        picture = [x for x in request.FILES.values()]
+        profileObject = UserProfile.objects.get(user=user)
+        if profileObject.profile_picture:
+            profileObject.profile_picture.delete()
+        profileObject.profile_picture = picture[0]
+        profileObject.save()
+        return Response({'success' : 'Profile Picture Updated'}, status=status.HTTP_200_OK)
+
+class UserGetProfileView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, request):
+        user = request.user
+        profileObject = UserProfile.objects.get(user=user)
+        serializer = UserProfileSerializer(profileObject)
+        return Response({'success' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)       

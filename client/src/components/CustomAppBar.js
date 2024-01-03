@@ -196,7 +196,7 @@ function CustomAppBar({ toggleDrawer, open }) {
                 color: AppColors.tertiary,
               }}
             >
-              {userReducerState?.userDetail?.username}
+              {userReducerState?.userDetail?.first_name}
             </Typography>
             <Typography
               component="h1"
@@ -303,7 +303,7 @@ function CustomAppBar({ toggleDrawer, open }) {
                 }}
                 sx={{ fontSize: { xs: "12px", lg: "14px" } }}
               >
-                {userReducerState?.userDetail?.username}
+                {userReducerState?.userDetail?.first_name}
               </Typography>
               <Typography
                 component="h1"

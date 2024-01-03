@@ -5,7 +5,7 @@ const ApiManager = {
     signUpUser : async (userName, email, password) => {
         const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.signUp
         const signupData = {
-            "username" : userName,
+            "name" : userName,
             "email": email,
             "password": password
         }
