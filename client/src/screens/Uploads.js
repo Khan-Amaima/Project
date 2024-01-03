@@ -13,7 +13,6 @@ import { AddCircleOutline, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, K
 import ApiManager from '../api/ApiManager'
 import { connect, useDispatch, useSelector } from "react-redux";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
-import VideoPreviewTable from "../components/VideoPreviewTable";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
@@ -22,11 +21,6 @@ function Uploads() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
-
-  const fetchVideos = async () => {
-    let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-    console.log(response, "------------------");
-  };
 
   const fetchVideos = async () =>{
     let response = await ApiManager.fetchVideos(userReducerState?.authToken)

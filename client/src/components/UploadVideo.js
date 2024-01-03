@@ -18,6 +18,7 @@ import { ImageSize } from "../constants/BoxSizes";
 import { tab } from "@testing-library/user-event/dist/tab";
 import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
+import { useSelector } from "react-redux";
 
 function UploadVideo({ isModalOpen, handleModal }) {
   const [title, setTitle] = useState('');
@@ -29,6 +30,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const [isDisableButton, setButtonDisable] = useState();
   const [isPrimarySound, setPrimarySound] = useState(true);
   const [selectedSoundIndex, setSelectedSoundIndex] = useState(undefined);
+  const userReducerState = useSelector((state) => state.userRed);
 
   const handleFileChange = (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
@@ -325,7 +327,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           <CustomButton
             onTap={ async () => {
               try{
-                let response = await ApiManager.uploadVideo('tset', title, description, tableData)
+                let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.username, title, description, tableData)
                 handleModal();
                 console.log(response, '--------response-------')
               }

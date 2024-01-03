@@ -141,11 +141,11 @@ function VideoPreviewTable({
                     }}
                   >
                     <video
-                      width={140}
-                      height={80}
+                      width={160}
+                      height={90}
                       controls
-                      src={item.videos[0].video}
-                      style={{ borderRadius: "3px" }}
+                      src={item?.videos[0]?.video}
+                      style={{ borderRadius: "6px" }}
                     />
                   </TableCell>
 
