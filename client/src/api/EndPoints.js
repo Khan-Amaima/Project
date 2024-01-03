@@ -7,7 +7,9 @@ const EndPoints = {
     media : '/UploadVideo/',
     uploadVideo : 'upload-video', 
     fetchVideo : 'fetch-video',
-    deleteVideo : 'delete-video' 
+    deleteVideo : 'delete-video',
+    getProfile : 'get-profile',
+    updateProfile : 'update-profile',
 }
 
 export default EndPoints;

@@ -12,7 +12,9 @@ function ConfirmationModal({
   rightButtonText,
   leftButtonFunction,
   rightButtonFunction,
+  data
 }) {
+  console.log(data.id)
   return (
     <CustomModal isModalOpen={isModelOpen} customStyle={{
         width:"auto",
@@ -70,7 +72,7 @@ function ConfirmationModal({
           />
           <CustomButton
             text={rightButtonText}
-            onTap={() => rightButtonFunction()}
+            onTap={() => rightButtonFunction(data?.id)}
             isDisable={false}
             buttonStyle={{
               borderRadius: 50,

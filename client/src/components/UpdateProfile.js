@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -13,33 +13,55 @@ import { CustomStyle } from "../constants/CustomStyle";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
 import CustomButton from "./CustomButton";
+import { connect, useDispatch, useSelector } from "react-redux";
+import ApiManager from "../api/ApiManager";
 
 function UpdateProfile({}) {
   const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [isDisableButton, setIsDisableButton] = useState(true);
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [isEmailChanged, setIsEmailChanged] = useState(false);
   const [pictureFile, setPictureFile] = useState(null);
+  const [pictureUrl, setPictureUrl] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
   const pictureInputRef = useRef();
+  const userReducerState = useSelector((state) => state.userRed);
+
+  const getProfileData = async () => {
+    let response = await ApiManager.getProfile(userReducerState?.authToken)
+    if(response.data.success){
+      setName(response.data.data.user.first_name)
+      setEmail(response.data.data.user.email)
+    }
+  }
+
+  const updateProfileData = async () => {
+    let response = await ApiManager.updateProfile(userReducerState?.authToken, pictureFile)
+    console.log(response)
+  }
+
+  useEffect(() => {
+    getProfileData()
+  }, [])
+  
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    email: Yup.string()
-      .email("Enter a valid email")
-      .required("Email is required"),
   });
 
   const initialValues = {
-    name: "Jason",
-    email: "Jason@gmail.com",
+    name: name,
+    email: email,
     phone: "",
   };
 
   const handleSubmit = (event, values) => {
     try {
-      console.log(" success", event);
-      navigate("/");
+      console.log(" successs", event);
+      updateProfileData()
+      // navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -57,31 +79,10 @@ function UpdateProfile({}) {
       handleSubmit(event, values);
     },
     validate: (values) => {
-      if (focusedField == "email") {
-        if (values.email == initialValues.email) {
-          setIsEmailChanged(false);
-          if (!isNameChanged) {
-            setIsDisableButton(true);
-          } else {
-            setIsDisableButton(false);
-          }
-        } else {
-          setIsEmailChanged(true);
-          setIsDisableButton(false);
-        }
-      } else if (focusedField == "name") {
+      if (focusedField == "name") {
         if (values.name == initialValues.name) {
-          setIsNameChanged(false);
-          if (!isEmailChanged) {
-            console.log("nothing Changed");
-            setIsDisableButton(true);
-          } else {
-            console.log("name not but email");
-            setIsDisableButton(false);
-          }
+          setIsDisableButton(false);
         } else {
-          console.log("Name changed");
-          setIsNameChanged(true);
           setIsDisableButton(false);
         }
       }
@@ -97,7 +98,8 @@ function UpdateProfile({}) {
       const file = event.target.files[0];
       if (file) {
         const url = URL.createObjectURL(file);
-        setPictureFile(url);
+        setPictureFile(file);
+        setPictureUrl(url)
       }
     } catch (err) {
       console.log(err, "upload Picture error");
@@ -106,6 +108,7 @@ function UpdateProfile({}) {
 
   const handleDeleteFile = () => {
     setPictureFile(null);
+    setPictureUrl(null)
   };
 
   return (
@@ -206,7 +209,7 @@ function UpdateProfile({}) {
             id="name"
             onFocus={() => handleFocus("name")}
             placeholder="Enter your name"
-            value={formik.values.name}
+            value={formik.values.name || name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
             sx={CustomStyle.inputStyle}
@@ -261,7 +264,7 @@ function UpdateProfile({}) {
             id="email"
             onFocus={() => handleFocus("email")}
             placeholder="Enter Your Email"
-            value={formik.values.email}
+            value={formik.values.email || email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
             sx={CustomStyle.inputStyle}
@@ -328,7 +331,7 @@ function UpdateProfile({}) {
           style={{
             borderColor: AppColors.primary,
             justifyContent: "center",
-            alignItems: pictureFile !== null ? "center" : "start",
+            alignItems: pictureUrl !== null ? "center" : "start",
             margin: "auto",
             backgroundColor: "",
             wrap: "nowrap",
@@ -347,7 +350,7 @@ function UpdateProfile({}) {
           >
             Upload Picture
           </Typography>
-          {pictureFile !== null ? (
+          {pictureUrl !== null ? (
             <Grid
               style={{ alignContent: "", display: "flex", alignSelf: "center" }}
             >
@@ -360,7 +363,7 @@ function UpdateProfile({}) {
                   position: "relative",
                 }}
               >
-                {pictureFile && (
+                {pictureUrl && (
                   <Box
                     width={"100px"}
                     height={"100px"}
@@ -372,7 +375,7 @@ function UpdateProfile({}) {
                     }}
                   >
                     <img
-                      src={pictureFile}
+                      src={pictureUrl}
                       style={{
                         objectFit: "cover",
                         width: "100%",

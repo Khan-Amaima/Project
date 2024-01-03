@@ -12,19 +12,21 @@ import ConfirmationModal from "./ConfirmationModal";
 
 function VideoDetail({ handleShowVideo }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleModal = () => setIsModalOpen(!isModalOpen);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
   const [name, setName] = useState("Christin Mark");
   const [pictureFile, setPictureFile] = useState(userIcon);
+  const [videos, setVideos] = useState([pictureFile, pictureFile]);
+  const videoPlayerRef = useRef();
   const [videoTitle, setVideoTitle] = useState(
     "Lyrical Lemonade feat Jack  Harlow"
   );
   const [videoDescription, setVideoDescription] = useState(
     "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected randomised words which don't look even slightly believable humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem"
   );
-  const [videos, setVideos] = useState([pictureFile, pictureFile]);
-  const videoPlayerRef = useRef();
+
+  const handleModal = () => setIsModalOpen(!isModalOpen);
+  const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
+  
   return (
     <Grid>
       <Grid

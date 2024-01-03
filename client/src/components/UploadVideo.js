@@ -327,7 +327,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
           <CustomButton
             onTap={ async () => {
               try{
-                let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.username, title, description, tableData)
+                let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.email, title, description, tableData)
                 fetchVideos();
                 handleModal();
                 console.log(response, '--------response-------')

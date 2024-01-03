@@ -19,15 +19,15 @@ def index(request):
 class UploadVideoView(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
-        username = request.data.get('username')
+        email = request.data.get('email')
         title = request.data.get('title')
         description = request.data.get('description')
         videos = [x for x in request.FILES.values()]
-        if not username: 
-            return Response({'message' : 'User name is required.'}, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.filter(username=username).first()
+        user = User.objects.filter(email=email).first()
+        if not email: 
+            return Response({'message' : 'Email is required.'}, status=status.HTTP_400_BAD_REQUEST)
         if not user:
-            return Response({'message' : 'User no exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message' : 'User not exists.'}, status=status.HTTP_400_BAD_REQUEST)
         if not videos:
             return Response({'message' : 'Please upload video.'}, status=status.HTTP_400_BAD_REQUEST)
         mediaObject = UserMedia.objects.create(

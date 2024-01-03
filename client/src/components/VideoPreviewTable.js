@@ -23,6 +23,7 @@ import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
 
 function VideoPreviewTable({
   tableData,
@@ -36,9 +37,10 @@ function VideoPreviewTable({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const [targetVideo, setTargetVideo] = useState();
-
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [startDragging, setStartDragging] = useState(false);
   const [isDraggingOver, setDraggingOver] = useState(false);
+  const [deletedData, setDeletedData] = useState({});
   const userReducerState = useSelector((state) => state.userRed);
 
   const columns = [
@@ -78,6 +80,8 @@ function VideoPreviewTable({
     let response = ApiManager.deleteVideo(userReducerState?.authToken, id)
     console.log(response)
   }
+
+  const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden",}}>
@@ -227,7 +231,7 @@ function VideoPreviewTable({
 
                   <TableCell
                     width={24}
-                    onClick={() => {}}
+                    onClick={() => {handleConfirmModal(); setDeletedData({id : item.id})}}
                     align="start"
                   >
                     <CustomIcon
@@ -243,6 +247,15 @@ function VideoPreviewTable({
           </TableBody>
         </Table>
       </TableContainer>
+      <ConfirmationModal
+        isModelOpen={isConfirmModalOpen}
+        confirmationText={"Are you sure, you want to delete this file?"}
+        leftButtonText={"Cancel"}
+        rightButtonText={"Delete"}
+        leftButtonFunction={handleConfirmModal}
+        rightButtonFunction={handleDeleteVideo}
+        data = {deletedData}
+      />
     </Paper>
   );
 }
