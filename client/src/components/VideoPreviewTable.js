@@ -21,6 +21,9 @@ import {
 } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
+import ApiManager from "../api/ApiManager";
+import { connect, useDispatch, useSelector } from "react-redux";
+
 function VideoPreviewTable({
   tableData = [],
   handleDeleteFile,
@@ -35,6 +38,7 @@ function VideoPreviewTable({
 
   const [startDragging, setStartDragging] = useState(false);
   const [isDraggingOver, setDraggingOver] = useState(false);
+  const userReducerState = useSelector((state) => state.userRed);
 
   const columns = [
     { id: "checkButton", label: "", minWidth: 24, align: "start" },
@@ -68,6 +72,11 @@ function VideoPreviewTable({
       align: "start",
     },
   ];
+
+  const handleDeleteVideo =(id)=>{
+    let response = ApiManager.deleteVideo(userReducerState?.authToken, id)
+    console.log(response)
+  }
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden",}}>

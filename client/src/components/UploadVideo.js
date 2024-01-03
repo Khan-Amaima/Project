@@ -20,7 +20,7 @@ import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 
-function UploadVideo({ isModalOpen, handleModal }) {
+function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const videoInputRef = useRef();
@@ -328,6 +328,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             onTap={ async () => {
               try{
                 let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.username, title, description, tableData)
+                fetchVideos();
                 handleModal();
                 console.log(response, '--------response-------')
               }

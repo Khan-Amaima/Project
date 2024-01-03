@@ -91,6 +91,22 @@ const ApiManager = {
             console.error(error);
             return error;
         }
+    },
+    deleteVideo : async (authToken, itemId) => {
+        const url = process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.deleteVideo
+        try {
+            const response = await axios.put(url, {
+                headers: {"Authorization" : `Token ${authToken}`},
+                data : {
+                    'id' : itemId
+                }
+            });
+            return response;
+        } 
+        catch (error) {
+            console.error(error);
+            return error;
+        }
     }
 }
 

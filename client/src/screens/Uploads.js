@@ -109,7 +109,7 @@ function Uploads() {
           }}
         />
       </Container>
-      <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
+      <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} fetchVideos={fetchVideos} />
     </Container>
   ) : (
     <>
@@ -173,7 +173,7 @@ function Uploads() {
             color: AppColors.white,
           }}
         />
-        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
+        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} fetchVideos={fetchVideos} />
       </Grid>
 
       <Grid
@@ -218,8 +218,6 @@ function Uploads() {
         <Typography style={{ fontFamily: 'Poppins', fontWeight: 500, color: AppColors.secondary, lineHeight: "20px", }} sx={{ typography: FontSizeStandards.subHeading }}>1 - 08 of 20</Typography>
         <Box style={{height:"20px",width:"20px", borderRadius:"10px", border: "1px solid",borderColor:AppColors.secondary,justifyContent:"center",alignItems:"center",display:"flex",marginInline:"10px"}}>
         <IconButton
-            
-            
             color={AppColors.primary}
             // onClick={toggleDrawer}
             aria-label="open drawer"

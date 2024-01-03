@@ -6,7 +6,8 @@ const EndPoints = {
     userDetail : 'user-detail',
     media : '/UploadVideo/',
     uploadVideo : 'upload-video', 
-    fetchVideo : 'fetch-video' 
+    fetchVideo : 'fetch-video',
+    deleteVideo : 'delete-video' 
 }
 
 export default EndPoints;
