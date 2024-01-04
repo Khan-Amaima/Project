@@ -38,8 +38,8 @@ export const AllRoutes = [
         isPublic: false,
     }, 
     { 
-        path: "/Uploads/:itemId",
-        name: "Uploads",
+        path: "/itemDetail",
+        name: "itemDetail",
         component: <ItemDetail />,
         isPublic: false,
     }, 

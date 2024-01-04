@@ -22,18 +22,21 @@ import {
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
+import {setItemDetail} from '../redux/actions/itemDetailActions'
 import { connect, useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 
 function VideoPreviewTable({
   tableData,
+  fetchVideos
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [deletedData, setDeletedData] = useState({});
+  const dispatch = useDispatch();
   const userReducerState = useSelector((state) => state.userRed);
 
   const columns = [
@@ -69,9 +72,12 @@ function VideoPreviewTable({
     },
   ];
 
-  const handleDeleteVideo =(id)=>{
-    let response = ApiManager.deleteVideo(userReducerState?.authToken, id)
-    setIsConfirmModalOpen(!isConfirmModalOpen)
+  const handleDeleteVideo = async (id) => {
+    let response = await ApiManager.deleteVideo(userReducerState?.authToken, id)
+    if(response.data.success){
+      fetchVideos()
+      setIsConfirmModalOpen(!isConfirmModalOpen)
+    }
   }
 
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -143,7 +149,8 @@ function VideoPreviewTable({
                     height={80}
                     style={{ align: "start" }}
                     onClick={() => {
-                      navigate("/Uploads/:itemId")
+                      dispatch(setItemDetail(item))
+                      navigate("/itemDetail")
                     }}
                   >
                     <video
@@ -250,4 +257,8 @@ function VideoPreviewTable({
   );
 }
 
-export default VideoPreviewTable;
+const mapDispatchToProps = {
+  setItemDetail,
+};
+
+export default connect(null, mapDispatchToProps)(VideoPreviewTable);
