@@ -9,20 +9,14 @@ import { useRef, useState } from "react";
 import UploadVideo from "../components/UploadVideo";
 import ConfirmationModal from "../components/ConfirmationModal";
 import CustomButton from "../components/CustomButton";
+import { useSelector } from "react-redux";
 
 function ItemDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [name, setName] = useState("Christin Mark");
   const [pictureFile, setPictureFile] = useState(userIcon);
-  const [videos, setVideos] = useState([pictureFile, pictureFile]);
   const videoPlayerRef = useRef();
-  const [videoTitle, setVideoTitle] = useState(
-    "Lyrical Lemonade feat Jack  Harlow"
-  );
-  const [videoDescription, setVideoDescription] = useState(
-    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected randomised words which don't look even slightly believable humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem"
-  );
+  const itemDetailState = useSelector((state) => state.itemDetailRed); 
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -120,7 +114,7 @@ function ItemDetail() {
             textOverflow: "clip",
           }}
         >
-          {name}
+          {itemDetailState?.itemDetail?.user?.username}
         </Typography>
 
         <Box
@@ -218,13 +212,14 @@ function ItemDetail() {
             },
           }}
         >
-          {videos.map((singleVideo) => {
+          {itemDetailState?.itemDetail?.videos.map((singleVideo) => {
             return (
               <video
                 ref={videoPlayerRef}
                 width="100%"
                 style={{ borderRadius: "10px" }}
                 controls
+                src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
               />
             );
           })}
@@ -255,7 +250,7 @@ function ItemDetail() {
             }}
             sx={FontSizeStandards.mainHeading}
           >
-            {videoTitle}
+            {itemDetailState?.itemDetail?.title || 'Title not added'}
           </Typography>
         </Box>
 
@@ -335,7 +330,7 @@ function ItemDetail() {
             fontFamily: "Poppins",
           }}
         >
-          {videoDescription}
+          {itemDetailState?.itemDetail?.description || 'Description not added'}
         </Typography>
      
       </Box>

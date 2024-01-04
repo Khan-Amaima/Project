@@ -55,10 +55,10 @@ function UpdatePassword({}) {
   const handleSubmit = async (event, values) => {
     try {
       let response = await ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
-      if(response.data.success){
+      if(response?.data?.success){
+        formik.resetForm();
         setMessage('Password Updated successfully')
         handleModal();
-        console.log(response, 'res----------------');
       }
     } catch (error) {
       console.log(error);

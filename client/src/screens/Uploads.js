@@ -320,7 +320,7 @@ function Uploads() {
         </Grid>
       </Grid>
 
-      <VideoPreviewTable tableData={userData} />
+      <VideoPreviewTable tableData={userData} fetchVideos={fetchVideos} />
     </>
   );
 }
