@@ -1,5 +1,5 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import CustomButton from "./CustomButton";
 import UploadVideo from "./UploadVideo";
@@ -26,7 +26,7 @@ function VideoDetail({ handleShowVideo }) {
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
-  
+
   return (
     <Grid>
       <Grid
@@ -39,7 +39,6 @@ function VideoDetail({ handleShowVideo }) {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "5px",
-          marginRight : "20px",
           borderRadius: "5px",
           backgroundColor: "#F5F5F5",
         }}
@@ -171,14 +170,9 @@ function VideoDetail({ handleShowVideo }) {
           03-01-2024
         </Typography>
       </Grid>
-
-      <Box
-        style={{
-          margin : "16px",
-          borderRadius: "5px",
-        }}
-      >
-        <Carousel
+      
+      <div style={{height:"30"}}>
+      <Carousel
           additionalTransfrom={0}
           arrows
           afterChange={() => {
@@ -228,19 +222,15 @@ function VideoDetail({ handleShowVideo }) {
             return (
               <video
                 ref={videoPlayerRef}
-                preload="true"
-                key={singleVideo}
-                src={singleVideo}
-                width={"100%"}
-                // height={"30%"}
+                width="100%"
                 style={{ borderRadius: "10px" }}
                 controls
               />
             );
           })}
         </Carousel>
-      </Box>
-
+      </div>
+        
       <Grid
         item
         xs={11.5}

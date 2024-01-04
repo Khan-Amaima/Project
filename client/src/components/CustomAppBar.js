@@ -219,7 +219,7 @@ function CustomAppBar({ toggleDrawer, open }) {
   return (
     <>
       <AppBar
-        position="absolute"
+        position="fixed"
         open={open}
         style={{ backgroundColor: AppColors.white }}
       >

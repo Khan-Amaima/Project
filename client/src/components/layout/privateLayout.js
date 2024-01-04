@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import CssBaseline from '@mui/material/CssBaseline';
 import CustomAppBar from '../CustomAppBar';
 import CustomSideBar from '../CustomSideBar';
-import { Container } from '@mui/material';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -33,7 +32,7 @@ function PrivateLayout({children}) {
       <CssBaseline />
       <CustomAppBar toggleDrawer={toggleDrawer} open={open}/>
       <CustomSideBar theme={theme} open={open} handleDrawerClose={handleDrawerClose}/>
-      <div style={{width: `calc(100% - 200px)`, flexGrow: 1, padding : '35px',}}>
+      <div style={{width: `calc(100% - 200px)`, flexGrow: 1, padding : '35px', overflow : 'hidden'}}>
         <DrawerHeader/>
         {children}
       </div>

@@ -14,7 +14,6 @@ function ConfirmationModal({
   rightButtonFunction,
   data
 }) {
-  console.log(data.id)
   return (
     <CustomModal isModalOpen={isModelOpen} customStyle={{
         width:"auto",

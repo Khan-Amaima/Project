@@ -158,7 +158,6 @@ function VideoPreviewTable({
                     <video
                       width={160}
                       height={90}
-                      controls
                       src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
                       style={{ borderRadius: "6px" }}
                     />
