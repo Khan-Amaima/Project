@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField, Typography } from "@mui/material";
+import { FormHelperText, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -12,24 +12,31 @@ import AppColors from "../constants/AppColors";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import { CustomStyle } from "../constants/CustomStyle";
 import { ImageSize } from "../constants/BoxSizes";
+import ApiManager from "../api/ApiManager";
+import { useSelector } from "react-redux";
 
 function UpdatePassword({}) {
   const navigate = useNavigate();
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const userReducerState = useSelector((state) => state.userRed);
 
   const validationSchema = Yup.object({
-    password: Yup.string()
-      .required("Password is required")
+    oldPassword: Yup.string()
+      .required("Old password is required"),
+    newPassword: Yup.string()
+      .required("New password is required")
       .min(8, "Password must be at least 8 characters"),
-    confirmPassword: Yup.string()
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+    confirmNewPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf([Yup.ref("newPassword")], "Passwords must match with new password"),
   });
 
   const initialValues = {
-    password: "",
-    confirmPassword: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   };
 
   const formik = useFormik({
@@ -42,12 +49,15 @@ function UpdatePassword({}) {
 
   const handleSubmit = (event, values) => {
     try {
-      console.log("signup successfully");
+      let response = ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
+      console.log(response, 'res----------------');
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleShowOldPassword = () => setShowOldPassword((show) => !show);
 
   const handleShowPassword = () => setShowPassword((show) => !show);
 
@@ -56,10 +66,12 @@ function UpdatePassword({}) {
 
   return (
     <Grid
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="start"
       container
       className="Change Password"
       gap={3}
-      // spacing={1}
       width={"auto"}
       sx={{ width: { xs: "100%", lg: "100%" } }}
       style={{
@@ -68,9 +80,9 @@ function UpdatePassword({}) {
         borderRadius: "10px",
         display: "flex",
         padding: 20,
-        direction: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        // direction: "row",
+        // justifyContent: "center",
+        // alignItems: "center",
         marginTop: "20px",
       }}
     >
@@ -97,19 +109,127 @@ function UpdatePassword({}) {
 
       <Grid
         gap={2}
+        component="form"
+        onSubmit={formik.handleSubmit}
         container
         width={"auto"}
+        alignItems={"left"}
         sx={{ width: { xs: "100%", lg: "100%" } }}
         style={{
           borderColor: AppColors.primary,
           backgroundColor: "#F5F5F5",
           display: "flex",
           direction: "row",
-          justifyContent: "center",
+          // justifyContent: "center",
           alignItems: "center",
-          margin: "auto",
+          // margin: "auto",
         }}
       >
+
+        <Grid
+          // spacing={0}
+          item
+          xs={5.5}
+          md={5.5}
+          style={{
+            borderColor: AppColors.primary,
+            backgroundColor: "",
+            borderRadius: "10px",
+            display: 'block',
+            justifyContent: "center",
+            alignItems: "center",
+            // margin: "auto",
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="h2"
+            style={{
+              paddingLeft: "5px",
+              fontFamily: "Poppins",
+              fontWeight: "500",
+              color: AppColors.tertiary,
+            }}
+            sx={{ typography: FontSizeStandards.secondaryHeading }}
+          >
+            Old Password
+          </Typography>
+          <TextField
+            id="oldPassword"
+            type={showOldPassword ? "text" : "password"}
+            fullWidth
+            InputProps={{
+              sx: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleShowOldPassword}
+                    edge="end"
+                  >
+                    {showOldPassword ? (
+                      <VisibilityOff
+                        sx={{
+                          width: {
+                            xs: ImageSize.UploadPicIcon.xs.width,
+                            sm: ImageSize.UploadPicIcon.sm.width,
+                            md: ImageSize.UploadPicIcon.md.width,
+                            lg: ImageSize.UploadPicIcon.lg.width,
+                            xl: ImageSize.UploadPicIcon.xl.width,
+                          },
+                          height: {
+                            xs: ImageSize.UploadPicIcon.xs.height,
+                            sm: ImageSize.UploadPicIcon.sm.height,
+                            md: ImageSize.UploadPicIcon.md.height,
+                            lg: ImageSize.UploadPicIcon.lg.height,
+                            xl: ImageSize.UploadPicIcon.xl.width,
+                          },
+                        }}
+                      />
+                    ) : (
+                      <Visibility
+                        sx={{
+                          width: {
+                            xs: ImageSize.UploadPicIcon.xs.width,
+                            sm: ImageSize.UploadPicIcon.sm.width,
+                            md: ImageSize.UploadPicIcon.md.width,
+                            lg: ImageSize.UploadPicIcon.lg.width,
+                            xl: ImageSize.UploadPicIcon.xl.width,
+                          },
+                          height: {
+                            xs: ImageSize.UploadPicIcon.xs.height,
+                            sm: ImageSize.UploadPicIcon.sm.height,
+                            md: ImageSize.UploadPicIcon.md.height,
+                            lg: ImageSize.UploadPicIcon.lg.height,
+                            xl: ImageSize.UploadPicIcon.xl.width,
+                          },
+                        }}
+                      />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            placeholder="Old password"
+            value={formik.values.oldPassword}
+            onChange={formik.handleChange}
+            sx={CustomStyle.inputStyle}
+            error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
+          />
+          {formik.touched.oldPassword && formik.errors.oldPassword && (
+            <FormHelperText error id="oldPassword">
+              {formik.errors.oldPassword}
+            </FormHelperText>
+          )}
+        </Grid>
+
         <Grid
           // spacing={0}
           item
@@ -139,7 +259,7 @@ function UpdatePassword({}) {
             New Password
           </Typography>
           <TextField
-            id="password"
+            id="newPassword"
             type={showPassword ? "text" : "password"}
             fullWidth
             InputProps={{
@@ -201,17 +321,22 @@ function UpdatePassword({}) {
                 </InputAdornment>
               ),
             }}
-            placeholder="Password"
-            value={formik.values.password}
+            placeholder="New password"
+            value={formik.values.newPassword}
             onChange={formik.handleChange}
             sx={CustomStyle.inputStyle}
-            error={formik.touched.password && Boolean(formik.errors.password)}
+            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
           />
+          {formik.touched.newPassword && formik.errors.newPassword && (
+            <FormHelperText error id="newPassword">
+              {formik.errors.newPassword}
+            </FormHelperText>
+          )}
         </Grid>
 
         <Grid
-          // spacing={0}
           item
+          gap={2}
           xs={5.5}
           md={5.5}
           style={{
@@ -220,7 +345,7 @@ function UpdatePassword({}) {
             direction: "row",
             justifyContent: "center",
             alignItems: "center",
-            margin: "auto",
+            // margin: "auto",
           }}
         >
           <Typography
@@ -237,7 +362,7 @@ function UpdatePassword({}) {
             Confirm Password
           </Typography>
           <TextField
-            id="confirmPassword"
+            id="confirmNewPassword"
             type={showConfirmPassword ? "text" : "password"}
             fullWidth
             InputProps={{
@@ -299,15 +424,20 @@ function UpdatePassword({}) {
                 </InputAdornment>
               ),
             }}
-            placeholder="Confirm Password"
-            value={formik.values.confirmPassword}
+            placeholder="Confirm new password"
+            value={formik.values.confirmNewPassword}
             onChange={formik.handleChange}
             sx={CustomStyle.inputStyle}
             error={
-              formik.touched.confirmPassword &&
-              Boolean(formik.errors.confirmPassword)
+              formik.touched.confirmNewPassword &&
+              Boolean(formik.errors.confirmNewPassword)
             }
           />
+          {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && (
+            <FormHelperText error id="confirmNewPassword">
+              {formik.errors.confirmNewPassword}
+            </FormHelperText>
+          )}
         </Grid>
 
         <Grid
@@ -322,9 +452,7 @@ function UpdatePassword({}) {
           }}
         >
           <CustomButton
-            onTap={() => {
-              console.log("Updating Password");
-            }}
+            type={"submit"}
             text={"Update Password"}
             buttonStyle={{
               borderRadius: 50,

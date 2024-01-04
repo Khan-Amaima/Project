@@ -143,6 +143,28 @@ const ApiManager = {
       return error;
     }
   },
+  UpdatePassword: async (authToken, old_password, new_password) => {
+    const url =
+      process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.UpdatePassword;
+    try {
+      const response = await axios.post(
+        url,
+        {
+          "old_password" : old_password,
+          "new_password" : new_password
+        },
+        {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default ApiManager;
