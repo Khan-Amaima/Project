@@ -15,7 +15,7 @@ import { ImageSize } from "../constants/BoxSizes";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
-import { Delete } from "@mui/icons-material";
+import { Delete, Verified } from "@mui/icons-material";
 
 function UpdatePassword({}) {
   const navigate = useNavigate();
@@ -486,7 +486,7 @@ function UpdatePassword({}) {
         rightButtonText={"Close"}
         rightButtonFunction={handleModal}
         icon={
-          <Delete style={{ width: "60px", height: "60px", color: "red" }} />
+          <Verified style={{ width: "60px", height: "60px", color: "green" }} />
         }
       />
     </Grid>
