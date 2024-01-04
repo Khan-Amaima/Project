@@ -24,6 +24,7 @@ function UpdatePassword({}) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
   const [message, setMessage] = useState();
+  const [responseMessage, setResponseMessage] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -478,7 +479,7 @@ function UpdatePassword({}) {
               }}
               sx={{ typography: FontSizeStandards.secondaryHeading }}
             >
-              {message}
+              {responseMessage}
             </Typography>
           </Grid>
 
