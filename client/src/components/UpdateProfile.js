@@ -34,6 +34,13 @@ function UpdateProfile({}) {
     if(response.data.success){
       setName(response.data.data.user.first_name)
       setEmail(response.data.data.user.email)
+      if(response.data.data.profile_picture){
+        const file = response?.data?.data?.profile_picture
+        // setPictureFile(file)
+        // console.log(`${process.env.REACT_APP_BASE_URL}${file}`, '-------')
+        // const url = URL.createObjectURL(file);
+        setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`)
+      }
     }
   }
 
@@ -81,7 +88,7 @@ function UpdateProfile({}) {
     validate: (values) => {
       if (focusedField == "name") {
         if (values.name == initialValues.name) {
-          setIsDisableButton(false);
+          setIsDisableButton(true);
         } else {
           setIsDisableButton(false);
         }

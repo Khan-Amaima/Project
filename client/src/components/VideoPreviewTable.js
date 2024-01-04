@@ -78,7 +78,7 @@ function VideoPreviewTable({
 
   const handleDeleteVideo =(id)=>{
     let response = ApiManager.deleteVideo(userReducerState?.authToken, id)
-    console.log(response)
+    setIsConfirmModalOpen(!isConfirmModalOpen)
   }
 
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -159,7 +159,7 @@ function VideoPreviewTable({
                       width={160}
                       height={90}
                       controls
-                      src={item?.videos[0]?.video}
+                      src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
                       style={{ borderRadius: "6px" }}
                     />
                   </TableCell>
@@ -173,12 +173,12 @@ function VideoPreviewTable({
                       style={{
                         fontSize: FontSizeStandards.secondaryHeading,
                         fontWeight: 600,
-                        color: AppColors.tertiary,
+                        color: item.title ? AppColors.tertiary : AppColors.secondary,
                         fontFamily: "Poppins",
                         textOverflow: "clip"
                       }}
                     >
-                      {item.title}
+                      {item.title || 'Title not added.'}
                     </Typography>
 
                     <Typography
@@ -190,7 +190,7 @@ function VideoPreviewTable({
                         textOverflow:"clip"
                       }}
                     >
-                      {item.description}
+                      {item.description || 'Description not added.'}
                     </Typography>
                   </TableCell>
 
