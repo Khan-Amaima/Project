@@ -145,7 +145,7 @@ const ApiManager = {
   },
   UpdatePassword: async (authToken, old_password, new_password) => {
     const url =
-      process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.UpdatePassword;
+      process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.UpdatePassword;
     try {
       const response = await axios.post(
         url,

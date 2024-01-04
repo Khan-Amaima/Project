@@ -290,7 +290,7 @@ function ItemDetail() {
           />
           <CustomButton
             onTap={() => {
-            //   handleConfirmModal();
+              handleConfirmModal();
             }}
             prefixIcon={Delete}
             text={"Delete"}
@@ -313,6 +313,9 @@ function ItemDetail() {
             rightButtonText={"Delete"}
             leftButtonFunction={()=>{}}
             rightButtonFunction={() => console.log("Delete")}
+            icon={
+              <Delete style={{ width: "60px", height: "60px", color: "red" }} />
+            }
           />
         </Grid>
       </Grid>
@@ -334,6 +337,7 @@ function ItemDetail() {
         >
           {videoDescription}
         </Typography>
+     
       </Box>
     </Grid>
   );

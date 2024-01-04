@@ -14,6 +14,8 @@ import { CustomStyle } from "../constants/CustomStyle";
 import { ImageSize } from "../constants/BoxSizes";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
+import { Delete } from "@mui/icons-material";
 
 function UpdatePassword({}) {
   const navigate = useNavigate();
@@ -21,6 +23,9 @@ function UpdatePassword({}) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
+  const [message, setMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const validationSchema = Yup.object({
     oldPassword: Yup.string()
@@ -47,11 +52,14 @@ function UpdatePassword({}) {
     },
   });
 
-  const handleSubmit = (event, values) => {
+  const handleSubmit = async (event, values) => {
     try {
-      let response = ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
-      console.log(response, 'res----------------');
-      navigate("/");
+      let response = await ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
+      if(response.data.success){
+        setMessage('Password Updated successfully')
+        handleModal();
+        console.log(response, 'res----------------');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -472,6 +480,15 @@ function UpdatePassword({}) {
           />
         </Grid>
       </Grid>
+      <ConfirmationModal
+        isModelOpen={isModalOpen}
+        confirmationText={message}
+        rightButtonText={"Close"}
+        rightButtonFunction={handleModal}
+        icon={
+          <Delete style={{ width: "60px", height: "60px", color: "red" }} />
+        }
+      />
     </Grid>
   );
 }

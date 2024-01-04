@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Typography, Grid, IconButton } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Grid,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { uploadVideoImage } from "../assets/images";
 import CustomButton from "../components/CustomButton";
@@ -22,7 +29,7 @@ import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,16 +37,38 @@ function Uploads() {
   const userReducerState = useSelector((state) => state.userRed);
 
   const fetchVideos = async () => {
+    setLoading(true);
     let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-    setUserData(response.data.data);
-    console.log(response.data, "------------------");
+    if(response.data.success){
+      setLoading(false)
+      setUserData(response.data.data);
+    }
   };
 
   useEffect(() => {
     fetchVideos();
   }, []);
 
-  return userData.length == 0 ? (
+  return loading ? (
+    <Box
+      maxWidth="100vw"
+      style={{
+        height: "82vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <CircularProgress
+        size={50}
+        style={{
+          marginInline: 30,
+          padding: 1,
+          color: AppColors.primary,
+        }}
+      />
+    </Box>
+  ) : userData.length == 0 ? (
     <Container
       maxWidth="100vw"
       style={{
@@ -102,7 +131,7 @@ function Uploads() {
             handleModal();
           }}
           text={"upload Video"}
-          loading={loading}
+          loading={false}
           buttonStyle={{
             borderRadius: 50,
             backgroundColor: AppColors.primary,
@@ -140,8 +169,7 @@ function Uploads() {
       >
         <CustomButton
           text={"Sort by"}
-          onTap={() => {
-          }}
+          onTap={() => {}}
           suffixIcon={KeyboardArrowDown}
           isDisable={false}
           buttonStyle={{
@@ -292,9 +320,7 @@ function Uploads() {
         </Grid>
       </Grid>
 
-      <VideoPreviewTable
-        tableData={userData}
-      />
+      <VideoPreviewTable tableData={userData} />
     </>
   );
 }
