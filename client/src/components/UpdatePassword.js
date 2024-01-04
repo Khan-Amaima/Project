@@ -23,19 +23,21 @@ function UpdatePassword({}) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const validationSchema = Yup.object({
-    oldPassword: Yup.string()
-      .required("Old password is required"),
+    oldPassword: Yup.string().required("Old password is required"),
     newPassword: Yup.string()
       .required("New password is required")
       .min(8, "Password must be at least 8 characters"),
     confirmNewPassword: Yup.string()
-    .required("Confirm Password is required")
-    .oneOf([Yup.ref("newPassword")], "Passwords must match with new password"),
+      .required("Confirm Password is required")
+      .oneOf(
+        [Yup.ref("newPassword")],
+        "Passwords must match with new password"
+      ),
   });
 
   const initialValues = {
@@ -133,7 +135,6 @@ function UpdatePassword({}) {
           // margin: "auto",
         }}
       >
-
         <Grid
           // spacing={0}
           item
@@ -143,7 +144,7 @@ function UpdatePassword({}) {
             borderColor: AppColors.primary,
             backgroundColor: "",
             borderRadius: "10px",
-            display: 'block',
+            display: "block",
             justifyContent: "center",
             alignItems: "center",
             // margin: "auto",
@@ -229,7 +230,9 @@ function UpdatePassword({}) {
             value={formik.values.oldPassword}
             onChange={formik.handleChange}
             sx={CustomStyle.inputStyle}
-            error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
+            error={
+              formik.touched.oldPassword && Boolean(formik.errors.oldPassword)
+            }
           />
           {formik.touched.oldPassword && formik.errors.oldPassword && (
             <FormHelperText error id="oldPassword">
@@ -333,7 +336,9 @@ function UpdatePassword({}) {
             value={formik.values.newPassword}
             onChange={formik.handleChange}
             sx={CustomStyle.inputStyle}
-            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+            error={
+              formik.touched.newPassword && Boolean(formik.errors.newPassword)
+            }
           />
           {formik.touched.newPassword && formik.errors.newPassword && (
             <FormHelperText error id="newPassword">
@@ -441,24 +446,42 @@ function UpdatePassword({}) {
               Boolean(formik.errors.confirmNewPassword)
             }
           />
-          {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && (
-            <FormHelperText error id="confirmNewPassword">
-              {formik.errors.confirmNewPassword}
-            </FormHelperText>
-          )}
+          {formik.touched.confirmNewPassword &&
+            formik.errors.confirmNewPassword && (
+              <FormHelperText error id="confirmNewPassword">
+                {formik.errors.confirmNewPassword}
+              </FormHelperText>
+            )}
         </Grid>
 
         <Grid
           item
           xs={11.5}
           md={11.5}
-          alignItems={"end"}
-          justifyContent={"end"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
           style={{
             display: "flex",
             direction: "row",
           }}
         >
+          <Grid item xs={8} md={8}>
+            <Typography
+              variant="h6"
+              component="h2"
+              style={{
+                fontFamily: "Poppins",
+                fontWeight: "500",
+                color: "red",
+                paddingLeft: "5px",
+                marginLeft: "10px",
+              }}
+              sx={{ typography: FontSizeStandards.secondaryHeading }}
+            >
+              {message}
+            </Typography>
+          </Grid>
+
           <CustomButton
             type={"submit"}
             text={"Update Password"}
