@@ -6,6 +6,7 @@ from .views import UserLogoutView
 from .views import UserDetailView
 from .views import UserUpdateProfileView
 from .views import UserGetProfileView
+from .views import UserUpdatePasswordView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -15,4 +16,5 @@ urlpatterns = [
     path("user-detail", UserDetailView.as_view()),
     path("update-profile", UserUpdateProfileView.as_view()),
     path("get-profile", UserGetProfileView.as_view()),
+    path("update-password", UserUpdatePasswordView.as_view()),
 ]

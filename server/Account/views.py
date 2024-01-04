@@ -16,6 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
 from Account.models import UserProfile
+from django.contrib.auth import update_session_auth_hash
 
 def index(request):
     return HttpResponse("Hello, You're at the Account index.")
@@ -112,4 +113,24 @@ class UserGetProfileView(APIView):
         user = request.user
         profileObject = UserProfile.objects.get(user=user)
         serializer = UserProfileSerializer(profileObject)
-        return Response({'success' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)       
+        return Response({'success' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)
+    
+class UserUpdatePasswordView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password')
+        if not old_password:
+            return Response({'message' : 'Old password is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not new_password:
+            return Response({'message' : 'New password is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user.check_password(request.data.get('old_password')):
+            user.set_password(request.data.get('new_password'))
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response({'success': 'Password changed successfully.'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
