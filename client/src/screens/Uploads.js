@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Typography, Grid, IconButton } from "@mui/material";
+import { Container, Box, Typography, Grid, IconButton, CircularProgress } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { uploadVideoImage } from "../assets/images";
 import CustomButton from "../components/CustomButton";
@@ -9,44 +9,57 @@ import { ImageSize } from "../constants/BoxSizes";
 import SvgIcons from "../assets/images/svgicons";
 import CustomTable from "../components/CustomTable";
 import VideoPreviewTable from "../components/VideoPreviewTable";
-import {
-  AddCircleOutline,
-  CheckBoxOutlineBlank,
-  CheckBoxOutlineBlankOutlined,
-  KeyboardArrowDown,
-  KeyboardArrowLeft,
-  KeyboardArrowLeftOutlined,
-  KeyboardArrowRightOutlined,
-} from "@mui/icons-material";
-import ApiManager from "../api/ApiManager";
+import { AddCircleOutline, CheckBoxOutlineBlank, CheckBoxOutlineBlankOutlined, KeyboardArrowDown, KeyboardArrowLeft, KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
+import ApiManager from '../api/ApiManager'
 import { connect, useDispatch, useSelector } from "react-redux";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import VideoDetail from "../components/VideoDetail";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState([])
   const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
 
-  const fetchVideos = async () => {
-    let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-    setUserData(response.data.data);
-    console.log(response.data, "------------------");
-  };
+  const fetchVideos = async () =>{
+    setLoading(false)
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken)
+    setUserData(response.data.data)
+    console.log(userData.length, '------------------')
+  }
 
   const handleShowVideo = (val) => {
     setShowVideo(val);
-  };
-
+  }
+  
   useEffect(() => {
     fetchVideos();
   }, []);
-
-  return userData.length == 0 ? (
+  console.log(userData.length, '------------------')
+  return loading ? (
+    <Box
+    maxWidth="100vw"
+    style={{
+      height: "82vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+    >
+       <CircularProgress
+      size={50}
+      style={{
+        marginInline: 30,
+        padding: 1,
+        color: AppColors.primary,
+      }}
+    />
+    </Box>
+   
+  ): userData.length == 0 ? (
     <Container
       maxWidth="100vw"
       style={{
@@ -109,7 +122,7 @@ function Uploads() {
             handleModal();
           }}
           text={"upload Video"}
-          loading={loading}
+          loading={false}
           buttonStyle={{
             borderRadius: 50,
             backgroundColor: AppColors.primary,
@@ -123,13 +136,12 @@ function Uploads() {
           }}
         />
       </Container>
-      <UploadVideo
-        isModalOpen={isModalOpen}
-        handleModal={handleModal}
-        fetchVideos={fetchVideos}
-      />
+      <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} fetchVideos={fetchVideos} />
     </Container>
-  ) : (userData.length > 0 && !showVideo) ? (
+  ) :
+  (uploadedVideos.length>0 && !showVideo)? (
+
+    
     <>
       <Grid
         item
@@ -194,120 +206,82 @@ function Uploads() {
             color: AppColors.white,
           }}
         />
-        <UploadVideo
-          isModalOpen={isModalOpen}
-          handleModal={handleModal}
-          fetchVideos={fetchVideos}
-        />
+        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} fetchVideos={fetchVideos} />
       </Grid>
 
       <Grid
+       item
+       xs={11.5}
+       md={11.5}
+       style={{
+         display: "flex",
+         direction: "row",
+         justifyContent: "space-between",
+         alignItems: "center",
+         padding: "5px",
+         borderRadius: "5px",
+       }}
+      >
+          <IconButton
+            size="large"
+            // edge="start"
+            color={AppColors.primary}
+            // onClick={toggleDrawer}
+            aria-label="open drawer"
+            // sx={{
+            //   marginRight: "36px",
+            //   ...(open && { display: "none" }),
+            // }}
+          >
+            <CheckBoxOutlineBlank />
+          </IconButton>
+      <Grid
         item
-        xs={11.5}
-        md={11.5}
+        xs={5.5}
+        md={5.5}
         style={{
           display: "flex",
           direction: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "5px",
+          justifyContent: "end",
+          alignItems: "end",
+          padding: "20px",
           borderRadius: "5px",
         }}
       >
+        <Typography style={{ fontFamily: 'Poppins', fontWeight: 500, color: AppColors.secondary, lineHeight: "20px", }} sx={{ typography: FontSizeStandards.subHeading }}>1 - 08 of 20</Typography>
+        <Box style={{height:"20px",width:"20px", borderRadius:"10px", border: "1px solid",borderColor:AppColors.secondary,justifyContent:"center",alignItems:"center",display:"flex",marginInline:"10px"}}>
         <IconButton
-          size="large"
-          // edge="start"
-          color={AppColors.primary}
-          // onClick={toggleDrawer}
-          aria-label="open drawer"
-          // sx={{
-          //   marginRight: "36px",
-          //   ...(open && { display: "none" }),
-          // }}
-        >
-          <CheckBoxOutlineBlank />
-        </IconButton>
-        <Grid
-          item
-          xs={5.5}
-          md={5.5}
-          style={{
-            display: "flex",
-            direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
-            padding: "20px",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography
-            style={{
-              fontFamily: "Poppins",
-              fontWeight: 500,
-              color: AppColors.secondary,
-              lineHeight: "20px",
-            }}
-            sx={{ typography: FontSizeStandards.subHeading }}
-          >
-            1 - 08 of 20
-          </Typography>
-          <Box
-            style={{
-              height: "20px",
-              width: "20px",
-              borderRadius: "10px",
-              border: "1px solid",
-              borderColor: AppColors.secondary,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-              marginInline: "10px",
-            }}
-          >
-            <IconButton
-              color={AppColors.primary}
-              // onClick={toggleDrawer}
-              aria-label="open drawer"
+            color={AppColors.primary}
+            // onClick={toggleDrawer}
+            aria-label="open drawer"
             >
-              <KeyboardArrowLeftOutlined
-                style={{ color: AppColors.tertiary, padding: "3px" }}
-              />
-            </IconButton>
-          </Box>
+            <KeyboardArrowLeftOutlined style={{color:AppColors.tertiary,padding:"3px"}} />
+          </IconButton>
+        </Box>
 
-          <Box
-            style={{
-              height: "20px",
-              width: "20px",
-              borderRadius: "10px",
-              border: "1px solid",
-              borderColor: AppColors.secondary,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            <IconButton
-              color={AppColors.secondary}
-              // onClick={toggleDrawer}
-              aria-label="open drawer"
+        <Box style={{height:"20px",width:"20px", borderRadius:"10px", border: "1px solid",borderColor:AppColors.secondary,justifyContent:"center",alignItems:"center",display:"flex"}}>
+        <IconButton
+            
+            color={AppColors.secondary}
+            // onClick={toggleDrawer}
+            aria-label="open drawer"
             >
-              <KeyboardArrowRightOutlined
-                style={{ color: AppColors.tertiary, padding: "3px" }}
-              />
-            </IconButton>
-          </Box>
-        </Grid>
+            <KeyboardArrowRightOutlined style={{color:AppColors.tertiary ,padding:"3px"}}/>
+          </IconButton>
+        </Box>
+
+      </Grid>
+     
       </Grid>
 
-      <VideoPreviewTable
-        tableData={userData}
-        handleShowVideo={handleShowVideo}
-      />
+      <VideoPreviewTable tableData={userData}  handleShowVideo={handleShowVideo} />
     </>
-  ) : (
-    <VideoDetail handleShowVideo={handleShowVideo} />
-  );
+  )
+  
+  :
+  
+  
+  (<VideoDetail handleShowVideo={handleShowVideo}/>);
 }
 
 export default Uploads;

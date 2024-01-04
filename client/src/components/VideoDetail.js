@@ -170,9 +170,9 @@ function VideoDetail({ handleShowVideo }) {
           03-01-2024
         </Typography>
       </Grid>
-      
-      <div style={{height:"30"}}>
-      <Carousel
+
+      <div style={{ height: "30" }}>
+        <Carousel
           additionalTransfrom={0}
           arrows
           afterChange={() => {
@@ -230,7 +230,7 @@ function VideoDetail({ handleShowVideo }) {
           })}
         </Carousel>
       </div>
-        
+
       <Grid
         item
         xs={11.5}
@@ -313,6 +313,9 @@ function VideoDetail({ handleShowVideo }) {
             rightButtonText={"Delete"}
             leftButtonFunction={handleConfirmModal}
             rightButtonFunction={() => console.log("Delete")}
+            icon={
+              <Delete style={{ width: "60px", height: "60px", color: "red" }} />
+            }
           />
         </Grid>
       </Grid>
@@ -334,6 +337,7 @@ function VideoDetail({ handleShowVideo }) {
         >
           {videoDescription}
         </Typography>
+     
       </Box>
       
     </Grid>
