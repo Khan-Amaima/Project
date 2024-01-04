@@ -1,4 +1,5 @@
 import Home from "../screens/Home";
+import ItemDetail from "../screens/ItemDetail";
 import Setting from "../screens/Settings";
 import Uploads from "../screens/Uploads";
 import ForgotPassword from "../screens/auth/ForgotPassword";
@@ -34,6 +35,12 @@ export const AllRoutes = [
         path: "/Uploads",
         name: "Uploads",
         component: <Uploads />,
+        isPublic: false,
+    }, 
+    { 
+        path: "/Uploads/:itemId",
+        name: "Uploads",
+        component: <ItemDetail />,
         isPublic: false,
     }, 
     { 

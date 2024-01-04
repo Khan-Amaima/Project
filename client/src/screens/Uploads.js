@@ -20,15 +20,12 @@ import {
 } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
-import VideoDetail from "../components/VideoDetail";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([]);
   const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
 
@@ -36,10 +33,6 @@ function Uploads() {
     let response = await ApiManager.fetchVideos(userReducerState?.authToken);
     setUserData(response.data.data);
     console.log(response.data, "------------------");
-  };
-
-  const handleShowVideo = (val) => {
-    setShowVideo(val);
   };
 
   useEffect(() => {
@@ -129,7 +122,7 @@ function Uploads() {
         fetchVideos={fetchVideos}
       />
     </Container>
-  ) : (userData.length > 0 && !showVideo) ? (
+  ) : (
     <>
       <Grid
         item
@@ -148,7 +141,6 @@ function Uploads() {
         <CustomButton
           text={"Sort by"}
           onTap={() => {
-            handleShowVideo(true);
           }}
           suffixIcon={KeyboardArrowDown}
           isDisable={false}
@@ -302,11 +294,8 @@ function Uploads() {
 
       <VideoPreviewTable
         tableData={userData}
-        handleShowVideo={handleShowVideo}
       />
     </>
-  ) : (
-    <VideoDetail handleShowVideo={handleShowVideo} />
   );
 }
 

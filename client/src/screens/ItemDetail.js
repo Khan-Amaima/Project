@@ -1,16 +1,16 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
-import CustomButton from "./CustomButton";
-import UploadVideo from "./UploadVideo";
-import { useRef, useState } from "react";
 import { userIcon } from "../assets/images";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
 import Carousel from "react-multi-carousel";
-import ConfirmationModal from "./ConfirmationModal";
+import { useRef, useState } from "react";
+import UploadVideo from "../components/UploadVideo";
+import ConfirmationModal from "../components/ConfirmationModal";
+import CustomButton from "../components/CustomButton";
 
-function VideoDetail({ handleShowVideo }) {
+function ItemDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [name, setName] = useState("Christin Mark");
@@ -46,7 +46,7 @@ function VideoDetail({ handleShowVideo }) {
         <IconButton
           size="large"
           color={AppColors.primary}
-          onClick={() => handleShowVideo(false)}
+          onClick={() => {}}
           aria-label="open drawer"
         >
           <KeyboardBackspace />
@@ -54,7 +54,7 @@ function VideoDetail({ handleShowVideo }) {
 
         <CustomButton
           onTap={() => {
-            handleModal();
+            // handleModal();
           }}
           text={"upload Video"}
           loading={false}
@@ -170,9 +170,9 @@ function VideoDetail({ handleShowVideo }) {
           03-01-2024
         </Typography>
       </Grid>
-      
-      <div style={{height:"30"}}>
-      <Carousel
+
+      <div style={{ height: "30" }}>
+        <Carousel
           additionalTransfrom={0}
           arrows
           afterChange={() => {
@@ -230,7 +230,7 @@ function VideoDetail({ handleShowVideo }) {
           })}
         </Carousel>
       </div>
-        
+
       <Grid
         item
         xs={11.5}
@@ -290,7 +290,7 @@ function VideoDetail({ handleShowVideo }) {
           />
           <CustomButton
             onTap={() => {
-              handleConfirmModal();
+            //   handleConfirmModal();
             }}
             prefixIcon={Delete}
             text={"Delete"}
@@ -311,7 +311,7 @@ function VideoDetail({ handleShowVideo }) {
             confirmationText={"Are you sure, you want to delete this file?"}
             leftButtonText={"Cancel"}
             rightButtonText={"Delete"}
-            leftButtonFunction={handleConfirmModal}
+            leftButtonFunction={()=>{}}
             rightButtonFunction={() => console.log("Delete")}
           />
         </Grid>
@@ -335,8 +335,8 @@ function VideoDetail({ handleShowVideo }) {
           {videoDescription}
         </Typography>
       </Box>
-      
     </Grid>
   );
 }
-export default VideoDetail;
+
+export default ItemDetail;
