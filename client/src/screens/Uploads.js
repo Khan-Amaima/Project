@@ -31,7 +31,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 function Uploads() {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
+  // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
