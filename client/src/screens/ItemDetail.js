@@ -16,7 +16,7 @@ function ItemDetail() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [pictureFile, setPictureFile] = useState(userIcon);
   const videoPlayerRef = useRef();
-  const itemDetailState = useSelector((state) => state.itemDetailRed); 
+  const itemDetailState = useSelector((state) => state.itemDetailRed);
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -66,106 +66,105 @@ function ItemDetail() {
         />
         <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
       </Grid>
-
-      <Grid
-        item
-        xs={5.5}
-        md={5.5}
-        style={{
-          marginTop: "40px",
-          display: "flex",
-          direction: "row",
-          justifyContent: "start",
-          alignItems: "center",
-          padding: "5px",
-          borderRadius: "5px",
-        }}
-      >
-        {pictureFile && (
-          <Box
-            width={"32px"}
-            height={"32px"}
-            style={{
-              backgroundColor: "white",
-              borderRadius: "16px",
-              position: "relative",
-              marginRight: "10px",
-              borderColor: AppColors.primary,
-            }}
-          >
-            <img
-              src={pictureFile}
-              style={{
-                objectFit: "cover",
-                width: "100%",
-                height: "100%",
-                borderRadius: "50px",
-              }}
-            />
-          </Box>
-        )}
-
-        <Typography
+      <Container>
+        <Grid
+          item
+          xs={5.5}
+          md={5.5}
           style={{
-            fontSize: FontSizeStandards.tertiaryHeading,
-            fontWeight: 500,
-            color: AppColors.tertiary,
-            fontFamily: "Poppins",
-            textOverflow: "clip",
-          }}
-        >
-          {itemDetailState?.itemDetail?.user?.username}
-        </Typography>
-
-        <Box
-          style={{
-            borderRadius: "10px",
-            marginLeft: "10px",
-            paddingInline: "5px",
-            backgroundColor: "#F5F5F5",
-            justifyContent: "center",
+            marginTop: "40px",
+            display: "flex",
+            direction: "row",
+            justifyContent: "start",
             alignItems: "center",
+            padding: "5px",
+            borderRadius: "5px",
           }}
         >
+          {pictureFile && (
+            <Box
+              width={"32px"}
+              height={"32px"}
+              style={{
+                backgroundColor: "white",
+                borderRadius: "16px",
+                position: "relative",
+                marginRight: "10px",
+                borderColor: AppColors.primary,
+              }}
+            >
+              <img
+                src={pictureFile}
+                style={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50px",
+                }}
+              />
+            </Box>
+          )}
+
           <Typography
             style={{
-              fontSize: "12px",
-              fontWeight: 400,
+              fontSize: FontSizeStandards.tertiaryHeading,
+              fontWeight: 500,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
           >
-            Owner
+            {itemDetailState?.itemDetail?.user?.username}
           </Typography>
-        </Box>
 
-        <Box
-          style={{
-            marginInline: "10px",
-            paddingBottom: "5px",
-            paddingInline: "5px",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {SvgIcons.ellipseIcon}
-        </Box>
+          <Box
+            style={{
+              borderRadius: "10px",
+              marginLeft: "10px",
+              paddingInline: "5px",
+              backgroundColor: "#F5F5F5",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              style={{
+                fontSize: "12px",
+                fontWeight: 400,
+                color: AppColors.tertiary,
+                fontFamily: "Poppins",
+                textOverflow: "clip",
+              }}
+            >
+              Owner
+            </Typography>
+          </Box>
 
-        <Typography
-          style={{
-            fontSize: FontSizeStandards.tertiaryHeading,
-            fontWeight: 500,
-            color: AppColors.tertiary,
-            fontFamily: "Poppins",
-            textOverflow: "clip",
-          }}
-        >
-          03-01-2024
-        </Typography>
-      </Grid>
+          <Box
+            style={{
+              marginInline: "10px",
+              paddingBottom: "5px",
+              paddingInline: "5px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {SvgIcons.ellipseIcon}
+          </Box>
 
-      <div style={{ height: "30" }}>
+          <Typography
+            style={{
+              fontSize: FontSizeStandards.tertiaryHeading,
+              fontWeight: 500,
+              color: AppColors.tertiary,
+              fontFamily: "Poppins",
+              textOverflow: "clip",
+            }}
+          >
+            03-01-2024
+          </Typography>
+        </Grid>
+
         <Carousel
           additionalTransfrom={0}
           arrows
@@ -224,116 +223,119 @@ function ItemDetail() {
             );
           })}
         </Carousel>
-      </div>
-
-      <Grid
-        item
-        xs={11.5}
-        md={11.5}
-        style={{
-          marginTop: "10px",
-          display: "flex",
-          direction: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "5px",
-          borderRadius: "5px",
-        }}
-      >
-        <Box>
-          <Typography
-            style={{
-              fontSize: "22px",
-              fontWeight: 600,
-              color: AppColors.tertiary,
-              fontFamily: "Poppins",
-            }}
-            sx={FontSizeStandards.mainHeading}
-          >
-            {itemDetailState?.itemDetail?.title || 'Title not added'}
-          </Typography>
-        </Box>
+        {/* </Container> */}
 
         <Grid
           item
-          xs={5.5}
-          md={5.5}
+          xs={11.5}
+          md={11.5}
           style={{
+            marginTop: "10px",
             display: "flex",
             direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
-            padding: "1px",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "5px",
             borderRadius: "5px",
           }}
         >
-          <CustomButton
-            onTap={() => {}}
-            prefixIcon={IosShare}
-            text={"share"}
-            loading={false}
-            buttonStyle={{
-              borderRadius: 50,
-              fontFamily: "Poppins",
-              fontSize: "14px",
-              fontWeight: 600,
-              color: AppColors.primary,
-              marginY: 1,
-              marginX: 0,
-              paddingX: 2,
-            }}
-          />
-          <CustomButton
-            onTap={() => {
-              handleConfirmModal();
-            }}
-            prefixIcon={Delete}
-            text={"Delete"}
-            loading={false}
-            buttonStyle={{
-              borderRadius: 50,
-              fontFamily: "Poppins",
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "red",
-              marginY: 1,
-              marginX: 0,
-              paddingX: 2,
-            }}
-          />
-          <ConfirmationModal
-            isModelOpen={isConfirmModalOpen}
-            confirmationText={"Are you sure, you want to delete this file?"}
-            leftButtonText={"Cancel"}
-            rightButtonText={"Delete"}
-            leftButtonFunction={()=>{}}
-            rightButtonFunction={() => console.log("Delete")}
-            icon={
-              <Delete style={{ width: "60px", height: "60px", color: "red" }} />
-            }
-          />
-        </Grid>
-      </Grid>
+          <Box>
+            <Typography
+              style={{
+                fontSize: "22px",
+                fontWeight: 600,
+                color: AppColors.tertiary,
+                fontFamily: "Poppins",
+              }}
+              sx={FontSizeStandards.mainHeading}
+            >
+              {itemDetailState?.itemDetail?.title || "Title not added"}
+            </Typography>
+          </Box>
 
-      <Box
-        style={{
-          padding: "10px",
-          borderRadius: "5px",
-          backgroundColor: "#F5F5F5",
-        }}
-      >
-        <Typography
+          <Grid
+            item
+            xs={5.5}
+            md={5.5}
+            style={{
+              display: "flex",
+              direction: "row",
+              justifyContent: "end",
+              alignItems: "end",
+              padding: "1px",
+              borderRadius: "5px",
+            }}
+          >
+            <CustomButton
+              onTap={() => {}}
+              prefixIcon={IosShare}
+              text={"share"}
+              loading={false}
+              buttonStyle={{
+                borderRadius: 50,
+                fontFamily: "Poppins",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: AppColors.primary,
+                marginY: 1,
+                marginX: 0,
+                paddingX: 2,
+              }}
+            />
+            <CustomButton
+              onTap={() => {
+                handleConfirmModal();
+              }}
+              prefixIcon={Delete}
+              text={"Delete"}
+              loading={false}
+              buttonStyle={{
+                borderRadius: 50,
+                fontFamily: "Poppins",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "red",
+                marginY: 1,
+                marginX: 0,
+                paddingX: 2,
+              }}
+            />
+            <ConfirmationModal
+              isModelOpen={isConfirmModalOpen}
+              confirmationText={"Are you sure, you want to delete this file?"}
+              leftButtonText={"Cancel"}
+              rightButtonText={"Delete"}
+              leftButtonFunction={() => {}}
+              rightButtonFunction={() => console.log("Delete")}
+              icon={
+                <Delete
+                  style={{ width: "60px", height: "60px", color: "red" }}
+                />
+              }
+            />
+          </Grid>
+        </Grid>
+
+        <Box
           style={{
-            fontSize: FontSizeStandards.mainHeading,
-            fontWeight: 400,
-            color: AppColors.tertiary,
-            fontFamily: "Poppins",
+            padding: "10px",
+            borderRadius: "5px",
+            backgroundColor: "#F5F5F5",
           }}
         >
-          {itemDetailState?.itemDetail?.description || 'Description not added'}
-        </Typography>
-     
-      </Box>
+          <Typography
+            style={{
+              fontSize: FontSizeStandards.mainHeading,
+              fontWeight: 400,
+              color: AppColors.tertiary,
+              fontFamily: "Poppins",
+            }}
+          >
+            {itemDetailState?.itemDetail?.description ||
+              "Description not added"}
+          </Typography>
+        </Box>
+      </Container>
     </Grid>
   );
 }
