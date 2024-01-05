@@ -14,11 +14,7 @@ import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
-import {
-  CheckBox,
-  CheckBoxOutlineBlank,
-  UnfoldMore,
-} from "@mui/icons-material";
+import {CheckBox,CheckBoxOutlineBlank,UnfoldMore,} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
@@ -36,6 +32,7 @@ function VideoPreviewTable({
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [deletedData, setDeletedData] = useState({});
+ 
   const dispatch = useDispatch();
   const userReducerState = useSelector((state) => state.userRed);
 
@@ -156,7 +153,7 @@ function VideoPreviewTable({
                     <video
                       width={160}
                       height={90}
-                      src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
+                      // src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
                       style={{ borderRadius: "6px" }}
                     />
                   </TableCell>
@@ -168,24 +165,25 @@ function VideoPreviewTable({
                   >
                     <Typography
                       style={{
-                        fontSize: FontSizeStandards.secondaryHeading,
+                      
                         fontWeight: 600,
-                        color: item.title ? AppColors.tertiary : AppColors.secondary,
+                        color: item.title ? AppColors.tertiary : AppColors.primary,
                         fontFamily: "Poppins",
                         textOverflow: "clip"
                       }}
+                      sx={{typography:FontSizeStandards.primaryHeading}}
                     >
                       {item.title || 'Title not added.'}
                     </Typography>
 
                     <Typography
                       style={{
-                        fontSize: FontSizeStandards.tertiaryHeading,
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
                         textOverflow:"clip"
                       }}
+                      sx={{typography:FontSizeStandards.tertiaryHeading}}
                     >
                       {item.description || 'Description not added.'}
                     </Typography>

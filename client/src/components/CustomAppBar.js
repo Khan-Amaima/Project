@@ -19,6 +19,7 @@ import { Avatar, Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getCurrentLocation } from "../shared-services/SharedFunctions";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 const drawerWidth = 240;
 
@@ -266,7 +267,14 @@ function CustomAppBar({ toggleDrawer, open }) {
               borderRadius: 50,
               backgroundColor: AppColors.tint,
               fontFamily: "Poppins",
-              fontSize: "14px",
+              fontSize:   {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
               fontWeight: 600,
               color: AppColors.primary,
               marginLeft: 6,

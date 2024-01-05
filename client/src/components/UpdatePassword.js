@@ -24,7 +24,7 @@ function UpdatePassword({}) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
   const [message, setMessage] = useState();
-  const [responseMessage, setResponseMessage] = useState();
+  const [responseMessage, setResponseMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -99,8 +99,8 @@ function UpdatePassword({}) {
     >
       <Grid
         item
-        xs={11.5}
-        md={11.5}
+        xs={12}
+        md={12}
         alignItems={"start"}
         justifyContent={"start"}
       >
@@ -139,8 +139,10 @@ function UpdatePassword({}) {
         <Grid
           // spacing={0}
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             backgroundColor: "",
@@ -245,8 +247,10 @@ function UpdatePassword({}) {
         <Grid
           // spacing={0}
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             backgroundColor: "",
@@ -350,9 +354,11 @@ function UpdatePassword({}) {
 
         <Grid
           item
-          gap={2}
-          xs={5.5}
+          // gap={2}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             backgroundColor: "",
@@ -457,16 +463,17 @@ function UpdatePassword({}) {
 
         <Grid
           item
-          xs={11.5}
-          md={11.5}
-          alignItems={"center"}
-          justifyContent={"space-between"}
+          xs={12}
+          sm={7}
+          md={8.5}
+          lg={8.5}
           style={{
             display: "flex",
-            direction: "row",
+            justifyContent: "start",
+            alignItems: "center",
           }}
         >
-          <Grid item xs={8} md={8}>
+         
             <Typography
               variant="h6"
               component="h2"
@@ -483,6 +490,17 @@ function UpdatePassword({}) {
             </Typography>
           </Grid>
 
+          <Grid  
+          xs={12}
+          sm={4}
+          md={3}
+          lg={3}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+          >
           <CustomButton
             type={"submit"}
             text={"Update Password"}
@@ -504,6 +522,10 @@ function UpdatePassword({}) {
           />
         </Grid>
       </Grid>
+
+
+
+
       <ConfirmationModal
         isModelOpen={isModalOpen}
         confirmationText={message}
