@@ -20,9 +20,9 @@ import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 
-function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+function UploadVideo({ isModalOpen, handleModal }) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const videoInputRef = useRef();
   const dragTabRef = useRef(0);
   const draggedOverTabRef = useRef(0);
@@ -31,18 +31,58 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [isPrimarySound, setPrimarySound] = useState(true);
   const [selectedSoundIndex, setSelectedSoundIndex] = useState(undefined);
   const userReducerState = useSelector((state) => state.userRed);
-
-  const handleFileChange = (event) => {
+  const [videoDuration, setVideoDuration] = useState(null);
+  const [durationError, setDurationError] = useState(false);
+  const [durationErrorMessage, setDurationErrorMessage] = useState("");
+  const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
+        console.log("Handling file=================");
+
         const file = event.target.files[0];
+
         if (file) {
           const url = URL.createObjectURL(file);
+
+          const video = document.createElement("video");
+          video.src = url;
+
+          // Wait for metadata to be loaded
+          await new Promise((resolve) => {
+            video.addEventListener("loadedmetadata", resolve);
+          });
+          const durationInSeconds = video.duration;
+          const totalDurationSeconds = Math.round(durationInSeconds);
+
+          if (tableData.length == 0 && videoDuration == null) {
+            setVideoDuration(totalDurationSeconds);
+          }
+
+          const minutes = Math.floor(durationInSeconds / 60);
+          const seconds = Math.round(durationInSeconds % 60);
+
           let customSize = file.size / 1024 / 1024;
-          setTableData([
-            ...tableData,
-            { video: url, sound: true, size: `${customSize.toFixed(2)}Mb`, file: file },
-          ]);
+
+          console.log("Video Duration:", totalDurationSeconds);
+
+          if (totalDurationSeconds == videoDuration || videoDuration==null) {
+            setTableData([
+              ...tableData,
+              {
+                video: url,
+                sound: true,
+                size: `${customSize.toFixed(2)}Mb`,
+                duration: `${minutes} min ${seconds} sec`,
+                file: file,
+              },
+            ]);
+          }else{
+            console.log("error Duration",videoDuration)
+            setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")}
+            setTimeout(() => {
+                setDurationErrorMessage("")
+            }, 3000);
+
           if (tableData.length === 3) {
             setButtonDisable(true);
           }
@@ -63,7 +103,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   };
 
   const handleSetPrimarySound = (id) => {
-    const updatedVideosWithSound = tableData?.map((item, index) => {
+    const updatedVideosWithSound = tableData.map((item, index) => {
       if (id == selectedSoundIndex) {
         console.log("Call reset");
         setSelectedSoundIndex(undefined);
@@ -257,7 +297,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             placeholder="Video title"
             sx={CustomStyle.inputStyle}
             value={title}
-            onChange={e=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -278,7 +318,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             multiline={true}
             rows={4}
             value={description}
-            onChange={e=>setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Grid>
       </Grid>
@@ -295,20 +335,30 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
       )}
 
       {tableData.length > 0 && (
-        <Box
+      <Box  sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: 8,
+      }}>
+        <Typography style={{color:"red"}}>
+         {durationErrorMessage}
+        </Typography>
+          <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "end",
             alignItems: "center",
-            marginTop: 8,
+            marginTop: 0,
           }}
         >
           <CustomButton
             onTap={() => {
               handleModal();
               setTableData([]);
-              setButtonDisable(false)
+              setButtonDisable(false);
             }}
             text={"Cancel"}
             buttonStyle={{
@@ -325,15 +375,18 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             }}
           />
           <CustomButton
-            onTap={ async () => {
-              try{
-                let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.email, title, description, tableData)
-                fetchVideos();
+            onTap={async () => {
+              try {
+                let response = await ApiManager.uploadVideo(
+                  userReducerState?.userDetail?.username,
+                  title,
+                  description,
+                  tableData
+                );
                 handleModal();
-                console.log(response, '--------response-------')
-              }
-              catch(err){
-                console.log(err)
+                console.log(response, "--------response-------");
+              } catch (err) {
+                console.log(err);
               }
               console.log("do some functionality");
             }}
@@ -350,8 +403,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             }}
           />
         </Box>
+      </Box>
       )}
     </CustomModal>
+
   );
 }
 

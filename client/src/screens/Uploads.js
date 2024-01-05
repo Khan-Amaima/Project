@@ -36,7 +36,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(["1","2"]);
+  const [userData, setUserData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);

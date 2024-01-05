@@ -32,17 +32,17 @@ function UpdateProfile({}) {
 
   const getProfileData = async () => {
     let response = await ApiManager.getProfile(userReducerState?.authToken);
-    if (response.data.success) {
+    // if (response.data.success) {
       setName(response.data.data.user.first_name);
       setEmail(response.data.data.user.email);
-      if (response.data.data.profile_picture) {
-        const file = response?.data?.data?.profile_picture;
-        setPictureFile(file);
-        console.log(`${process.env.REACT_APP_BASE_URL}${file}`, "-------");
-        const url = URL.createObjectURL(file);
-        setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`);
-      }
-    }
+    //   if (response.data.data.profile_picture) {
+    //     const file = response?.data?.data?.profile_picture;
+    //     setPictureFile(file);
+    //     console.log(`${process.env.REACT_APP_BASE_URL}${file}`, "-------");
+    //     const url = URL.createObjectURL(file);
+    //     setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`);
+    //   // }
+    // }
   };
 
   setTimeout(() => {
@@ -450,7 +450,7 @@ function UpdateProfile({}) {
             >
               <Grid
                 item
-                xs={6}
+                xs={2}
                 sm={2}
                 style={{
                   display: "flex",
