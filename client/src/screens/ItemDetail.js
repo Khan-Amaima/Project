@@ -5,7 +5,7 @@ import { userIcon } from "../assets/images";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
 import Carousel from "react-multi-carousel";
-import { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import UploadVideo from "../components/UploadVideo";
 import ConfirmationModal from "../components/ConfirmationModal";
 import CustomButton from "../components/CustomButton";
@@ -15,8 +15,9 @@ function ItemDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [pictureFile, setPictureFile] = useState(userIcon);
-  const videoPlayerRef = useRef();
   const itemDetailState = useSelector((state) => state.itemDetailRed);
+  let videoPlayerRefs = useRef([]);
+  let audioRef = useRef();
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -165,12 +166,11 @@ function ItemDetail() {
           </Typography>
         </Grid>
 
+        <audio id="audio" ref={audioRef} style={{display: 'none'}} src={require("../assets/test_music.mp3")} controls></audio>
+
         <Carousel
           additionalTransfrom={0}
           arrows
-          afterChange={() => {
-            console.log("hello");
-          }}
           centerMode={false}
           containerClass="container-with-dots"
           minimumTouchDrag={80}
@@ -211,19 +211,36 @@ function ItemDetail() {
             },
           }}
         >
-          {itemDetailState?.itemDetail?.videos.map((singleVideo) => {
+          {itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
             return (
               <video
-                ref={videoPlayerRef}
+                key={index}
+                ref={ref => !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
                 width="100%"
                 style={{ borderRadius: "10px" }}
                 controls
+                muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+                onLoadedData = {()=>{
+                  videoPlayerRefs?.current[index]?.play();
+                  audioRef.current.play();
+                }}
+                onPause = {()=>{
+                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                    videoPlayerRefs?.current[i]?.pause()
+                    audioRef?.current?.pause();
+                  }
+                }}
+                onPlay = {()=>{
+                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                    videoPlayerRefs?.current[i]?.play()
+                    audioRef?.current?.play();
+                  }
+                }}
               />
             );
           })}
         </Carousel>
-        {/* </Container> */}
 
         <Grid
           item
