@@ -26,24 +26,23 @@ import {
   KeyboardArrowLeftOutlined,
   KeyboardArrowRightOutlined,
 } from "@mui/icons-material";
-import FirstPageRoundedIcon from '@mui/icons-material/FirstPageRounded';
-import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
+import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CustomTablePagination from "../components/CustomTablePagination";
 import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(["1","2"]);
+  const [userData, setUserData] = useState(["1", "2"]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -56,11 +55,11 @@ function Uploads() {
 
   const fetchVideos = async () => {
     // setLoading(true);
-  //   let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-  //   if(response.data.success){
-  //     setLoading(false)
-  //     setUserData(response.data.data);
-  //   }
+    //   let response = await ApiManager.fetchVideos(userReducerState?.authToken);
+    //   if(response.data.success){
+    //     setLoading(false)
+    //     setUserData(response.data.data);
+    //   }
   };
 
   useEffect(() => {
@@ -172,70 +171,79 @@ function Uploads() {
   ) : (
     <>
       <Grid
-        item
-        xs={11.5}
-        md={11.5}
-        style={{
-          backgroundColor: "#F5F5F5",
-          display: "flex",
-          direction: "row",
-          justifyContent: "end",
-          alignItems: "end",
-          padding: "20px",
-          borderRadius: "5px",
-        }}
+       gap={1}
+       container
+       width={"auto"}
+       sx={{ width: { xs: "100%", lg: "100%" } }}
+       style={{
+         backgroundColor:"#F5F5F5",
+         borderRadius: "10px",
+         padding: 10,
+         direction: "row",
+         justifyContent: "end",
+         alignItems: "end",
+         minWidth: "200px",
+       }}
       >
-        <CustomButton
-          text={"Sort by"}
-          onTap={() => {}}
-          suffixIcon={KeyboardArrowDown}
-          isDisable={false}
-          buttonStyle={{
-            borderRadius: 50,
-            backgroundColor: AppColors.tint,
-            fontFamily: "Poppins",
-            fontSize: {
-              typography: {
-                xs: FontSizeStandards.secondaryHeading.xs,
-                sm: FontSizeStandards.secondaryHeading.sm,
-                md: FontSizeStandards.secondaryHeading.md,
-                lg: FontSizeStandards.secondaryHeading.lg,
+        <Grid
+          item xs={12} sm={5} md={3.5} lg={2.5} xl={1.5} style={{backgroundColor:"",justifyContent:"flex-end",alignItems:'flex-end',display:"flex",padding:"5px"}}
+        >
+          <CustomButton
+            text={"Sort by"}
+            onTap={() => {}}
+            suffixIcon={KeyboardArrowDown}
+            isDisable={false}
+            buttonStyle={{
+              borderRadius: 50,
+              backgroundColor: AppColors.tint,
+              fontFamily: "Poppins",
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
               },
-            },
-            fontWeight: 500,
-            color: AppColors.tertiary,
-          }}
-        />
+              fontWeight: 500,
+              color: AppColors.tertiary,
+            }}
+          />
+        </Grid>
 
-        <CustomButton
-          onTap={() => {
-            handleModal();
-          }}
-          text={"Upload Video"}
-          prefixIcon={AddCircleOutline}
-          isDisable={false}
-          buttonStyle={{
-            borderRadius: 50,
-            backgroundColor: AppColors.primary,
-            fontFamily: "Poppins",
-            fontSize: {
-              typography: {
-                xs: FontSizeStandards.secondaryHeading.xs,
-                sm: FontSizeStandards.secondaryHeading.sm,
-                md: FontSizeStandards.secondaryHeading.md,
-                lg: FontSizeStandards.secondaryHeading.lg,
+        <Grid
+         item xs={12} sm={6.5} md={4} lg={3} xl={2}style={{backgroundColor:"",justifyContent:"flex-end",alignItems:'flex-end',display:"flex",paddingRight:"20px",paddingTop:"5px",paddingBottom:"5px"}}
+        >
+          <CustomButton
+            onTap={() => {
+              handleModal();
+            }}
+            text={"Upload Video"}
+            prefixIcon={AddCircleOutline}
+            isDisable={false}
+            buttonStyle={{
+              borderRadius: 50,
+              backgroundColor: AppColors.primary,
+              fontFamily: "Poppins",
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
               },
-            },
-            marginX: "5px",
-            fontWeight: 500,
-            color: AppColors.white,
-          }}
-        />
-        <UploadVideo
-          isModalOpen={isModalOpen}
-          handleModal={handleModal}
-          fetchVideos={fetchVideos}
-        />
+              marginX: "5px",
+              fontWeight: 500,
+              color: AppColors.white,
+            }}
+          />
+          <UploadVideo
+            isModalOpen={isModalOpen}
+            handleModal={handleModal}
+            fetchVideos={fetchVideos}
+          />
+        </Grid>
       </Grid>
 
       <Grid
@@ -249,6 +257,8 @@ function Uploads() {
           alignItems: "center",
           padding: "5px",
           borderRadius: "5px",
+          minWidth: "220px",
+          
         }}
       >
         <IconButton
@@ -260,10 +270,10 @@ function Uploads() {
         </IconButton>
         <Grid
           item
-          xs={5.5}
-          md={5.5}
+          xs={7}
+          md={5}
           style={{
-            display: "flex",
+            display: "inline",
             direction: "row",
             justifyContent: "end",
             alignItems: "end",
@@ -271,8 +281,7 @@ function Uploads() {
             borderRadius: "5px",
           }}
         >
-        
-            <TableRow>
+          <TableRow>
             <CustomTablePagination
               // rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
@@ -281,11 +290,11 @@ function Uploads() {
               page={page}
               slotProps={{
                 select: {
-                  'aria-label': 'Rows per page',
+                  "aria-label": "Rows per page",
                 },
                 actions: {
                   showFirstButton: false,
-                  showLastButton: false,   
+                  showLastButton: false,
                   slots: {
                     nextPageIcon: ChevronRightRoundedIcon,
                     backPageIcon: ChevronLeftRoundedIcon,
@@ -294,8 +303,8 @@ function Uploads() {
               }}
               onPageChange={handleChangePage}
               // onRowsPerPageChange={handleChangeRowsPerPage}
-             />
-            </TableRow>
+            />
+          </TableRow>
         </Grid>
       </Grid>
 

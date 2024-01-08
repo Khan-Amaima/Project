@@ -95,11 +95,16 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
   const handleDeleteFile = (id) => {
     let extractedVideos = tableData.filter((video, index) => index != id);
-
     setTableData(extractedVideos);
+    
+    if (tableData.length <= 1) {
+      console.log("setting vd null")
+      setVideoDuration(null);
+    }
     if (tableData.length <= 4) {
       setButtonDisable(false);
     }
+    
   };
 
   const handleSetPrimarySound = (id) => {

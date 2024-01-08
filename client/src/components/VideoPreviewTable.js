@@ -92,9 +92,16 @@ function VideoPreviewTable({
                   style={{
                     minWidth: column.minWidth,
                     color: AppColors.tertiary,
-                    fontSize: "16px",
                     fontWeight: 600,
-                    backgroundColor:"#F5F5F5"
+                    backgroundColor:"#F5F5F5",
+                    fontSize: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
                   }}
                 >
                   {column.id == "checkButton" ? (
@@ -107,6 +114,7 @@ function VideoPreviewTable({
                         alignItems: "center",
                         justifyContent: "center",
                         display: "flex",
+                        
                       }}
                     >
                       {column.label} <UnfoldMore />
@@ -197,11 +205,11 @@ function VideoPreviewTable({
                   <TableCell onClick={() => {}} align="center" width={"10px"}>
                     <Typography
                       style={{
-                        size: "16px",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
                       }}
+                      sx={{typography:FontSizeStandards.secondaryHeading}}
                     >
                       {"20 Dec"}
                     </Typography>
@@ -210,11 +218,11 @@ function VideoPreviewTable({
                   <TableCell width={100} onClick={() => {}} align="center">
                     <Typography
                       style={{
-                        size: "16px",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
                       }}
+                      sx={{typography:FontSizeStandards.secondaryHeading}}
                     >
                       {"24 Mb"}
                     </Typography>

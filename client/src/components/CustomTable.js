@@ -59,8 +59,10 @@ function CustomTable({
     {
       id: "button",
       label: "",
-      minWidth: 50,
-      align: "right",
+      minWidth: 200,
+      align: "center",
+      width: 200,
+      height: 70,
     },
     {
       id: "deleteIcon",
@@ -85,7 +87,14 @@ function CustomTable({
                   style={{
                     minWidth: column.minWidth,
                     color: AppColors.tertiary,
-                    fontSize: "16px",
+                    fontSize: {
+                      typography: {
+                        xs: FontSizeStandards.appName.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.appName.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
                     fontWeight: 600,
                   }}
                 >
@@ -105,6 +114,7 @@ function CustomTable({
               let no = index + 1;
               return (
                 <TableRow
+                style={{justifyContent:"center",alignItems:"center"}}
                   draggable={startDragging ? "true" : "false"}
                   onDragStart={() => handleDragRef(index)}
                   onDragEnter={() => {
@@ -169,7 +179,7 @@ function CustomTable({
                     }}
                   >
                     <video
-                      width={140}
+                      width={150}
                       height={80}
                       controls
                       src={item.video}
@@ -198,7 +208,7 @@ function CustomTable({
                       {item.size}
                     </Typography>
                   </TableCell>
-                  <TableCell onClick={() => {}}>
+                  <TableCell style={{backgroundColor:"", width: "200px", minWidth: "200px",}}>
                     <CustomButton
                       onTap={() => {
                         handleSetPrimarySound(index);
@@ -212,23 +222,24 @@ function CustomTable({
                         fontFamily: "Poppins",
                         fontSize: {
                           typography: {
-                            xs: FontSizeStandards.appName.xs,
+                            xs: FontSizeStandards.secondaryHeading.xs,
                             sm: FontSizeStandards.secondaryHeading.sm,
-                            md: FontSizeStandards.appName.md,
+                            md: FontSizeStandards.secondaryHeading.md,
                             lg: FontSizeStandards.secondaryHeading.lg,
                           },
                         },
                         fontWeight: 500,
                         color: item.sound ? AppColors.white : AppColors.primary,
-                        marginInline:"10px"
+                        paddingInline:"30px",
+                        
                       }}
                     />
-                  </TableCell>
+                  </TableCell >
                   <TableCell onClick={() => handleDeleteFile(index)}>
                     <CustomIcon
                       icon={SvgIcons.deleteIcon}
                       boxSize={ImageSize.UploadPicIcon}
-                      align=""
+                      align="right"
                       justifyContent="center"
                       alignItems="center"
                       cursor="pointer"
