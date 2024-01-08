@@ -14,6 +14,7 @@ import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function CustomTable({
   tableData,
@@ -52,7 +53,7 @@ function CustomTable({
     {
       id: "size",
       label: "Size",
-      minWidth: 170,
+      minWidth: 130,
       align: "center",
     },
     {
@@ -152,7 +153,7 @@ function CustomTable({
                       justifyContent="center"
                       alignItems="center"
                       cursor="move"
-                      marginInline="20px"
+                      marginInline="0px"
                     />
                   </TableCell>
 
@@ -175,7 +176,7 @@ function CustomTable({
                       style={{ borderRadius: "10px" }}
                     />
                   </TableCell>
-                  <TableCell onClick={() => {}} align="center" width={"10px"}>
+                  <TableCell onClick={() => {}} align="center" width={"5px"}>
                     <CustomIcon
                       icon={item.sound ? SvgIcons.soundIcon : SvgIcons.muteIcon}
                       boxSize={ImageSize.UploadPicIcon}
@@ -209,9 +210,17 @@ function CustomTable({
                           : AppColors.white,
                         border: item.sound ? "" : "1px solid",
                         fontFamily: "Poppins",
-                        fontSize: "14px",
+                        fontSize: {
+                          typography: {
+                            xs: FontSizeStandards.appName.xs,
+                            sm: FontSizeStandards.secondaryHeading.sm,
+                            md: FontSizeStandards.appName.md,
+                            lg: FontSizeStandards.secondaryHeading.lg,
+                          },
+                        },
                         fontWeight: 500,
                         color: item.sound ? AppColors.white : AppColors.primary,
+                        marginInline:"10px"
                       }}
                     />
                   </TableCell>
@@ -224,6 +233,7 @@ function CustomTable({
                       alignItems="center"
                       cursor="pointer"
                       marginInline="20px"
+
                     />
                   </TableCell>
                 </TableRow>

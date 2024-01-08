@@ -36,7 +36,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(["1","2"]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
@@ -55,12 +55,12 @@ function Uploads() {
   };
 
   const fetchVideos = async () => {
-    setLoading(true);
-    let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-    if(response.data.success){
-      setLoading(false)
-      setUserData(response.data.data);
-    }
+    // setLoading(true);
+  //   let response = await ApiManager.fetchVideos(userReducerState?.authToken);
+  //   if(response.data.success){
+  //     setLoading(false)
+  //     setUserData(response.data.data);
+  //   }
   };
 
   useEffect(() => {

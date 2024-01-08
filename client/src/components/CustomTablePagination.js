@@ -4,36 +4,6 @@ import {
   TablePagination,
   tablePaginationClasses as classes,
 } from '@mui/base/TablePagination';
-import FirstPageRoundedIcon from '@mui/icons-material/FirstPageRounded';
-import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-
- function UnstyledPaginationIntroduction() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  return (
-    <Root sx={{ width: 500, maxWidth: '100%' }}>
-      <table aria-label="custom pagination table">
-        <tfoot>
-          <tr>
-            
-          </tr>
-        </tfoot>
-      </table>
-    </Root>
-  );
-}
 
 const blue = {
   200: '#A5D8FF',

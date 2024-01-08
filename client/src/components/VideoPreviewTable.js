@@ -165,27 +165,32 @@ function VideoPreviewTable({
                   >
                     <Typography
                       style={{
-                      
+                        width: "170px", // Set the maximum width of the container
+                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
+                        overflow: "hidden", // Hide any content that overflows the container
+                        textOverflow: "ellipsis",
                         fontWeight: 600,
                         color: item.title ? AppColors.tertiary : AppColors.primary,
                         fontFamily: "Poppins",
-                        textOverflow: "clip"
                       }}
                       sx={{typography:FontSizeStandards.primaryHeading}}
                     >
-                      {item.title || 'Title not added.'}
+                      {item.title || 'Title not added.escription not added.escription not added.'}
                     </Typography>
 
                     <Typography
                       style={{
+                        width: "170px", // Set the maximum width of the container
+                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
+                        overflow: "hidden", // Hide any content that overflows the container
+                        textOverflow: "ellipsis",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
-                        textOverflow:"clip"
                       }}
                       sx={{typography:FontSizeStandards.tertiaryHeading}}
                     >
-                      {item.description || 'Description not added.'}
+                      {item.description || 'Description not added.escription not added.escription not added.escription not added.'}
                     </Typography>
                   </TableCell>
 

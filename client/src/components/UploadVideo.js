@@ -19,6 +19,7 @@ import { tab } from "@testing-library/user-event/dist/tab";
 import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function UploadVideo({ isModalOpen, handleModal }) {
   const [title, setTitle] = useState("");
@@ -46,11 +47,10 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
           const video = document.createElement("video");
           video.src = url;
-
-          // Wait for metadata to be loaded
           await new Promise((resolve) => {
             video.addEventListener("loadedmetadata", resolve);
           });
+
           const durationInSeconds = video.duration;
           const totalDurationSeconds = Math.round(durationInSeconds);
 
@@ -151,16 +151,17 @@ function UploadVideo({ isModalOpen, handleModal }) {
         component="h2"
         style={{
           fontFamily: "Poppins",
-          fontSize: 20,
           fontWeight: "600",
           color: AppColors.tertiary,
           marginBottom: "20px",
           textAlign: "center",
         }}
+        sx={{typography:FontSizeStandards.primaryHeading}}
       >
         Upload Videos
       </Typography>
       <Grid
+      gap={1}
         container
         width={"auto"}
         sx={{ width: { xs: "100%", lg: "60%" } }}
@@ -175,7 +176,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           margin: "auto",
         }}
       >
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <Box
             style={{ justifyContent: "center", alignItems: "center" }}
             sx={{
@@ -198,16 +199,16 @@ function UploadVideo({ isModalOpen, handleModal }) {
             {SvgIcons.uploadIcon}
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}style={{justifyContent:"center",alignItems:'center',display:"flex",flexDirection:"column"}}>
           <Typography
             variant="h6"
             component="h2"
             style={{
               fontFamily: "Poppins",
-              fontSize: 14,
               fontWeight: "500",
               color: AppColors.tertiary,
             }}
+            sx={{typography:FontSizeStandards.tertiaryHeading}}
           >
             Select a file or drag and drop here
           </Typography>
@@ -216,10 +217,10 @@ function UploadVideo({ isModalOpen, handleModal }) {
               style={{
                 marginTop: "5px",
                 fontFamily: "Poppins",
-                fontSize: 12,
                 fontWeight: "500",
                 color: "red",
               }}
+              sx={{typography:FontSizeStandards.secondaryHeading}}
             >
               Can't Add more than 4 Videos
             </Typography>
@@ -228,16 +229,16 @@ function UploadVideo({ isModalOpen, handleModal }) {
               style={{
                 marginTop: "5px",
                 fontFamily: "Poppins",
-                fontSize: 12,
                 fontWeight: "500",
                 color: AppColors.secondary,
               }}
+              sx={{typography:FontSizeStandards.subHeading}}
             >
               MP3, MP4 or flash, file size no more than 10MB
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={4}style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <input
             ref={videoInputRef}
             style={{ display: "none" }}
@@ -257,10 +258,10 @@ function UploadVideo({ isModalOpen, handleModal }) {
               borderRadius: 50,
               backgroundColor: AppColors.tint,
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 500,
               color: AppColors.primary,
             }}
+            sx={{typography:FontSizeStandards.tertiary}}
           />
         </Grid>
       </Grid>
@@ -282,11 +283,12 @@ function UploadVideo({ isModalOpen, handleModal }) {
             component="h2"
             style={{
               fontFamily: "Poppins",
-              fontSize: 16,
+
               fontWeight: "500",
               color: AppColors.tertiary,
               marginBottom: "6px",
             }}
+            sx={{typography:FontSizeStandards.secondaryHeading}}
           >
             Video Details
           </Typography>
@@ -296,6 +298,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             id="title"
             placeholder="Video title"
             sx={CustomStyle.inputStyle}
+           
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             InputProps={{
@@ -306,6 +309,14 @@ function UploadVideo({ isModalOpen, handleModal }) {
                   </IconButton>
                 </InputAdornment>
               ),
+              sx: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
             }}
           />
           <TextField
@@ -313,12 +324,19 @@ function UploadVideo({ isModalOpen, handleModal }) {
             fullWidth
             id="description"
             placeholder="Description"
-            sx={CustomStyle.inputStyle}
-            style={{ marginTop: "6px" }}
+            style={{marginTop: "6px", fontSize:"14px"}}
+            sx={{ ...CustomStyle.inputStyle,}}
             multiline={true}
             rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            InputProps={{
+              
+                sx: {
+                  typography: {fontSize:"14px"},
+                },
+              
+            }}
           />
         </Grid>
       </Grid>
@@ -364,8 +382,15 @@ function UploadVideo({ isModalOpen, handleModal }) {
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: AppColors.white,
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 600,
               color: AppColors.tertiary,
               border: "1px solid",
@@ -394,12 +419,19 @@ function UploadVideo({ isModalOpen, handleModal }) {
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: AppColors.primary,
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 600,
               color: AppColors.white,
-              paddingX: 4,
-              paddingY: 1,
+              paddingX: 3,
+              paddingY: 1.2,
             }}
           />
         </Box>
