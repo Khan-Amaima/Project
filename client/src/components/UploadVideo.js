@@ -19,10 +19,11 @@ import { tab } from "@testing-library/user-event/dist/tab";
 import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
-function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+function UploadVideo({ isModalOpen, handleModal }) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const videoInputRef = useRef();
   const dragTabRef = useRef(0);
   const draggedOverTabRef = useRef(0);
@@ -31,18 +32,57 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [isPrimarySound, setPrimarySound] = useState(true);
   const [selectedSoundIndex, setSelectedSoundIndex] = useState(undefined);
   const userReducerState = useSelector((state) => state.userRed);
-
-  const handleFileChange = (event) => {
+  const [videoDuration, setVideoDuration] = useState(null);
+  const [durationError, setDurationError] = useState(false);
+  const [durationErrorMessage, setDurationErrorMessage] = useState("");
+  const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
+        console.log("Handling file=================");
+
         const file = event.target.files[0];
+
         if (file) {
           const url = URL.createObjectURL(file);
+
+          const video = document.createElement("video");
+          video.src = url;
+          await new Promise((resolve) => {
+            video.addEventListener("loadedmetadata", resolve);
+          });
+
+          const durationInSeconds = video.duration;
+          const totalDurationSeconds = Math.round(durationInSeconds);
+
+          if (tableData.length == 0 && videoDuration == null) {
+            setVideoDuration(totalDurationSeconds);
+          }
+
+          const minutes = Math.floor(durationInSeconds / 60);
+          const seconds = Math.round(durationInSeconds % 60);
+
           let customSize = file.size / 1024 / 1024;
-          setTableData([
-            ...tableData,
-            { video: url, sound: true, size: `${customSize.toFixed(2)}Mb`, file: file },
-          ]);
+
+          console.log("Video Duration:", totalDurationSeconds);
+
+          if (totalDurationSeconds == videoDuration || videoDuration==null) {
+            setTableData([
+              ...tableData,
+              {
+                video: url,
+                sound: true,
+                size: `${customSize.toFixed(2)}Mb`,
+                duration: `${minutes} min ${seconds} sec`,
+                file: file,
+              },
+            ]);
+          }else{
+            console.log("error Duration",videoDuration)
+            setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")}
+            setTimeout(() => {
+                setDurationErrorMessage("")
+            }, 3000);
+
           if (tableData.length === 3) {
             setButtonDisable(true);
           }
@@ -55,15 +95,20 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
 
   const handleDeleteFile = (id) => {
     let extractedVideos = tableData.filter((video, index) => index != id);
-
     setTableData(extractedVideos);
+    
+    if (tableData.length <= 1) {
+      console.log("setting vd null")
+      setVideoDuration(null);
+    }
     if (tableData.length <= 4) {
       setButtonDisable(false);
     }
+    
   };
 
   const handleSetPrimarySound = (id) => {
-    const updatedVideosWithSound = tableData?.map((item, index) => {
+    const updatedVideosWithSound = tableData.map((item, index) => {
       if (id == selectedSoundIndex) {
         console.log("Call reset");
         setSelectedSoundIndex(undefined);
@@ -111,16 +156,17 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
         component="h2"
         style={{
           fontFamily: "Poppins",
-          fontSize: 20,
           fontWeight: "600",
           color: AppColors.tertiary,
           marginBottom: "20px",
           textAlign: "center",
         }}
+        sx={{typography:FontSizeStandards.primaryHeading}}
       >
         Upload Videos
       </Typography>
       <Grid
+      gap={1}
         container
         width={"auto"}
         sx={{ width: { xs: "100%", lg: "60%" } }}
@@ -135,7 +181,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
           margin: "auto",
         }}
       >
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <Box
             style={{ justifyContent: "center", alignItems: "center" }}
             sx={{
@@ -158,16 +204,16 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             {SvgIcons.uploadIcon}
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}style={{justifyContent:"center",alignItems:'center',display:"flex",flexDirection:"column"}}>
           <Typography
             variant="h6"
             component="h2"
             style={{
               fontFamily: "Poppins",
-              fontSize: 14,
               fontWeight: "500",
               color: AppColors.tertiary,
             }}
+            sx={{typography:FontSizeStandards.tertiaryHeading}}
           >
             Select a file or drag and drop here
           </Typography>
@@ -176,10 +222,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
               style={{
                 marginTop: "5px",
                 fontFamily: "Poppins",
-                fontSize: 12,
                 fontWeight: "500",
                 color: "red",
               }}
+              sx={{typography:FontSizeStandards.secondaryHeading}}
             >
               Can't Add more than 4 Videos
             </Typography>
@@ -188,16 +234,16 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
               style={{
                 marginTop: "5px",
                 fontFamily: "Poppins",
-                fontSize: 12,
                 fontWeight: "500",
                 color: AppColors.secondary,
               }}
+              sx={{typography:FontSizeStandards.subHeading}}
             >
               MP3, MP4 or flash, file size no more than 10MB
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={4}style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <input
             ref={videoInputRef}
             style={{ display: "none" }}
@@ -217,10 +263,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
               borderRadius: 50,
               backgroundColor: AppColors.tint,
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 500,
               color: AppColors.primary,
             }}
+            sx={{typography:FontSizeStandards.tertiary}}
           />
         </Grid>
       </Grid>
@@ -242,11 +288,12 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             component="h2"
             style={{
               fontFamily: "Poppins",
-              fontSize: 16,
+
               fontWeight: "500",
               color: AppColors.tertiary,
               marginBottom: "6px",
             }}
+            sx={{typography:FontSizeStandards.secondaryHeading}}
           >
             Video Details
           </Typography>
@@ -256,8 +303,9 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             id="title"
             placeholder="Video title"
             sx={CustomStyle.inputStyle}
+           
             value={title}
-            onChange={e=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -266,6 +314,14 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
                   </IconButton>
                 </InputAdornment>
               ),
+              sx: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
             }}
           />
           <TextField
@@ -273,12 +329,19 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             fullWidth
             id="description"
             placeholder="Description"
-            sx={CustomStyle.inputStyle}
-            style={{ marginTop: "6px" }}
+            style={{marginTop: "6px", fontSize:"14px"}}
+            sx={{ ...CustomStyle.inputStyle,}}
             multiline={true}
             rows={4}
             value={description}
-            onChange={e=>setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
+            InputProps={{
+              
+                sx: {
+                  typography: {fontSize:"14px"},
+                },
+              
+            }}
           />
         </Grid>
       </Grid>
@@ -295,27 +358,44 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
       )}
 
       {tableData.length > 0 && (
-        <Box
+      <Box  sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: 8,
+      }}>
+        <Typography style={{color:"red"}}>
+         {durationErrorMessage}
+        </Typography>
+          <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "end",
             alignItems: "center",
-            marginTop: 8,
+            marginTop: 0,
           }}
         >
           <CustomButton
             onTap={() => {
               handleModal();
               setTableData([]);
-              setButtonDisable(false)
+              setButtonDisable(false);
             }}
             text={"Cancel"}
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: AppColors.white,
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 600,
               color: AppColors.tertiary,
               border: "1px solid",
@@ -325,15 +405,18 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             }}
           />
           <CustomButton
-            onTap={ async () => {
-              try{
-                let response = await ApiManager.uploadVideo(userReducerState?.userDetail?.email, title, description, tableData)
-                fetchVideos();
+            onTap={async () => {
+              try {
+                let response = await ApiManager.uploadVideo(
+                  userReducerState?.userDetail?.username,
+                  title,
+                  description,
+                  tableData
+                );
                 handleModal();
-                console.log(response, '--------response-------')
-              }
-              catch(err){
-                console.log(err)
+                console.log(response, "--------response-------");
+              } catch (err) {
+                console.log(err);
               }
               console.log("do some functionality");
             }}
@@ -341,17 +424,26 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: AppColors.primary,
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
               fontFamily: "Poppins",
-              fontSize: "14px",
               fontWeight: 600,
               color: AppColors.white,
-              paddingX: 4,
-              paddingY: 1,
+              paddingX: 3,
+              paddingY: 1.2,
             }}
           />
         </Box>
+      </Box>
       )}
     </CustomModal>
+
   );
 }
 

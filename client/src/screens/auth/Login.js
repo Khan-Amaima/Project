@@ -19,12 +19,13 @@ import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import ApiManager from "../../api/ApiManager";
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { setCurrentUserAuthToken } from '../../redux/actions/userActions';
+import { connect, useDispatch, useSelector } from "react-redux";
+import { setCurrentUserAuthToken } from "../../redux/actions/userActions";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,7 +46,7 @@ function Login() {
   const handleSubmit = async (event, values) => {
     setLoading(true);
     try {
-      let response = await ApiManager.loginUser(event.email, event.password)
+      let response = await ApiManager.loginUser(event.email, event.password);
       dispatch(setCurrentUserAuthToken(response.data.token));
       navigate("/");
       setLoading(false);
@@ -137,7 +138,7 @@ function Login() {
             onSubmit={formik.handleSubmit}
             sx={{ mt: 3, margin: "40px" }}
           >
-            <Grid container spacing={3}>
+            <Grid container gap={1} style={{ padding: "20px" }}>
               <Grid item xs={12}>
                 <TextField
                   name="email"
@@ -165,6 +166,7 @@ function Login() {
                   </FormHelperText>
                 )}
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   id="password"
@@ -205,27 +207,39 @@ function Login() {
                   </FormHelperText>
                 )}
               </Grid>
+
               <Grid
                 item
                 xs={12}
-                style={{ paddingTop: "0px", marginTop: "5px" }}
+                style={{ paddingTop: "0px", marginTop: "5px", display: "flex" }}
               >
-                <Link
-                  href="./forgotPassword"
-                  style={{ textDecoration: "none" }}
+                <Grid
+                  xs={6}
+                  style={{ paddingInline: "10px", backgroundColor: "" }}
                 >
-                  <Typography
-                    style={{
-                      color: AppColors.secondary,
-                      fontFamily: "Poppins",
-                      fontWeight: "400",
-                    }}
-                    sx={{ typography: FontSizeStandards.tertiaryHeading }}
-                    align="end"
+                  <FormHelperText error id="confirmPassword">
+                    {responseMessage}
+                  </FormHelperText>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Link
+                    href="./forgotPassword"
+                    style={{ textDecoration: "none" }}
                   >
-                    {"Forgot Password? "}
-                  </Typography>
-                </Link>
+                    <Typography
+                      style={{
+                        color: AppColors.secondary,
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                      }}
+                      sx={{ typography: FontSizeStandards.tertiaryHeading }}
+                      align="end"
+                    >
+                      {"Forgot Password? "}
+                    </Typography>
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
             <CustomButton

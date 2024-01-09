@@ -266,7 +266,9 @@ function ItemDetail() {
               }}
               sx={FontSizeStandards.mainHeading}
             >
-              {itemDetailState?.itemDetail?.title || "Title not added"}
+              {itemDetailState?.itemDetail?.title.length > 20
+                ? `${itemDetailState.itemDetail.title.slice(0, 20)}...`
+                : itemDetailState.itemDetail.title || "Title not added"}
             </Typography>
           </Box>
 
@@ -348,7 +350,9 @@ function ItemDetail() {
               fontFamily: "Poppins",
             }}
           >
-            {itemDetailState?.itemDetail?.description ||
+            {itemDetailState?.itemDetail?.description.length > 20
+                ? `${itemDetailState.itemDetail.description.slice(0, 20)}...`
+                : itemDetailState.itemDetail.description  ||
               "Description not added"}
           </Typography>
         </Box>

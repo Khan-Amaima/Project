@@ -26,6 +26,7 @@ import { setCurrentUserAuthToken } from '../../redux/actions/userActions';
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -287,6 +288,17 @@ function SignUp() {
                     </FormHelperText>
                   )}
               </Grid>
+               <Grid
+                item
+                xs={12}
+                style={{ paddingTop: "0px", marginTop: "5px",display:"flex"}}
+               >
+                  <FormHelperText error id="confirmPassword">
+                    {responseMessage}
+                  </FormHelperText>
+             
+             </Grid>
+             
               <Grid
                 item
                 xs={12}

@@ -18,41 +18,47 @@ import ApiManager from "../api/ApiManager";
 
 function UpdateProfile({}) {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isDisableButton, setIsDisableButton] = useState(true);
   const [isNameChanged, setIsNameChanged] = useState(false);
   const [isEmailChanged, setIsEmailChanged] = useState(false);
   const [pictureFile, setPictureFile] = useState(null);
   const [pictureUrl, setPictureUrl] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
+  const [responseMessage, setResponseMessage] = useState("");
   const pictureInputRef = useRef();
   const userReducerState = useSelector((state) => state.userRed);
 
   const getProfileData = async () => {
-    let response = await ApiManager.getProfile(userReducerState?.authToken)
-    if(response.data.success){
-      setName(response.data.data.user.first_name)
-      setEmail(response.data.data.user.email)
-      if(response.data.data.profile_picture){
-        const file = response?.data?.data?.profile_picture
-        // setPictureFile(file)
-        // console.log(`${process.env.REACT_APP_BASE_URL}${file}`, '-------')
-        // const url = URL.createObjectURL(file);
-        setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`)
-      }
+    let response = await ApiManager.getProfile(userReducerState?.authToken);
+    // if (response.data.success) {
+      setName(response.data.data.user.first_name);
+      setEmail(response.data.data.user.email);
+      if (response.data.data.profile_picture) {
+        const file = response?.data?.data?.profile_picture;
+        setPictureFile(file);
+        console.log(`${process.env.REACT_APP_BASE_URL}${file}`, "-------");
+        const url = URL.createObjectURL(file);
+        setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`);
+      // }
     }
-  }
+  };
 
+  setTimeout(() => {
+    setResponseMessage("");
+  }, 3000);
   const updateProfileData = async () => {
-    let response = await ApiManager.updateProfile(userReducerState?.authToken, pictureFile)
-    console.log(response)
-  }
+    let response = await ApiManager.updateProfile(
+      userReducerState?.authToken,
+      pictureFile
+    );
+    console.log(response);
+  };
 
   useEffect(() => {
-    getProfileData()
-  }, [])
-  
+    getProfileData();
+  }, []);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -67,7 +73,7 @@ function UpdateProfile({}) {
   const handleSubmit = (event, values) => {
     try {
       console.log(" successs", event);
-      updateProfileData()
+      updateProfileData();
       // navigate("/");
     } catch (error) {
       console.log(error);
@@ -106,7 +112,7 @@ function UpdateProfile({}) {
       if (file) {
         const url = URL.createObjectURL(file);
         setPictureFile(file);
-        setPictureUrl(url)
+        setPictureUrl(url);
       }
     } catch (err) {
       console.log(err, "upload Picture error");
@@ -115,7 +121,7 @@ function UpdateProfile({}) {
 
   const handleDeleteFile = () => {
     setPictureFile(null);
-    setPictureUrl(null)
+    setPictureUrl(null);
   };
 
   return (
@@ -138,13 +144,7 @@ function UpdateProfile({}) {
         margin: "",
       }}
     >
-      <Grid
-        item
-        xs={11.5}
-        md={11.5}
-        alignItems={"start"}
-        justifyContent={"start"}
-      >
+      <Grid item xs={12} md={12} alignItems={"start"} justifyContent={"start"}>
         <Typography
           variant="h6"
           component="h2"
@@ -176,8 +176,10 @@ function UpdateProfile({}) {
       >
         <Grid
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             borderRadius: "10px",
@@ -230,8 +232,10 @@ function UpdateProfile({}) {
 
         <Grid
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             direction: "row",
@@ -285,8 +289,10 @@ function UpdateProfile({}) {
 
         <Grid
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
             direction: "row",
@@ -333,15 +339,15 @@ function UpdateProfile({}) {
 
         <Grid
           item
-          xs={5.5}
+          xs={12}
+          sm={5.5}
           md={5.5}
+          lg={5.5}
           style={{
             borderColor: AppColors.primary,
-            justifyContent: "center",
+            justifyContent: pictureUrl !== null ? "center" : "start",
             alignItems: pictureUrl !== null ? "center" : "start",
             margin: "auto",
-            backgroundColor: "",
-            wrap: "nowrap",
           }}
         >
           <Typography
@@ -435,12 +441,23 @@ function UpdateProfile({}) {
                 borderRadius: "5px",
                 padding: "5px",
                 direction: "row",
+                display: "flex",
+                backgroundColor: "",
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "auto",
               }}
             >
-              <Grid item xs={3} md={1}>
+              <Grid
+                item
+                xs={2}
+                sm={2}
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                }}
+              >
                 <CustomIcon
                   icon={SvgIcons.uploadPicIcon}
                   boxSize={ImageSize.UploadPicIcon}
@@ -449,7 +466,7 @@ function UpdateProfile({}) {
                 />
               </Grid>
 
-              <Grid item xs={9} md={6}>
+              <Grid item xs={8} sm={9.5} style={{ textAlign: "center" }}>
                 <Typography
                   variant="h6"
                   component="h2"
@@ -458,7 +475,7 @@ function UpdateProfile({}) {
                     fontWeight: "500",
                     color: AppColors.secondary,
                   }}
-                  sx={{ typography: FontSizeStandards.subHeading }}
+                  sx={{ typography: FontSizeStandards.secondaryHeading }}
                 >
                   Upload Photo
                 </Typography>
@@ -489,13 +506,42 @@ function UpdateProfile({}) {
 
         <Grid
           item
-          xs={11.5}
-          md={11.5}
+          xs={12}
+          sm={7}
+          md={8.5}
+          lg={8.5}
           style={{
             display: "flex",
-            direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
+            justifyContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="h2"
+            style={{
+              fontFamily: "Poppins",
+              fontWeight: "500",
+              color: "red",
+              paddingLeft: "0px",
+              marginLeft: "5px",
+            }}
+            sx={{ typography: FontSizeStandards.secondaryHeading }}
+          >
+            {responseMessage}
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={4}
+          md={3}
+          lg={3}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
           <CustomButton

@@ -14,6 +14,7 @@ import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function CustomTable({
   tableData,
@@ -52,14 +53,16 @@ function CustomTable({
     {
       id: "size",
       label: "Size",
-      minWidth: 170,
+      minWidth: 130,
       align: "center",
     },
     {
       id: "button",
       label: "",
-      minWidth: 50,
-      align: "right",
+      minWidth: 200,
+      align: "center",
+      width: 200,
+      height: 70,
     },
     {
       id: "deleteIcon",
@@ -84,7 +87,14 @@ function CustomTable({
                   style={{
                     minWidth: column.minWidth,
                     color: AppColors.tertiary,
-                    fontSize: "16px",
+                    fontSize: {
+                      typography: {
+                        xs: FontSizeStandards.appName.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.appName.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
                     fontWeight: 600,
                   }}
                 >
@@ -104,6 +114,7 @@ function CustomTable({
               let no = index + 1;
               return (
                 <TableRow
+                style={{justifyContent:"center",alignItems:"center"}}
                   draggable={startDragging ? "true" : "false"}
                   onDragStart={() => handleDragRef(index)}
                   onDragEnter={() => {
@@ -152,7 +163,7 @@ function CustomTable({
                       justifyContent="center"
                       alignItems="center"
                       cursor="move"
-                      marginInline="20px"
+                      marginInline="0px"
                     />
                   </TableCell>
 
@@ -168,14 +179,14 @@ function CustomTable({
                     }}
                   >
                     <video
-                      width={140}
+                      width={150}
                       height={80}
                       controls
                       src={item.video}
                       style={{ borderRadius: "10px" }}
                     />
                   </TableCell>
-                  <TableCell onClick={() => {}} align="center" width={"10px"}>
+                  <TableCell onClick={() => {}} align="center" width={"5px"}>
                     <CustomIcon
                       icon={item.sound ? SvgIcons.soundIcon : SvgIcons.muteIcon}
                       boxSize={ImageSize.UploadPicIcon}
@@ -197,7 +208,7 @@ function CustomTable({
                       {item.size}
                     </Typography>
                   </TableCell>
-                  <TableCell onClick={() => {}}>
+                  <TableCell style={{backgroundColor:"", width: "200px", minWidth: "200px",}}>
                     <CustomButton
                       onTap={() => {
                         handleSetPrimarySound(index);
@@ -209,21 +220,31 @@ function CustomTable({
                           : AppColors.white,
                         border: item.sound ? "" : "1px solid",
                         fontFamily: "Poppins",
-                        fontSize: "14px",
+                        fontSize: {
+                          typography: {
+                            xs: FontSizeStandards.secondaryHeading.xs,
+                            sm: FontSizeStandards.secondaryHeading.sm,
+                            md: FontSizeStandards.secondaryHeading.md,
+                            lg: FontSizeStandards.secondaryHeading.lg,
+                          },
+                        },
                         fontWeight: 500,
                         color: item.sound ? AppColors.white : AppColors.primary,
+                        paddingInline:"30px",
+                        
                       }}
                     />
-                  </TableCell>
+                  </TableCell >
                   <TableCell onClick={() => handleDeleteFile(index)}>
                     <CustomIcon
                       icon={SvgIcons.deleteIcon}
                       boxSize={ImageSize.UploadPicIcon}
-                      align=""
+                      align="right"
                       justifyContent="center"
                       alignItems="center"
                       cursor="pointer"
                       marginInline="20px"
+
                     />
                   </TableCell>
                 </TableRow>

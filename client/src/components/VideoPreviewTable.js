@@ -14,11 +14,7 @@ import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
-import {
-  CheckBox,
-  CheckBoxOutlineBlank,
-  UnfoldMore,
-} from "@mui/icons-material";
+import {CheckBox,CheckBoxOutlineBlank,UnfoldMore,} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
@@ -36,6 +32,7 @@ function VideoPreviewTable({
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [deletedData, setDeletedData] = useState({});
+ 
   const dispatch = useDispatch();
   const userReducerState = useSelector((state) => state.userRed);
 
@@ -95,9 +92,16 @@ function VideoPreviewTable({
                   style={{
                     minWidth: column.minWidth,
                     color: AppColors.tertiary,
-                    fontSize: "16px",
                     fontWeight: 600,
-                    backgroundColor:"#F5F5F5"
+                    backgroundColor:"#F5F5F5",
+                    fontSize: {
+                      typography: {
+                        xs: FontSizeStandards.secondaryHeading.xs,
+                        sm: FontSizeStandards.secondaryHeading.sm,
+                        md: FontSizeStandards.secondaryHeading.md,
+                        lg: FontSizeStandards.secondaryHeading.lg,
+                      },
+                    },
                   }}
                 >
                   {column.id == "checkButton" ? (
@@ -110,6 +114,7 @@ function VideoPreviewTable({
                         alignItems: "center",
                         justifyContent: "center",
                         display: "flex",
+                        
                       }}
                     >
                       {column.label} <UnfoldMore />
@@ -156,7 +161,7 @@ function VideoPreviewTable({
                     <video
                       width={160}
                       height={90}
-                      src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
+                      // src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
                       style={{ borderRadius: "6px" }}
                     />
                   </TableCell>
@@ -168,37 +173,43 @@ function VideoPreviewTable({
                   >
                     <Typography
                       style={{
-                        fontSize: FontSizeStandards.secondaryHeading,
+                        width: "170px", // Set the maximum width of the container
+                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
+                        overflow: "hidden", // Hide any content that overflows the container
+                        textOverflow: "ellipsis",
                         fontWeight: 600,
-                        color: item.title ? AppColors.tertiary : AppColors.secondary,
+                        color: item.title ? AppColors.tertiary : AppColors.primary,
                         fontFamily: "Poppins",
-                        textOverflow: "clip"
                       }}
+                      sx={{typography:FontSizeStandards.primaryHeading}}
                     >
-                      {item.title || 'Title not added.'}
+                      {item.title || 'Title not added.escription not added.escription not added.'}
                     </Typography>
 
                     <Typography
                       style={{
-                        fontSize: FontSizeStandards.tertiaryHeading,
+                        width: "170px", // Set the maximum width of the container
+                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
+                        overflow: "hidden", // Hide any content that overflows the container
+                        textOverflow: "ellipsis",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
-                        textOverflow:"clip"
                       }}
+                      sx={{typography:FontSizeStandards.tertiaryHeading}}
                     >
-                      {item.description || 'Description not added.'}
+                      {item.description || 'Description not added.escription not added.escription not added.escription not added.'}
                     </Typography>
                   </TableCell>
 
                   <TableCell onClick={() => {}} align="center" width={"10px"}>
                     <Typography
                       style={{
-                        size: "16px",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
                       }}
+                      sx={{typography:FontSizeStandards.secondaryHeading}}
                     >
                       {"20 Dec"}
                     </Typography>
@@ -207,11 +218,11 @@ function VideoPreviewTable({
                   <TableCell width={100} onClick={() => {}} align="center">
                     <Typography
                       style={{
-                        size: "16px",
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
                       }}
+                      sx={{typography:FontSizeStandards.secondaryHeading}}
                     >
                       {"24 Mb"}
                     </Typography>
