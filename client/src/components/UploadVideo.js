@@ -35,10 +35,10 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const [videoDuration, setVideoDuration] = useState(null);
   const [durationError, setDurationError] = useState(false);
   const [durationErrorMessage, setDurationErrorMessage] = useState("");
+
   const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
-        console.log("Handling file=================");
 
         const file = event.target.files[0];
 
@@ -58,12 +58,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             setVideoDuration(totalDurationSeconds);
           }
 
-          const minutes = Math.floor(durationInSeconds / 60);
-          const seconds = Math.round(durationInSeconds % 60);
-
           let customSize = file.size / 1024 / 1024;
-
-          console.log("Video Duration:", totalDurationSeconds);
 
           if (totalDurationSeconds == videoDuration || videoDuration==null) {
             setTableData([
@@ -72,12 +67,10 @@ function UploadVideo({ isModalOpen, handleModal }) {
                 video: url,
                 sound: true,
                 size: `${customSize.toFixed(2)}Mb`,
-                duration: `${minutes} min ${seconds} sec`,
                 file: file,
               },
             ]);
           }else{
-            console.log("error Duration",videoDuration)
             setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")}
             setTimeout(() => {
                 setDurationErrorMessage("")

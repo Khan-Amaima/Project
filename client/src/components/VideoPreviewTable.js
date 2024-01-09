@@ -161,7 +161,7 @@ function VideoPreviewTable({
                     <video
                       width={160}
                       height={90}
-                      // src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
+                      src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
                       style={{ borderRadius: "6px" }}
                     />
                   </TableCell>
@@ -183,7 +183,7 @@ function VideoPreviewTable({
                       }}
                       sx={{typography:FontSizeStandards.primaryHeading}}
                     >
-                      {item.title || 'Title not added.escription not added.escription not added.'}
+                      {item.title || 'Title not added.'}
                     </Typography>
 
                     <Typography
@@ -198,7 +198,7 @@ function VideoPreviewTable({
                       }}
                       sx={{typography:FontSizeStandards.tertiaryHeading}}
                     >
-                      {item.description || 'Description not added.escription not added.escription not added.escription not added.'}
+                      {item.description || 'Description not added.'}
                     </Typography>
                   </TableCell>
 

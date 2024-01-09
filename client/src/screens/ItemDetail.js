@@ -222,6 +222,7 @@ function ItemDetail() {
                 muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                 onLoadedData = {()=>{
+                  console.log("videos uploaded")
                   videoPlayerRefs?.current[index]?.play();
                   audioRef.current.play();
                 }}
