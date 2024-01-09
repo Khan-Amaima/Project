@@ -55,12 +55,7 @@ function VideoPreviewTable({
       minWidth: 100,
       align: "center",
     },
-    {
-      id: "editButton",
-      label: "",
-      minWidth: 24,
-      align: "right",
-    },
+    
     {
       id: "deleteButton",
       label: "",
@@ -173,9 +168,9 @@ function VideoPreviewTable({
                   >
                     <Typography
                       style={{
-                        width: "170px", // Set the maximum width of the container
-                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
-                        overflow: "hidden", // Hide any content that overflows the container
+                        width: "300px", 
+                        whiteSpace: "nowrap", 
+                        overflow: "hidden", 
                         textOverflow: "ellipsis",
                         fontWeight: 600,
                         color: item.title ? AppColors.tertiary : AppColors.primary,
@@ -188,10 +183,10 @@ function VideoPreviewTable({
 
                     <Typography
                       style={{
-                        width: "170px", // Set the maximum width of the container
-                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
-                        overflow: "hidden", // Hide any content that overflows the container
-                        textOverflow: "ellipsis",
+                        width: "300px", 
+                        height: "40px", 
+                        whiteSpace: "normal",
+                        overflow: "hidden", 
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
@@ -228,17 +223,9 @@ function VideoPreviewTable({
                     </Typography>
                   </TableCell>
 
-                  <TableCell width={24} onClick={() => {}} align="right">
-                    <CustomIcon
-                      icon={SvgIcons.editIcon}
-                      boxSize={ImageSize.UploadPicIcon}
-                      cursor="pointer"
-                      marginInline="20px"
-                    />
-                  </TableCell>
 
                   <TableCell
-                    width={24}
+                    width={50}
                     onClick={() => {handleConfirmModal(); setDeletedData({id : item.id})}}
                     align="start"
                   >
