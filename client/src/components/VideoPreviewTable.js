@@ -152,7 +152,7 @@ function VideoPreviewTable({
                   <TableCell
                     width={140}
                     height={80}
-                    style={{ align: "start" }}
+                    // style={{ align: "start" }}
                     onClick={() => {
                       dispatch(setItemDetail(item))
                       navigate("/itemDetail")
@@ -168,7 +168,7 @@ function VideoPreviewTable({
 
                   <TableCell
                     height={80}
-                    align="start"
+                    // align="start"
                     style={{ width: "250px", direction: "column" }}
                   >
                     <Typography
