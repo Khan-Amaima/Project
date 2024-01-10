@@ -15,12 +15,17 @@ function ItemDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [pictureFile, setPictureFile] = useState(userIcon);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const itemDetailState = useSelector((state) => state.itemDetailRed);
+  let [videoCurrentTime, setVideoCurrentTime] = useState(0);
+  let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
+  let audioPlayerRefs = useRef([]);
   let audioRef = useRef();
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
+  let audios = [`${require("../assets/test_music.mp3")}`, `${require("../assets/test_music_2.mp3")}`]
 
   return (
     <Grid>
@@ -166,9 +171,31 @@ function ItemDetail() {
           </Typography>
         </Grid>
 
-        <audio id="audio" ref={audioRef} style={{display: 'none'}} src={require("../assets/test_music.mp3")} controls></audio>
+        {audios.map((singleAudio, index) => {
+          return (
+            <audio 
+              key={index}
+              // id="audio" 
+              ref={ref => !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+              style={{display: 'none'}} 
+              src={singleAudio} 
+              controls
+              
+            >
+            </audio>
+            
+          );
+        })}
+        
 
         <Carousel
+          // ref={el => {
+          //   if (el) {
+          //     var currentSlide = el.state.currentSlide
+          //     setCurrentSlideIndex(currentSlide)
+          //     console.log(currentSlide, 'ccccccccc c',)
+          //   }
+          // }}
           additionalTransfrom={0}
           arrows
           centerMode={false}
@@ -176,6 +203,17 @@ function ItemDetail() {
           minimumTouchDrag={80}
           showDots={false}
           slidesToSlide={1}
+          beforeChange={(e)=>{
+            console.log(e, 'ccccccccc',)
+            isPlaying && audioPlayerRefs?.current[e]?.play();
+            audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+            setCurrentSlideIndex(e)
+          }}
+          afterChange={(e)=>{
+            console.log(e, 'aaaaaaaaa',)
+            audioPlayerRefs?.current[e]?.pause();
+            // setCurrentSlideIndex(e)
+          }}
           responsive={{
             mobile: {
               breakpoint: {
@@ -219,13 +257,22 @@ function ItemDetail() {
                 width="100%"
                 style={{ borderRadius: "10px" }}
                 controls
+                controlsList="nodownload noplaybackrate"
                 muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                 onPlay = {()=>{
                   try{
+                    setIsPlaying(true);
+                    // audioPlayerRefs?.current[currentSlideIndex]?.play();
+                    for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                      if(i == currentSlideIndex){
+                        audioPlayerRefs?.current[currentSlideIndex]?.play();
+                      }else{
+                        audioPlayerRefs?.current[i]?.pause();
+                      }
+                    }
                     for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                      videoPlayerRefs?.current[i]?.play()
-                      audioRef?.current?.play();
+                      videoPlayerRefs?.current[i]?.play();
                     }
                   }
                   catch(err){
@@ -234,15 +281,31 @@ function ItemDetail() {
                 }}
                 onPause = {()=>{
                   try{
+                    setIsPlaying(false);
+                    // audioPlayerRefs?.current[currentSlideIndex]?.pause();
                     for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                      videoPlayerRefs?.current[i]?.pause()
-                      audioRef?.current?.pause();
+                      isPlaying && videoPlayerRefs?.current[i]?.pause()
+                      isPlaying && audioPlayerRefs?.current[i]?.pause();
                     }
                   }
                   catch(err){
                     console.log(err, 'err onPause')
                   }
                 }}
+                onTimeUpdate={(e)=>{
+                  // console.log(e.currentTarget.currentTime, 'updating')
+                  let videoTime = e.currentTarget.currentTime;
+                  setVideoCurrentTime(videoTime)
+                }}
+                onEnded={()=>{
+                    setVideoCurrentTime(0);
+                    setIsPlaying(false)
+                    for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                      audioPlayerRefs?.current[i]?.pause();
+                    }
+                    console.log('-------2------ locked')
+                  }
+                }
               />
             );
           })}
