@@ -162,7 +162,7 @@ function VideoPreviewTable({
                         overflow: "hidden", 
                         textOverflow: "ellipsis",
                         fontWeight: 600,
-                        color: item.title ? AppColors.tertiary : AppColors.primary,
+                        color: item.title ? AppColors.tertiary : AppColors.secondary,
                         fontFamily: "Poppins",
                       }}
                       sx={{typography:FontSizeStandards.primaryHeading}}
