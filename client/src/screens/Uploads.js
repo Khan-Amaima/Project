@@ -7,6 +7,8 @@ import {
   IconButton,
   CircularProgress,
   TableRow,
+  Table,
+  TableBody
 } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { uploadVideoImage } from "../assets/images";
@@ -276,8 +278,11 @@ function Uploads() {
             borderRadius: "5px",
           }}
         >
-          <TableRow>
-            <CustomTablePagination
+         
+           <Table>
+           <TableBody>
+            <TableRow>
+            < CustomTablePagination
               // rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
               count={40}
@@ -299,7 +304,10 @@ function Uploads() {
               onPageChange={handleChangePage}
               // onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </TableRow>
+            </TableRow>
+           </TableBody>
+           </Table>
+          
         </Grid>
       </Grid>
 

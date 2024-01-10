@@ -20,6 +20,8 @@ import { CommitSharp } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
+import ConfirmationModal from "./ConfirmationModal";
+import { WarningAmber } from "@mui/icons-material";
 
 function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [title, setTitle] = useState("");
@@ -35,7 +37,13 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [videoDuration, setVideoDuration] = useState(null);
   const [durationError, setDurationError] = useState(false);
   const [durationErrorMessage, setDurationErrorMessage] = useState("");
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const videoEl = useRef(null);
+
+  const handleConfirmationModal = () => {
+    setIsConfirmationModalOpen(!isConfirmationModalOpen)
+    setDurationErrorMessage("")
+  };
   const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
@@ -78,17 +86,11 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
            else {
             if(totalDurationSeconds > 30){
               setDurationErrorMessage("The duration of the video must be smaller than 30 seconds.")
-              setDurationError(true);
-              setTimeout(() => {
-                setDurationErrorMessage("")
-                setDurationError(false)
-            }, 3000);
+              setIsConfirmationModalOpen(!isConfirmationModalOpen);
             }
             else{
               setDurationErrorMessage("The duration of all videos must be the same to proceed.")
-              setTimeout(() => {
-                setDurationErrorMessage("")
-          }, 3000);
+              setIsConfirmationModalOpen(!isConfirmationModalOpen);
           }}
             
         }
@@ -209,7 +211,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             {SvgIcons.uploadIcon}
           </Box>
         </Grid>
-        <Grid item xs={10}  md={6} style= {{ justifyContent:"center",alignItems:'start',display:"flex",flexDirection:"column",
+        <Grid item xs={10}  md={6} alignItems= {{ xs: "center", sm: "center",md:"start" }} style= {{ justifyContent:"center",display:"flex",flexDirection:"column",
       } }>
           <Typography
             variant="h6"
@@ -321,8 +323,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             id="title"
             placeholder="Video title"
             sx={CustomStyle.inputStyle}
-           
             value={title}
+            inputProps={{
+              maxLength: 100,
+            }}
             onChange={(e) => setTitle(e.target.value)}
             InputProps={{
               endAdornment: (
@@ -344,6 +348,9 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             fullWidth
             id="description"
             placeholder="Description"
+            inputProps={{
+              maxLength: 200,
+            }}
             style={{marginTop: "6px", fontSize:"14px"}}
             sx={{ ...CustomStyle.inputStyle,}}
             multiline={true}
@@ -375,13 +382,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
       <Box  sx={{
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "end",
         alignItems: "center",
         marginTop: 8,
       }}>
-        <Typography style={{color:"red"}}>
-         {durationErrorMessage}
-        </Typography>
           <Box
           sx={{
             display: "flex",
@@ -455,6 +459,15 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             }}
           />
         </Box>
+        <ConfirmationModal
+        isModelOpen={isConfirmationModalOpen}
+        confirmationText={durationErrorMessage}
+        rightButtonText={"Close"}
+        rightButtonFunction={handleConfirmationModal}
+        icon={
+          <WarningAmber style={{ width: "60px", height: "60px", color: "red" }} />
+        }
+      />
       </Box>
       )}
     </CustomModal>

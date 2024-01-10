@@ -79,7 +79,7 @@ function ConfirmationModal({
                 },
                 fontWeight: 500,
                 color: AppColors.tint,
-                paddingInline: "20px",
+                paddingInline: "40px",
                 marginInline: "10px",
               }}
             />
@@ -104,7 +104,7 @@ function ConfirmationModal({
                 },
                 fontWeight: 500,
                 color: AppColors.tertiary,
-                paddingInline: "20px",
+                paddingInline: "40px",
                 marginInline: "10px",
               }}
             />

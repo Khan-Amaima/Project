@@ -129,6 +129,7 @@ function UpdateProfile({}) {
       onSubmit={formik.handleSubmit}
       className="Personal Information"
       gap={3}
+      minWidth={{ xs: "250px", sm: "500px" }}
       width={"auto"}
       sx={{ width: { xs: "100%", lg: "100%" } }}
       style={{
@@ -276,7 +277,7 @@ function UpdateProfile({}) {
             value={formik.values.email || email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
-            sx={CustomStyle.inputStyle}
+            // sx={CustomStyle.inputStyle}
           />
           {formik.touched.email && formik.errors.email && (
             <FormHelperText error id="confirmPassword">
@@ -506,8 +507,8 @@ function UpdateProfile({}) {
           item
           xs={12}
           sm={7}
-          md={8.5}
-          lg={8.5}
+          md={7.5}
+          lg={7.5}
           style={{
             display: "flex",
             justifyContent: "start",
@@ -534,8 +535,8 @@ function UpdateProfile({}) {
           item
           xs={12}
           sm={4}
-          md={3}
-          lg={3}
+          md={4}
+          lg={4}
           style={{
             display: "flex",
             justifyContent: "flex-end",
