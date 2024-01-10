@@ -460,7 +460,6 @@ function UpdatePassword({}) {
             alignItems: "center",
           }}
         >
-         
             <Typography
               variant="h6"
               component="h2"
@@ -478,36 +477,36 @@ function UpdatePassword({}) {
           </Grid>
 
           <Grid  
-          item
-          xs={12}
-          sm={12}
-          md={11.5}
-          lg={11.5}
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "end",
-          }}
-          >
-          <CustomButton
-            type={"submit"}
-            text={"Update Password"}
-            buttonStyle={{
-              borderRadius: 50,
-              backgroundColor: AppColors.primary,
-              fontFamily: "Poppins",
-              fontSize: {
-                typography: {
-                  xs: FontSizeStandards.secondaryHeading.xs,
-                  sm: FontSizeStandards.secondaryHeading.sm,
-                  md: FontSizeStandards.secondaryHeading.md,
-                  lg: FontSizeStandards.secondaryHeading.lg,
-                },
-              },
-              fontWeight: 500,
-              color: AppColors.white,
+            item
+            xs={12}
+            sm={12}
+            md={11.5}
+            lg={11.5}
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "end",
             }}
-          />
+          >
+            <CustomButton
+              type={"submit"}
+              text={"Update Password"}
+              buttonStyle={{
+                borderRadius: 50,
+                backgroundColor: AppColors.primary,
+                fontFamily: "Poppins",
+                fontSize: {
+                  typography: {
+                    xs: FontSizeStandards.secondaryHeading.xs,
+                    sm: FontSizeStandards.secondaryHeading.sm,
+                    md: FontSizeStandards.secondaryHeading.md,
+                    lg: FontSizeStandards.secondaryHeading.lg,
+                  },
+                },
+                fontWeight: 500,
+                color: AppColors.white,
+              }}
+            />
         </Grid>
       </Grid>
 

@@ -185,6 +185,7 @@ function Uploads() {
          justifyContent: "end",
          alignItems: "end",
          minWidth: "200px",
+         marginBottom : 40,
        }}
       >
         
@@ -209,8 +210,6 @@ function Uploads() {
               color: AppColors.tertiary,
             }}
           />
-        
-
         
           <CustomButton
             onTap={() => {
@@ -243,14 +242,14 @@ function Uploads() {
     
       </Grid>
 
-      <Grid
+      {/* <Grid
         item
         xs={11.5}
         md={11.5}
         style={{
           display: "flex",
           direction: "row",
-          justifyContent: "space-between",
+          justifyContent: "end",
           alignItems: "center",
           padding: "5px",
           borderRadius: "5px",
@@ -258,13 +257,6 @@ function Uploads() {
           
         }}
       >
-        <IconButton
-          size="large"
-          color={AppColors.primary}
-          aria-label="open drawer"
-        >
-          <CheckBoxOutlineBlank />
-        </IconButton>
         <Grid
           item
           xs={7}
@@ -309,7 +301,7 @@ function Uploads() {
            </Table>
           
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <VideoPreviewTable tableData={userData} fetchVideos={fetchVideos} />
     </>

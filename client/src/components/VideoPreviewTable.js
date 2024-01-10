@@ -130,8 +130,7 @@ function VideoPreviewTable({
               let no = index + 1;
               return (
                 <TableRow hover role="checkbox" key={no}>
-                 
-
+          
                   <TableCell width={24}  align = "center" >
                     {no}
                   </TableCell>
@@ -213,7 +212,6 @@ function VideoPreviewTable({
                       {"24 Mb"}
                     </Typography>
                   </TableCell>
-
 
                   <TableCell
                     width={50}
