@@ -192,7 +192,7 @@ function VideoPreviewTable({
                         whiteSpace: "normal", 
                         display: "-webkit-box",
                         WebkitBoxOrient: "vertical",
-                         WebkitLineClamp: 2,
+                        WebkitLineClamp: 2,
                         overflow: "hidden", 
                         fontWeight: 400,
                         color: AppColors.secondary,

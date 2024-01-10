@@ -85,7 +85,7 @@ function Uploads() {
         }}
       />
     </Box>
-  ) : userData.length == 0 ? (
+  ) : (userData.length == 0 && loading == false) ? (
     <Container
       maxWidth="100vw"
       style={{

@@ -60,7 +60,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
           let customSize = file.size / 1024 / 1024;
 
-          if ((totalDurationSeconds>0 && totalDurationSeconds < 30) && ((totalDurationSeconds == videoDuration) || videoDuration==null)) {
+          if ((totalDurationSeconds <= 30) && ((totalDurationSeconds == videoDuration) || videoDuration==null)) {
             setTableData([
               ...tableData,
               {
@@ -77,7 +77,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           }
            else {
             if(totalDurationSeconds > 30){
-              setDurationErrorMessage("Error: The duration of the video must be smaller than 30 seconds.")
+              setDurationErrorMessage("The duration of the video must be smaller than 30 seconds.")
               setDurationError(true);
               setTimeout(() => {
                 setDurationErrorMessage("")
@@ -85,7 +85,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             }, 3000);
             }
             else{
-              setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")
+              setDurationErrorMessage("The duration of all videos must be the same to proceed.")
               setTimeout(() => {
                 setDurationErrorMessage("")
           }, 3000);
@@ -136,19 +136,6 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
   const handleDragRef = (index) => {
     dragTabRef.current = index;
-  };
-  
-  
-  const handleVideoDuration = () => {
-    const video = videoEl.current;
-    if (!video) return;
-   
-    const totalDurationSeconds = Math.round(video.duration);
-    if (tableData.length == 0 && videoDuration == null) {
-      setVideoDuration(totalDurationSeconds);
-    }
-
-    console.log(`The video is ${totalDurationSeconds} seconds long.`);
   };
 
   const handleDraggedOverRef = (index) => {
@@ -375,8 +362,6 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
       {tableData.length > 0 && (
         <CustomTable
-         videoRef={videoEl}
-         handleVideoDuration={handleVideoDuration}
           tableData={tableData}
           handleDeleteFile={handleDeleteFile}
           handleSetPrimarySound={handleSetPrimarySound}

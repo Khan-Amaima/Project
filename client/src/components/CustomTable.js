@@ -17,8 +17,6 @@ import CustomIcon from "./CustomIcon";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function CustomTable({
-  videoRef,
-  handleVideoDuration,
   tableData,
   handleDeleteFile,
   handleSetPrimarySound,
@@ -185,8 +183,6 @@ function CustomTable({
                       height={80}
                       controls
                       src={item.video}
-                      ref={videoRef}
-                      onLoadedMetadata={()=>handleVideoDuration()}
                       style={{ borderRadius: "10px" }}
                     />
                   </TableCell>

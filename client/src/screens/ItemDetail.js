@@ -221,21 +221,26 @@ function ItemDetail() {
                 controls
                 muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                onLoadedData = {()=>{
-                  console.log("videos uploaded")
-                  videoPlayerRefs?.current[index]?.play();
-                  audioRef.current.play();
-                }}
-                onPause = {()=>{
-                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                    videoPlayerRefs?.current[i]?.pause()
-                    audioRef?.current?.pause();
+                onPlay = {()=>{
+                  try{
+                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                      videoPlayerRefs?.current[i]?.play()
+                      audioRef?.current?.play();
+                    }
+                  }
+                  catch(err){
+                    console.log(err, 'err onPlay')
                   }
                 }}
-                onPlay = {()=>{
-                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                    videoPlayerRefs?.current[i]?.play()
-                    audioRef?.current?.play();
+                onPause = {()=>{
+                  try{
+                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                      videoPlayerRefs?.current[i]?.pause()
+                      audioRef?.current?.pause();
+                    }
+                  }
+                  catch(err){
+                    console.log(err, 'err onPause')
                   }
                 }}
               />
