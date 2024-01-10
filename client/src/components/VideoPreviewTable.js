@@ -38,6 +38,7 @@ function VideoPreviewTable({
 
   const columns = [
     { id: "checkButton", label: "", minWidth: 24, align: "start" },
+    {id: "count",label: "No",minWidth: 24,align: "right",},
     { id: "videoDetail", label: "Video Detail", minWidth: 100, align: "start" },
     { id: "details", label: "", minWidth: 250, align: "center" },
 
@@ -55,12 +56,7 @@ function VideoPreviewTable({
       minWidth: 100,
       align: "center",
     },
-    {
-      id: "editButton",
-      label: "",
-      minWidth: 24,
-      align: "right",
-    },
+    
     {
       id: "deleteButton",
       label: "",
@@ -81,7 +77,7 @@ function VideoPreviewTable({
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden",}}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: "auto" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead >
             <TableRow >
@@ -149,6 +145,10 @@ function VideoPreviewTable({
                     </IconButton>
                   </TableCell>
 
+                  <TableCell width={24}  >
+                    {no}
+                  </TableCell>
+
                   <TableCell
                     width={140}
                     height={80}
@@ -173,9 +173,9 @@ function VideoPreviewTable({
                   >
                     <Typography
                       style={{
-                        width: "170px", // Set the maximum width of the container
-                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
-                        overflow: "hidden", // Hide any content that overflows the container
+                        width: "300px", 
+                        whiteSpace: "nowrap", 
+                        overflow: "hidden", 
                         textOverflow: "ellipsis",
                         fontWeight: 600,
                         color: item.title ? AppColors.tertiary : AppColors.primary,
@@ -188,10 +188,12 @@ function VideoPreviewTable({
 
                     <Typography
                       style={{
-                        width: "170px", // Set the maximum width of the container
-                        whiteSpace: "nowrap", // Prevent text from wrapping to the next line
-                        overflow: "hidden", // Hide any content that overflows the container
-                        textOverflow: "ellipsis",
+                        width: "250px", 
+                        whiteSpace: "normal", 
+                        display: "-webkit-box",
+                        WebkitBoxOrient: "vertical",
+                         WebkitLineClamp: 2,
+                        overflow: "hidden", 
                         fontWeight: 400,
                         color: AppColors.secondary,
                         fontFamily: "Poppins",
@@ -228,17 +230,9 @@ function VideoPreviewTable({
                     </Typography>
                   </TableCell>
 
-                  <TableCell width={24} onClick={() => {}} align="right">
-                    <CustomIcon
-                      icon={SvgIcons.editIcon}
-                      boxSize={ImageSize.UploadPicIcon}
-                      cursor="pointer"
-                      marginInline="20px"
-                    />
-                  </TableCell>
 
                   <TableCell
-                    width={24}
+                    width={50}
                     onClick={() => {handleConfirmModal(); setDeletedData({id : item.id})}}
                     align="start"
                   >

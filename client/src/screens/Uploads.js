@@ -61,7 +61,7 @@ function Uploads() {
       setUserData(response.data.data);
     }
   };
-
+  
   useEffect(() => {
     fetchVideos();
   }, []);
@@ -185,9 +185,7 @@ function Uploads() {
          minWidth: "200px",
        }}
       >
-        <Grid
-          item xs={12} sm={5} md={3.5} lg={2.5} xl={1.5} style={{backgroundColor:"",justifyContent:"flex-end",alignItems:'flex-end',display:"flex",padding:"5px"}}
-        >
+        
           <CustomButton
             text={"Sort by"}
             onTap={() => {}}
@@ -209,11 +207,9 @@ function Uploads() {
               color: AppColors.tertiary,
             }}
           />
-        </Grid>
+        
 
-        <Grid
-         item xs={12} sm={6.5} md={4} lg={3} xl={2}style={{backgroundColor:"",justifyContent:"flex-end",alignItems:'flex-end',display:"flex",paddingRight:"20px",paddingTop:"5px",paddingBottom:"5px"}}
-        >
+        
           <CustomButton
             onTap={() => {
               handleModal();
@@ -233,7 +229,6 @@ function Uploads() {
                   lg: FontSizeStandards.secondaryHeading.lg,
                 },
               },
-              marginX: "5px",
               fontWeight: 500,
               color: AppColors.white,
             }}
@@ -243,7 +238,7 @@ function Uploads() {
             handleModal={handleModal}
             fetchVideos={fetchVideos}
           />
-        </Grid>
+    
       </Grid>
 
       <Grid

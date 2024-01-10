@@ -35,7 +35,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const [videoDuration, setVideoDuration] = useState(null);
   const [durationError, setDurationError] = useState(false);
   const [durationErrorMessage, setDurationErrorMessage] = useState("");
-
+  const videoEl = useRef(null);
   const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
       try {
@@ -53,14 +53,14 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
           const durationInSeconds = video.duration;
           const totalDurationSeconds = Math.round(durationInSeconds);
-
-          if (tableData.length == 0 && videoDuration == null) {
+          if (tableData.length == 0 &&  (totalDurationSeconds <= 30 && videoDuration == null)) {
             setVideoDuration(totalDurationSeconds);
           }
+         
 
           let customSize = file.size / 1024 / 1024;
 
-          if (totalDurationSeconds == videoDuration || videoDuration==null) {
+          if ((totalDurationSeconds>0 && totalDurationSeconds < 30) && ((totalDurationSeconds == videoDuration) || videoDuration==null)) {
             setTableData([
               ...tableData,
               {
@@ -69,16 +69,28 @@ function UploadVideo({ isModalOpen, handleModal }) {
                 size: `${customSize.toFixed(2)}Mb`,
                 file: file,
               },
+              
             ]);
-          }else{
-            setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")}
-            setTimeout(() => {
-                setDurationErrorMessage("")
-            }, 3000);
-
-          if (tableData.length === 3) {
-            setButtonDisable(true);
+            if (tableData.length === 3) {
+              setButtonDisable(true);
+            }
           }
+           else {
+            if(totalDurationSeconds > 30){
+              setDurationErrorMessage("Error: The duration of the video must be smaller than 30 seconds.")
+              setDurationError(true);
+              setTimeout(() => {
+                setDurationErrorMessage("")
+                setDurationError(false)
+            }, 3000);
+            }
+            else{
+              setDurationErrorMessage("Error: The duration of all videos must be the same to proceed.")
+              setTimeout(() => {
+                setDurationErrorMessage("")
+          }, 3000);
+          }}
+            
         }
       } catch (err) {
         console.log(err, "upload Video error");
@@ -125,6 +137,19 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const handleDragRef = (index) => {
     dragTabRef.current = index;
   };
+  
+  
+  const handleVideoDuration = () => {
+    const video = videoEl.current;
+    if (!video) return;
+   
+    const totalDurationSeconds = Math.round(video.duration);
+    if (tableData.length == 0 && videoDuration == null) {
+      setVideoDuration(totalDurationSeconds);
+    }
+
+    console.log(`The video is ${totalDurationSeconds} seconds long.`);
+  };
 
   const handleDraggedOverRef = (index) => {
     draggedOverTabRef.current = index;
@@ -141,7 +166,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
   const handleChoose = () => {
     videoInputRef.current.click();
   };
-
+ 
   return (
     <CustomModal isModalOpen={isModalOpen} handleModal={handleModal}>
       <Typography
@@ -162,7 +187,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
       gap={1}
         container
         width={"auto"}
-        sx={{ width: { xs: "100%", lg: "60%" } }}
+        sx={{ width: { xs: "100%", lg: "80%" } }}
         style={{
           border: "2px dashed",
           borderColor: AppColors.primary,
@@ -174,7 +199,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
           margin: "auto",
         }}
       >
-        <Grid item xs={12} md={2} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
+        <Grid item xs={12} sm ={12} md={2} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <Box
             style={{ justifyContent: "center", alignItems: "center" }}
             sx={{
@@ -197,7 +222,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
             {SvgIcons.uploadIcon}
           </Box>
         </Grid>
-        <Grid item xs={12} md={5}style={{justifyContent:"center",alignItems:'center',display:"flex",flexDirection:"column"}}>
+        <Grid item xs={10}  md={6} style= {{ justifyContent:"center",alignItems:'start',display:"flex",flexDirection:"column",
+      } }>
           <Typography
             variant="h6"
             component="h2"
@@ -206,19 +232,31 @@ function UploadVideo({ isModalOpen, handleModal }) {
               fontWeight: "500",
               color: AppColors.tertiary,
             }}
-            sx={{typography:FontSizeStandards.tertiaryHeading}}
+            sx={{typography:FontSizeStandards.secondaryHeading}}
           >
             Select a file or drag and drop here
           </Typography>
-          {isDisableButton ? (
+          {durationError? (
             <Typography
               style={{
                 marginTop: "5px",
                 fontFamily: "Poppins",
                 fontWeight: "500",
-                color: "red",
+                color: "red", 
               }}
-              sx={{typography:FontSizeStandards.secondaryHeading}}
+              sx={{typography:FontSizeStandards.subHeading}}
+            >
+              {durationErrorMessage}
+            </Typography>
+          ):isDisableButton ? (
+            <Typography
+              style={{
+                marginTop: "5px",
+                fontFamily: "Poppins",
+                fontWeight: "500",
+                color: "red", 
+              }}
+              sx={{typography:FontSizeStandards.subHeading}}
             >
               Can't Add more than 4 Videos
             </Typography>
@@ -236,7 +274,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12} lg={4}style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
+        <Grid item xs={12}   md={3} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <input
             ref={videoInputRef}
             style={{ display: "none" }}
@@ -266,7 +304,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
       <Grid
         container
         width={"auto"}
-        sx={{ width: { xs: "100%", lg: "60%" } }}
+        sx={{ width: { xs: "100%", lg: "80%" } }}
         style={{
           direction: "column",
           justifyContent: "center",
@@ -286,7 +324,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
               color: AppColors.tertiary,
               marginBottom: "6px",
             }}
-            sx={{typography:FontSizeStandards.secondaryHeading}}
+            sx={{typography:FontSizeStandards.primaryHeading}}
           >
             Video Details
           </Typography>
@@ -309,10 +347,7 @@ function UploadVideo({ isModalOpen, handleModal }) {
               ),
               sx: {
                 typography: {
-                  xs: FontSizeStandards.secondaryHeading.xs,
-                  sm: FontSizeStandards.secondaryHeading.sm,
-                  md: FontSizeStandards.secondaryHeading.md,
-                  lg: FontSizeStandards.secondaryHeading.lg,
+                  fontSize:"16"
                 },
               },
             }}
@@ -331,9 +366,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
             InputProps={{
               
                 sx: {
-                  typography: {fontSize:"14px"},
-                },
-              
+                  typography: {fontSize:"16px"},
+                },              
             }}
           />
         </Grid>
@@ -341,6 +375,8 @@ function UploadVideo({ isModalOpen, handleModal }) {
 
       {tableData.length > 0 && (
         <CustomTable
+         videoRef={videoEl}
+         handleVideoDuration={handleVideoDuration}
           tableData={tableData}
           handleDeleteFile={handleDeleteFile}
           handleSetPrimarySound={handleSetPrimarySound}
