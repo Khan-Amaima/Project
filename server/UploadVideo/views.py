@@ -22,17 +22,19 @@ class UploadVideoView(APIView):
         email = request.data.get('email')
         title = request.data.get('title')
         description = request.data.get('description')
+        primaryAudio = request.data.get('primaryAudio')
         videos = [x for x in request.FILES.values()]
         user = User.objects.filter(email=email).first()
         if not email: 
             return Response({'message' : 'Email is required.'}, status=status.HTTP_400_BAD_REQUEST)
         if not user:
-            return Response({'message' : 'User not exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message' : 'User no exists.'}, status=status.HTTP_400_BAD_REQUEST)
         if not videos:
             return Response({'message' : 'Please upload video.'}, status=status.HTTP_400_BAD_REQUEST)
         mediaObject = UserMedia.objects.create(
             title = title,
             description = description,
+            primaryAudio = primaryAudio,
             user = user
         )
 
