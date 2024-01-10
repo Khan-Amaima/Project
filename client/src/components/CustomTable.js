@@ -159,7 +159,6 @@ function CustomTable({
                     <CustomIcon
                       icon={SvgIcons.dragIcon}
                       boxSize={ImageSize.UploadPicIcon}
-                      align=""
                       justifyContent="center"
                       alignItems="center"
                       cursor="move"
@@ -168,7 +167,6 @@ function CustomTable({
                   </TableCell>
 
                   <TableCell width={20} align="center">
-                    {" "}
                     {no}
                   </TableCell>
 
@@ -190,7 +188,6 @@ function CustomTable({
                     <CustomIcon
                       icon={item.sound ? SvgIcons.soundIcon : SvgIcons.muteIcon}
                       boxSize={ImageSize.UploadPicIcon}
-                      align=""
                       justifyContent="center"
                       alignItems="center"
                       marginInline="20px"

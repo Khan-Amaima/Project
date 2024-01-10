@@ -37,9 +37,8 @@ function VideoPreviewTable({
   const userReducerState = useSelector((state) => state.userRed);
 
   const columns = [
-    { id: "checkButton", label: "", minWidth: 24, align: "start" },
-    {id: "count",label: "No",minWidth: 24,align: "right",},
-    { id: "videoDetail", label: "Video Detail", minWidth: 100, align: "start" },
+    {id: "count",label: "No",minWidth: 24,align: "center",},
+    { id: "videoDetail", label: "Video Detail", minWidth: 100, align: "left" },
     { id: "details", label: "", minWidth: 250, align: "center" },
 
     {
@@ -61,7 +60,7 @@ function VideoPreviewTable({
       id: "deleteButton",
       label: "",
       minWidth: 24,
-      align: "start",
+      align: "center",
     },
   ];
 
@@ -100,9 +99,7 @@ function VideoPreviewTable({
                     },
                   }}
                 >
-                  {column.id == "checkButton" ? (
-                    <CheckBoxOutlineBlank />
-                  ) : column.id == "size" ? (
+                  { column.id == "size" ? (
                     <Box
                       style={{
                         with: 100,
@@ -133,26 +130,14 @@ function VideoPreviewTable({
               let no = index + 1;
               return (
                 <TableRow hover role="checkbox" key={no}>
-                  <TableCell width={24} align="start">
-                    <IconButton
-                      size="large"
-                      edge="start"
-                      color={AppColors.primary}
-                      //  onClick={toggleDrawer}
-                      aria-label="open drawer"
-                    >
-                      <CheckBoxOutlineBlank />
-                    </IconButton>
-                  </TableCell>
+                 
 
-                  <TableCell width={24}  >
+                  <TableCell width={24}  align = "center" >
                     {no}
                   </TableCell>
-
                   <TableCell
                     width={140}
                     height={80}
-                    style={{ align: "start" }}
                     onClick={() => {
                       dispatch(setItemDetail(item))
                       navigate("/itemDetail")
@@ -168,7 +153,6 @@ function VideoPreviewTable({
 
                   <TableCell
                     height={80}
-                    align="start"
                     style={{ width: "250px", direction: "column" }}
                   >
                     <Typography
@@ -217,7 +201,7 @@ function VideoPreviewTable({
                     </Typography>
                   </TableCell>
 
-                  <TableCell width={100} onClick={() => {}} align="center">
+                  <TableCell width={100}  align="center">
                     <Typography
                       style={{
                         fontWeight: 400,
@@ -234,7 +218,6 @@ function VideoPreviewTable({
                   <TableCell
                     width={50}
                     onClick={() => {handleConfirmModal(); setDeletedData({id : item.id})}}
-                    align="start"
                   >
                     <CustomIcon
                       icon={SvgIcons.deleteIcon}

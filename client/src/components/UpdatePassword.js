@@ -77,24 +77,21 @@ function UpdatePassword({}) {
 
   return (
     <Grid
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="start"
-      container
-      className="Change Password"
-      gap={3}
-      width={"auto"}
-      sx={{ width: { xs: "100%", lg: "100%" } }}
-      style={{
-        borderColor: AppColors.primary,
-        backgroundColor: "#F5F5F5",
-        borderRadius: "10px",
-        display: "flex",
-        padding: 20,
-        // direction: "row",
-        // justifyContent: "center",
-        // alignItems: "center",
-        marginTop: "20px",
+    container
+    component="form"
+    className="Change Password"
+    gap={3}
+    minWidth={{ xs: "250px", sm: "500px" }}
+    width={"auto"}
+    sx={{ width: { xs: "100%", lg: "100%" } }}
+    style={{
+      borderColor: AppColors.primary,
+      backgroundColor: "#F5F5F5",
+      borderRadius: "10px",
+      padding: 20,
+      direction: "row",
+      justifyContent: "start",
+      alignItems: "start",
       }}
     >
       <Grid
@@ -120,24 +117,19 @@ function UpdatePassword({}) {
 
       <Grid
         gap={2}
-        component="form"
-        onSubmit={formik.handleSubmit}
         container
         width={"auto"}
-        alignItems={"left"}
         sx={{ width: { xs: "100%", lg: "100%" } }}
         style={{
           borderColor: AppColors.primary,
           backgroundColor: "#F5F5F5",
           display: "flex",
           direction: "row",
-          // justifyContent: "center",
+          justifyContent: "center",
           alignItems: "center",
-          // margin: "auto",
-        }}
+          margin: "auto",}}
       >
         <Grid
-          // spacing={0}
           item
           xs={12}
           sm={5.5}
@@ -145,12 +137,11 @@ function UpdatePassword({}) {
           lg={5.5}
           style={{
             borderColor: AppColors.primary,
-            backgroundColor: "",
             borderRadius: "10px",
-            display: "block",
+            direction: "row",
             justifyContent: "center",
             alignItems: "center",
-            // margin: "auto",
+            margin: "auto",
           }}
         >
           <Typography
@@ -245,7 +236,6 @@ function UpdatePassword({}) {
         </Grid>
 
         <Grid
-          // spacing={0}
           item
           xs={12}
           sm={5.5}
@@ -253,8 +243,6 @@ function UpdatePassword({}) {
           lg={5.5}
           style={{
             borderColor: AppColors.primary,
-            backgroundColor: "",
-            borderRadius: "10px",
             direction: "row",
             justifyContent: "center",
             alignItems: "center",
@@ -354,18 +342,17 @@ function UpdatePassword({}) {
 
         <Grid
           item
-          // gap={2}
           xs={12}
           sm={5.5}
           md={5.5}
           lg={5.5}
           style={{
             borderColor: AppColors.primary,
-            backgroundColor: "",
-            direction: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            // margin: "auto",
+            display:"flex",
+            flexDirection:"column",
+            justifyContent: "start",
+            alignItems: "start",
+            alignSelf:"flex-start",
           }}
         >
           <Typography
@@ -464,9 +451,9 @@ function UpdatePassword({}) {
         <Grid
           item
           xs={12}
-          sm={7}
-          md={8.5}
-          lg={8.5}
+          sm={6}
+          md={6}
+          lg={6}
           style={{
             display: "flex",
             justifyContent: "start",
@@ -491,14 +478,15 @@ function UpdatePassword({}) {
           </Grid>
 
           <Grid  
+          item
           xs={12}
-          sm={4}
-          md={3}
-          lg={3}
+          sm={12}
+          md={11.5}
+          lg={11.5}
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            alignItems: "center",
+            alignItems: "end",
           }}
           >
           <CustomButton
