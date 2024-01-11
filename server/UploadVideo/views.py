@@ -11,7 +11,7 @@ from .models import Video
 from UploadVideo.serializers import UserMediaFetchSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-
+from audio_extract import extract_audio
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, You're at the upload video.")
@@ -39,9 +39,18 @@ class UploadVideoView(APIView):
         )
 
         for singleVideo in videos:
-            Video.objects.create(
+            Video.objects.create (
                 mediaObject = mediaObject,
                 video = singleVideo
+            )
+        
+        for singleVideo in videos:
+            videoName = singleVideo.name.split('.')
+            extractedAudio = extract_audio(input_path=f'media/user_video/{singleVideo}', output_path=f'media/user_audio/{videoName[0]}audio.mp3')
+            Video.objects.update (
+                mediaObject = mediaObject,
+                video = singleVideo,
+                audio = f'media/user_audio/{videoName[0]}audio.mp3'
             )
 
         return Response({"success": "Video upload successfully."}, status=status.HTTP_200_OK)
