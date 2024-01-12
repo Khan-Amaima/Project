@@ -6,7 +6,7 @@ class UserMedia(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
-    primaryAudio = models.OneToOneField('Video', on_delete=models.CASCADE, null=True)
+    primaryAudio = models.IntegerField(null=True)
 
 class Video(models.Model):
     mediaObject = models.ForeignKey(UserMedia, on_delete=models.CASCADE)
@@ -18,4 +18,4 @@ class UserMediaFetch(models.Model):
     title = models.TextField()
     videos = models.ForeignKey(UserMedia, on_delete=models.CASCADE)
     description = models.TextField()
-    primaryAudio = models.OneToOneField('Video', on_delete=models.CASCADE, null=True)
+    primaryAudio = models.IntegerField(null=True)
