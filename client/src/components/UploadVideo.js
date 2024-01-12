@@ -429,7 +429,8 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
                   userReducerState?.userDetail?.email,
                   title,
                   description,
-                  tableData
+                  tableData,
+                  selectedSoundIndex,
                 );
                 handleModal();
                 fetchVideos();
