@@ -18,4 +18,4 @@ class UserMediaFetch(models.Model):
     title = models.TextField()
     videos = models.ForeignKey(UserMedia, on_delete=models.CASCADE)
     description = models.TextField()
-    primaryAudio = models.TextField(null=True)
+    primaryAudio = models.IntegerField(null=True)

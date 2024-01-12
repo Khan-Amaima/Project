@@ -60,6 +60,7 @@ function Uploads() {
     let response = await ApiManager.fetchVideos(userReducerState?.authToken);
     if(response.data.success){
       setLoading(false)
+      console.log(response.data.data)
       setUserData(response.data.data);
     }
   };
