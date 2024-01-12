@@ -46,12 +46,13 @@ class UploadVideoView(APIView):
                 mediaObject=mediaObject,
                 video=singleVideo,
             )
+            
+            video_name_split_slash = video_object.video.name.split('/')
+            video_name_split_dot = video_name_split_slash[1].split('.')
 
-            # Extract audio and update Video object with audio information
-            video_name = singleVideo.name.split('.')
-            audio_path = f'user_audio/{video_name[0]}audio.mp3'
+            audio_path = f'user_audio/{video_name_split_dot[0]}audio.mp3'
             extracted_audio = extract_audio(
-                input_path=f'{settings.BASE_MEDIA}/user_video/{singleVideo.name}',
+                input_path=f'{settings.BASE_MEDIA}/{video_object.video.name}',
                 output_path=f'{settings.BASE_MEDIA}/{audio_path}'
             )
 
