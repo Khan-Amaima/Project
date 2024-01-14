@@ -22,6 +22,8 @@ function ItemDetail() {
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
 
+  console.log(audioPlayerRefs, videoPlayerRefs)
+
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
 
@@ -191,13 +193,13 @@ function ItemDetail() {
           showDots={false}
           slidesToSlide={1}
           beforeChange={(e)=>{
-            console.log(e, 'ccccccccc',)
+            console.log(e, 'current', videoCurrentTime)
             isPlaying && audioPlayerRefs?.current[e]?.play();
             audioPlayerRefs.current[e].currentTime = videoCurrentTime;
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
-            console.log(e, 'aaaaaaaaa',)
+            console.log(e, 'before')
             isPlaying && audioPlayerRefs?.current[e]?.pause();
             // setCurrentSlideIndex(e)
           }}
@@ -281,7 +283,7 @@ function ItemDetail() {
                   for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                     try{
                       isPlaying && videoPlayerRefs?.current[i]?.pause()
-                      isPlaying && videoCurrentTime != 0 && audioPlayerRefs?.current[i]?.pause();
+                      isPlaying && audioPlayerRefs?.current[i]?.pause();
                     }
                     catch(err){
                       console.log(err, 'err onPause')
@@ -289,8 +291,9 @@ function ItemDetail() {
                   }
                   setIsPlaying(false);
                 }}
-                onPlaying ={(e)=>{console.log(e)}}
+                // onPlaying ={(e)=>{console.log(e.currentTarget.currentTime, 'time')}}
                 onTimeUpdate={(e)=>{
+                  console.log(e.currentTarget.currentTime, 'time')
                   let videoTime = e.currentTarget.currentTime;
                   setVideoCurrentTime(videoTime)
                 }}
