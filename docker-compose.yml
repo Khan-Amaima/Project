@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  client:
+    build: ./client
+    container_name: client-c
+    ports:
+      - 3000:3000
+    env_file:
+      - client/.env
+    volumes:
+      - /app/src
+      - /app/node_modules

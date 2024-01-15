@@ -22,12 +22,12 @@ function ItemDetail() {
   let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
-  let audioRef = useRef();
+
   const [isPortrait, setIsPortrait] = useState(false);
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
-  let audios = [`${require("../assets/test_music.mp3")}`, `${require("../assets/test_music_2.mp3")}`]
+
   return (
     <Grid>
       <Grid
@@ -172,30 +172,30 @@ function ItemDetail() {
           </Typography>
         </Grid>
 
-        {audios.map((singleAudio, index) => {
-          return (
+        {
+          itemDetailState?.itemDetail?.primaryAudio != null ?            
             <audio 
-              key={index}
-              // id="audio" 
-              ref={ref => !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-              style={{display: 'none'}} 
-              src={singleAudio} 
+              ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+              // style={{display: 'none'}}
+              src={`${process.env.REACT_APP_BASE_URL}${itemDetailState?.itemDetail?.primaryAudio?.audio != null &&  itemDetailState?.itemDetail?.primaryAudio?.audio}`} 
               controls
-              
             >
             </audio>
-            
-          );
-        })}
-        
+          :
+          itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
+            return (
+              <audio 
+                key={index} 
+                ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+                // style={{display: 'none'}}
+                src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
+                controls
+              >
+              </audio>
+            );
+          })
+        }
         <Carousel
-          // ref={el => {
-          //   if (el) {
-          //     var currentSlide = el.state.currentSlide
-          //     setCurrentSlideIndex(currentSlide)
-          //     console.log(currentSlide, 'ccccccccc c',)
-          //   }
-          // }}
           additionalTransfrom={0}
           arrows
           centerMode={false}
@@ -204,16 +204,18 @@ function ItemDetail() {
           showDots={false}
           slidesToSlide={1}
           beforeChange={(e)=>{
-            const video = videoPlayerRefs.current[e];
-            
-          
-            isPlaying && audioPlayerRefs?.current[e]?.play();
-           
+            console.log(e, 'current', videoCurrentTime)
+            if(itemDetailState?.itemDetail?.primaryAudio == null){
+              audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+              isPlaying && itemDetailState?.itemDetail?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
+            }
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
-      
-            audioPlayerRefs?.current[e]?.pause();
+            console.log(e, 'before', videoCurrentTime)
+            if(itemDetailState?.itemDetail?.primaryAudio == null){
+              isPlaying && audioPlayerRefs?.current[e]?.pause();
+            }
           }}
           responsive={{
             mobile: {
@@ -265,9 +267,8 @@ function ItemDetail() {
              
               <video
                 key={index}
-                ref={ref => !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
+                ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
                 style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
-            
                 controls
                 controlsList="nodownload noplaybackrate"
                 muted
@@ -282,48 +283,76 @@ function ItemDetail() {
                  }}
                 onPlay = {()=>{
                   try{
-                    setIsPlaying(true);
-                    // audioPlayerRefs?.current[currentSlideIndex]?.play();
-                    for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                      if(i == currentSlideIndex){
-                        audioPlayerRefs?.current[currentSlideIndex]?.play();
-                      }else{
-                        audioPlayerRefs?.current[i]?.pause();
+                    // check is there any primary audio
+                    // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
+                    if(itemDetailState?.itemDetail?.primaryAudio != null){
+                      try{
+                        !isPlaying && itemDetailState?.itemDetail?.videos[0].audio != null && audioPlayerRefs?.current[0]?.play();
+                        audioPlayerRefs.current[0].currentTime = videoCurrentTime;
+                      }catch(err){
+                        console.log(err)
+                      }
+                    }else{
+                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                        if(i == currentSlideIndex){
+                          try{
+                            !isPlaying && itemDetailState?.itemDetail?.videos[currentSlideIndex].audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
+                            audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
+                          }catch(err){
+                            console.log(err)
+                          }
+                        }else{
+                          try{
+                            isPlaying && audioPlayerRefs?.current[i]?.pause();
+                          }catch(err){
+                            console.log(err, '-------')
+                          }
+                        }
                       }
                     }
+                    // play all videos
                     for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                      videoPlayerRefs?.current[i]?.play();
+                      try{
+                        !isPlaying && videoPlayerRefs?.current[i]?.play();
+                      }catch(err){
+                        console.log(err, '-------')
+                      }
                     }
+                    setIsPlaying(true);
                   }
                   catch(err){
                     console.log(err, 'err onPlay')
                   }
                 }}
                 onPause = {()=>{
-                  try{
-                    setIsPlaying(false);
-                    // audioPlayerRefs?.current[currentSlideIndex]?.pause();
-                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                    try{
                       isPlaying && videoPlayerRefs?.current[i]?.pause()
                       isPlaying && audioPlayerRefs?.current[i]?.pause();
                     }
+                    catch(err){
+                      console.log(err, 'err onPause')
+                    }
                   }
-                  catch(err){
-                    console.log(err, 'err onPause')
-                  }
+                  setIsPlaying(false);
                 }}
                 onTimeUpdate={(e)=>{
-                  // console.log(e.currentTarget.currentTime, 'updating')
                   let videoTime = e.currentTarget.currentTime;
                   setVideoCurrentTime(videoTime)
                 }}
                 onEnded={()=>{
-                    setVideoCurrentTime(0);
-                    setIsPlaying(false)
                     for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                      audioPlayerRefs?.current[i]?.pause();
+                      isPlaying && audioPlayerRefs?.current[i]?.pause();
                     }
-                    console.log('-------2------ locked')
+                    setIsPlaying(false)
+                    setVideoCurrentTime(0);
+                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                      try{
+                        videoPlayerRefs.current[i].currentTime = 0;
+                      }catch(err){
+                        console.log(err, '-------')
+                      }
+                    }
                   }
                 }
               />

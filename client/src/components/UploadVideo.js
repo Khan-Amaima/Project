@@ -40,6 +40,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const videoEl = useRef(null);
 
+  if(tableData.length > 0 && selectedSoundIndex != undefined){
+    console.log(tableData[0].file.name, '-==-=-=-=-=-=-=-=-=-=-=-=-', tableData[selectedSoundIndex].file.name)
+  }
+
   const handleConfirmationModal = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
     setDurationErrorMessage("")
@@ -429,8 +433,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
                   userReducerState?.userDetail?.email,
                   title,
                   description,
-                  tableData
+                  tableData,
+                  selectedSoundIndex != undefined ? tableData[selectedSoundIndex].file.name : null
                 );
+                setSelectedSoundIndex(undefined)
                 handleModal();
                 fetchVideos();
                 console.log(response, "--------response-------");

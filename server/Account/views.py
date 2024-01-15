@@ -113,7 +113,7 @@ class UserGetProfileView(APIView):
         user = request.user
         profileObject = UserProfile.objects.get(user=user)
         serializer = UserProfileSerializer(profileObject)
-        return Response({'success' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)
+        return Response({'message' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)
     
 class UserUpdatePasswordView(APIView):
     authentication_classes = [TokenAuthentication]

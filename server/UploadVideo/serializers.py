@@ -15,6 +15,7 @@ class VideoSerializer(serializers.ModelSerializer):
 class UserMediaFetchSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     videos = VideoSerializer(many=True, read_only=True, source='video_set')
+    primaryAudio = VideoSerializer(read_only=True)
     class Meta:
         model = UserMediaFetch
         fields = '__all__'

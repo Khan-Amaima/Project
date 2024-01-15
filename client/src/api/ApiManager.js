@@ -91,7 +91,8 @@ const ApiManager = {
       return error;
     }
   },
-  uploadVideo: async (email, title, description, videos) => {
+  uploadVideo: async (email, title, description, videos, primaryAudio = null) => {
+    console.log(primaryAudio, 'sajdflkjasdlkjflkjasdlk')
     const url =
       process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.uploadVideo;
     try {
@@ -99,6 +100,7 @@ const ApiManager = {
       formData.append("email", email);
       formData.append("title", title);
       formData.append("description", description);
+      formData.append("primaryAudio", primaryAudio);
       for (let i = 0; i < videos.length; i++) {
         formData.append(videos[i].file.name, videos[i].file);
       }
