@@ -13,6 +13,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
 from audio_extract import extract_audio
+from moviepy.editor import VideoFileClip
+
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, You're at the upload video.")
@@ -36,12 +38,12 @@ class UploadVideoView(APIView):
         mediaObject = UserMedia.objects.create(
             title = title,
             description = description,
-            primaryAudio = primaryAudio,
             user = user
         )
 
         # Create Video object in the database
-        for singleVideo in videos:
+        for singleVideo in request.FILES.values():
+            print(f'{singleVideo.name} -----------------------')
             video_object = Video.objects.create(
                 mediaObject=mediaObject,
                 video=singleVideo,
@@ -50,14 +52,23 @@ class UploadVideoView(APIView):
             video_name_split_slash = video_object.video.name.split('/')
             video_name_split_dot = video_name_split_slash[1].split('.')
 
-            audio_path = f'user_audio/{video_name_split_dot[0]}audio.mp3'
-            extracted_audio = extract_audio(
-                input_path=f'{settings.BASE_MEDIA}/{video_object.video.name}',
-                output_path=f'{settings.BASE_MEDIA}/{audio_path}'
-            )
+            video_clip = VideoFileClip(f'{settings.BASE_MEDIA}/{video_object.video.name}')
+    
+            # Check if the video has audio
+            if not video_clip.audio is None:
 
-            video_object.audio = audio_path
-            video_object.save()
+                audio_path = f'user_audio/{video_name_split_dot[0]}audio.mp3'
+                extracted_audio = extract_audio(
+                    input_path=f'{settings.BASE_MEDIA}/{video_object.video.name}',
+                    output_path=f'{settings.BASE_MEDIA}/{audio_path}'
+                )
+
+                video_object.audio = audio_path
+                video_object.save()
+
+                if primaryAudio == singleVideo.name:
+                    mediaObject.primaryAudio = video_object
+                    mediaObject.save()
 
         return Response({"success": "Video upload successfully."}, status=status.HTTP_200_OK)
     
