@@ -15,6 +15,7 @@ function ItemDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [pictureFile, setPictureFile] = useState(userIcon);
+  
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const itemDetailState = useSelector((state) => state.itemDetailRed);
   let [videoCurrentTime, setVideoCurrentTime] = useState(0);
@@ -22,11 +23,11 @@ function ItemDetail() {
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
   let audioRef = useRef();
+  const [isPortrait, setIsPortrait] = useState(false);
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
   let audios = [`${require("../assets/test_music.mp3")}`, `${require("../assets/test_music_2.mp3")}`]
-
   return (
     <Grid>
       <Grid
@@ -187,7 +188,6 @@ function ItemDetail() {
           );
         })}
         
-
         <Carousel
           // ref={el => {
           //   if (el) {
@@ -204,15 +204,16 @@ function ItemDetail() {
           showDots={false}
           slidesToSlide={1}
           beforeChange={(e)=>{
-            console.log(e, 'ccccccccc',)
+            const video = videoPlayerRefs.current[e];
+            
+          
             isPlaying && audioPlayerRefs?.current[e]?.play();
-            audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+           
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
-            console.log(e, 'aaaaaaaaa',)
+      
             audioPlayerRefs?.current[e]?.pause();
-            // setCurrentSlideIndex(e)
           }}
           responsive={{
             mobile: {
@@ -250,16 +251,35 @@ function ItemDetail() {
           }}
         >
           {itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
+            if(index==0){
+              const video = videoPlayerRefs.current[index];
+            }
             return (
+              <Grid
+              height={isPortrait? {xs: "250px", sm: "370px",md:"430px",lg:"620px",xl:"650px"}:"auto"}
+              minWidth={"280px"}
+              minHeight={"160px"}
+              width={"100%"}
+              >
+
+             
               <video
                 key={index}
                 ref={ref => !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
-                width="100%"
-                style={{ borderRadius: "10px" }}
+                style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
+            
                 controls
                 controlsList="nodownload noplaybackrate"
                 muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+
+                onLoadedMetadata={()=>{
+                 
+                  const video = videoPlayerRefs.current[index];
+                    if(video.videoHeight > video.videoWidth){   
+                      setIsPortrait(true);
+                    }
+                 }}
                 onPlay = {()=>{
                   try{
                     setIsPlaying(true);
@@ -307,10 +327,11 @@ function ItemDetail() {
                   }
                 }
               />
+               </Grid>
             );
           })}
         </Carousel>
-
+  
         <Grid
           item
           xs={11.5}
@@ -391,7 +412,7 @@ function ItemDetail() {
               confirmationText={"Are you sure, you want to delete this file?"}
               leftButtonText={"Cancel"}
               rightButtonText={"Delete"}
-              leftButtonFunction={() => {}}
+              leftButtonFunction={() => {handleConfirmModal()}}
               rightButtonFunction={() => console.log("Delete")}
               icon={
                 <Delete
