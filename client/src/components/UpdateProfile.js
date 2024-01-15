@@ -91,9 +91,15 @@ function UpdateProfile({}) {
     },
     validate: (values) => {
       if (focusedField == "name") {
-        if (values.name == initialValues.name) {
+        if (values.name == initialValues.name ) {
           setIsDisableButton(true);
-        } else {
+        } 
+        else if(values.name.trim() == initialValues.name) {
+          setIsDisableButton(true);
+         
+        }
+        
+        else {
           setIsDisableButton(false);
         }
       }
@@ -111,9 +117,11 @@ function UpdateProfile({}) {
         const url = URL.createObjectURL(file);
         setPictureFile(file);
         setPictureUrl(url);
+        setIsDisableButton(false)
       }
     } catch (err) {
       console.log(err, "upload Picture error");
+      setIsDisableButton(true)
     }
   };
 
@@ -217,7 +225,7 @@ function UpdateProfile({}) {
             id="name"
             onFocus={() => handleFocus("name")}
             placeholder="Enter your name"
-            value={formik.values.name || name}
+            value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
             sx={CustomStyle.inputStyle}
@@ -397,7 +405,10 @@ function UpdateProfile({}) {
                     />
 
                     <IconButton
-                      onClick={() => handleDeleteFile()}
+                      onClick={() => {
+                        handleDeleteFile();
+                        setIsDisableButton(true)
+                      }}
                       style={{
                         position: "absolute",
                         top: "0px",
