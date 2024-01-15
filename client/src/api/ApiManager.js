@@ -91,7 +91,8 @@ const ApiManager = {
       return error;
     }
   },
-  uploadVideo: async (email, title, description, videos, primaryAudio = 0) => {
+  uploadVideo: async (email, title, description, videos, primaryAudio = null) => {
+    console.log(primaryAudio, 'sajdflkjasdlkjflkjasdlk')
     const url =
       process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.uploadVideo;
     try {

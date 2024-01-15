@@ -21,8 +21,7 @@ function ItemDetail() {
   let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
-
-  console.log(audioPlayerRefs, videoPlayerRefs)
+  // console.log(audioPlayerRefs, itemDetailState, itemDetailState?.itemDetail?.primaryAudio)
 
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
@@ -171,18 +170,29 @@ function ItemDetail() {
           </Typography>
         </Grid>
 
-        {itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
-          return (
+        {
+          itemDetailState?.itemDetail?.primaryAudio != null ?            
             <audio 
-              key={index} 
               ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-              style={{display: 'none'}} 
-              src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio}`} 
+              // style={{display: 'none'}}
+              src={`${process.env.REACT_APP_BASE_URL}${itemDetailState?.itemDetail?.primaryAudio?.audio != null &&  itemDetailState?.itemDetail?.primaryAudio?.audio}`} 
               controls
             >
             </audio>
-          );
-        })}
+          :
+          itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
+            return (
+              <audio 
+                key={index} 
+                ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+                // style={{display: 'none'}}
+                src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
+                controls
+              >
+              </audio>
+            );
+          })
+        }
 
         <Carousel
           additionalTransfrom={0}
@@ -194,14 +204,17 @@ function ItemDetail() {
           slidesToSlide={1}
           beforeChange={(e)=>{
             console.log(e, 'current', videoCurrentTime)
-            isPlaying && audioPlayerRefs?.current[e]?.play();
-            audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+            if(itemDetailState?.itemDetail?.primaryAudio == null){
+              audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+              isPlaying && itemDetailState?.itemDetail?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
+            }
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
-            console.log(e, 'before')
-            isPlaying && audioPlayerRefs?.current[e]?.pause();
-            // setCurrentSlideIndex(e)
+            console.log(e, 'before', videoCurrentTime)
+            if(itemDetailState?.itemDetail?.primaryAudio == null){
+              isPlaying && audioPlayerRefs?.current[e]?.pause();
+            }
           }}
           responsive={{
             mobile: {
@@ -251,21 +264,34 @@ function ItemDetail() {
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                 onPlay = {()=>{
                   try{
-                    for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                      if(i == currentSlideIndex){
-                        try{
-                          !isPlaying && audioPlayerRefs?.current[currentSlideIndex]?.play();
-                          audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
-                        }catch(err){
-                        }
-                      }else{
-                        try{
-                          isPlaying && audioPlayerRefs?.current[i]?.pause();
-                        }catch(err){
-                          console.log(err, '-------')
+                    // check is there any primary audio
+                    // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
+                    if(itemDetailState?.itemDetail?.primaryAudio != null){
+                      try{
+                        !isPlaying && itemDetailState?.itemDetail?.videos[0].audio != null && audioPlayerRefs?.current[0]?.play();
+                        audioPlayerRefs.current[0].currentTime = videoCurrentTime;
+                      }catch(err){
+                        console.log(err)
+                      }
+                    }else{
+                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                        if(i == currentSlideIndex){
+                          try{
+                            !isPlaying && itemDetailState?.itemDetail?.videos[currentSlideIndex].audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
+                            audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
+                          }catch(err){
+                            console.log(err)
+                          }
+                        }else{
+                          try{
+                            isPlaying && audioPlayerRefs?.current[i]?.pause();
+                          }catch(err){
+                            console.log(err, '-------')
+                          }
                         }
                       }
                     }
+                    // play all videos
                     for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                       try{
                         !isPlaying && videoPlayerRefs?.current[i]?.play();
@@ -291,9 +317,7 @@ function ItemDetail() {
                   }
                   setIsPlaying(false);
                 }}
-                // onPlaying ={(e)=>{console.log(e.currentTarget.currentTime, 'time')}}
                 onTimeUpdate={(e)=>{
-                  console.log(e.currentTarget.currentTime, 'time')
                   let videoTime = e.currentTarget.currentTime;
                   setVideoCurrentTime(videoTime)
                 }}
@@ -310,7 +334,6 @@ function ItemDetail() {
                         console.log(err, '-------')
                       }
                     }
-                    console.log('-------2------ locked')
                   }
                 }
               />
