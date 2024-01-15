@@ -176,7 +176,7 @@ function ItemDetail() {
           itemDetailState?.itemDetail?.primaryAudio != null ?            
             <audio 
               ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-              // style={{display: 'none'}}
+              style={{display: 'none'}}
               src={`${process.env.REACT_APP_BASE_URL}${itemDetailState?.itemDetail?.primaryAudio?.audio != null &&  itemDetailState?.itemDetail?.primaryAudio?.audio}`} 
               controls
             >
@@ -187,7 +187,7 @@ function ItemDetail() {
               <audio 
                 key={index} 
                 ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-                // style={{display: 'none'}}
+                style={{display: 'none'}}
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
                 controls
               >
