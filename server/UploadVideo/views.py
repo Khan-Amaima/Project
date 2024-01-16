@@ -44,7 +44,6 @@ class UploadVideoView(APIView):
 
         # Create Video object in the database
         for index, singleVideo in enumerate(request.FILES.values()):
-            # print(f'{singleVideo.name, index} -----------------------')
             video_object = Video.objects.create(
                 mediaObject=mediaObject,
                 video=singleVideo,
@@ -93,8 +92,14 @@ class GetVideoView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = request.user
-        mediaObjects = UserMedia.objects.filter(user__username = user.username)
+        name_param = self.request.query_params.get('name', None)
+        if name_param:
+            print(f'{UserMedia.objects.filter(id = name_param).first()} -=-=-=-=-=-=-=-=-')
+            mediaObjects = UserMedia.objects.filter(id = name_param)
+        else :
+            user = request.user
+            mediaObjects = UserMedia.objects.filter(user__username = user.username)
+
         serializer = UserMediaFetchSerializer(mediaObjects, many = True)
         
         return Response({'success' : True, "message": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
