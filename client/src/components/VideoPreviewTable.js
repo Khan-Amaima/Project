@@ -142,11 +142,13 @@ function VideoPreviewTable({
                       navigate("/itemDetail")
                     }}
                   >
-                    <video
+                    <img
+                      src={`${process.env.REACT_APP_BASE_URL}${item?.thumbnail}`}
                       width={160}
                       height={90}
-                      src={`${process.env.REACT_APP_BASE_URL}${item?.videos[0]?.video}`}
-                      style={{ borderRadius: "6px" }}
+                      style={{
+                        borderRadius: "6px",
+                      }}
                     />
                   </TableCell>
 
