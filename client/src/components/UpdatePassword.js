@@ -29,11 +29,11 @@ function UpdatePassword({}) {
   const [loading, setLoading] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setResponseMessage("")
-  //   }, 3000);
-  // }, [responseMessage])
+  useEffect(() => {
+    setTimeout(() => {
+      setResponseMessage("");
+    }, 3000);
+  }, [responseMessage]);
 
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old password is required"),
@@ -356,21 +356,23 @@ function UpdatePassword({}) {
           )}
         </Grid>
 
-        <Grid xs={12}>
+        <Grid container xs={11.8} md={11.57} style={{justifyContent:"flex-start",alignItems:"flex-start",alignContent:"flex-start",
+      }}>
           <Grid
             item
             xs={12}
-            sm={5.5}
-            md={5.5}
-            lg={5.5}
-            alignItems={"start"}
+            sm={5.6}
+            md={5.7}
+            lg={5.7}
+            xl={5.7}
             style={{
               borderColor: AppColors.primary,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "start",
-              alignItems: "start",
-              alignSelf: "flex-start",
+              borderRadius: "10px",
+              direction: "row",
+              justifyContent: "center",
+              alignSelf:"start",
+              alignItems: "center",
+              
             }}
           >
             <Typography
@@ -468,45 +470,59 @@ function UpdatePassword({}) {
         </Grid>
 
         <Grid
-          item
+          container
           xs={12}
           sm={12}
           md={11.5}
           lg={11.5}
+          justifyContent= {{ xs: "center", sm: "space-between",md:"space-between" }}
           style={{
-            display: { sm: "block", md : 'flex' },
-            justifyContent: "space-between",
+            display: "flex",
             alignItems: "center",
           }}
-          // sx={{xs : {display: 'block'}}}
         >
-          <FormHelperText
+          {responseMessage!=""?<FormHelperText
             error
             id="confirmPassword"
+           style={{padding:"10px"}}
             sx={{ typography: FontSizeStandards.tertiaryHeading }}
           >
             {responseMessage}
-          </FormHelperText>
-          <CustomButton
-            type={"submit"}
-            text={"Update Password"}
-            loading={loading}
-            buttonStyle={{
-              borderRadius: 50,
-              backgroundColor: AppColors.primary,
-              fontFamily: "Poppins",
-              fontSize: {
-                typography: {
-                  xs: FontSizeStandards.secondaryHeading.xs,
-                  sm: FontSizeStandards.secondaryHeading.sm,
-                  md: FontSizeStandards.secondaryHeading.md,
-                  lg: FontSizeStandards.secondaryHeading.lg,
-                },
-              },
-              fontWeight: 500,
-              color: AppColors.white,
+          </FormHelperText>:<div/>}
+
+           <Grid
+            item
+            xs={12}
+            sm={5.5}
+            md={5.5}
+            lg={5.5}
+            justifyContent = {{ xs: "center", sm: "flex-end",md:"flex-end" }}
+            style={{
+              display: "flex",
+              alignItems: "end",
             }}
-          />
+          >
+            <CustomButton
+              type={"submit"}
+              text={"Update Password"}
+              loading={loading}
+              buttonStyle={{
+                borderRadius: 50,
+                backgroundColor: AppColors.primary,
+                fontFamily: "Poppins",
+                fontSize: {
+                  typography: {
+                    xs: FontSizeStandards.secondaryHeading.xs,
+                    sm: FontSizeStandards.secondaryHeading.sm,
+                    md: FontSizeStandards.secondaryHeading.md,
+                    lg: FontSizeStandards.secondaryHeading.lg,
+                  },
+                },
+                fontWeight: 500,
+                color: AppColors.white,
+              }}
+            />
+           </Grid>
         </Grid>
       </Grid>
 
