@@ -85,10 +85,11 @@ const ApiManager = {
       const response = await axios.post(url, formData, {
         headers: { Authorization: `Token ${authToken}` },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.error(error);
-      return error;
+      let response = error.response.data;
+      console.error(response);
+      return response;
     }
   },
   uploadVideo: async (email, title, description, videos, primaryAudio = null) => {
@@ -161,10 +162,11 @@ const ApiManager = {
           },
         }
       );
-      return response;
+      return response.data;
     } catch (error) {
-      console.error(error);
-      return error;
+      let response = error.response.data;
+      console.log(response);
+      return response;
     }
   },
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { FormHelperText, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -26,7 +26,15 @@ function UpdatePassword({}) {
   const [message, setMessage] = useState();
   const [responseMessage, setResponseMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setResponseMessage("")
+    }, 3000);
+  }, [responseMessage])
 
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old password is required"),
@@ -47,6 +55,29 @@ function UpdatePassword({}) {
     confirmNewPassword: "",
   };
 
+  const handleSubmit = async (event, values) => {
+    setLoading(true);
+    try {
+      let response = await ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
+      if(response.success){
+        formik.resetForm();
+        setLoading(false);
+        setMessage('Password Updated successfully')
+        handleModal();
+      }else{
+        setLoading(false);
+        console.log("Error Handling ")
+        setResponseMessage(response.message);
+      }
+
+    } catch (error) {
+      setLoading(false);
+
+      console.log("error catch....................")
+      setResponseMessage(error)
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
@@ -55,18 +86,7 @@ function UpdatePassword({}) {
     },
   });
 
-  const handleSubmit = async (event, values) => {
-    try {
-      let response = await ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
-      if(response?.data?.success){
-        formik.resetForm();
-        setMessage('Password Updated successfully')
-        handleModal();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   const handleShowOldPassword = () => setShowOldPassword((show) => !show);
 
@@ -79,6 +99,7 @@ function UpdatePassword({}) {
     <Grid
     container
     component="form"
+    onSubmit={formik.handleSubmit}
     className="Change Password"
     gap={3}
     minWidth={{ xs: "250px", sm: "500px" }}
@@ -456,24 +477,14 @@ function UpdatePassword({}) {
           lg={6}
           style={{
             display: "flex",
-            justifyContent: "start",
+            justifyContent: "center",
             alignItems: "center",
+           
           }}
         >
-            <Typography
-              variant="h6"
-              component="h2"
-              style={{
-                fontFamily: "Poppins",
-                fontWeight: "500",
-                color: "red",
-                paddingLeft: "5px",
-                marginLeft: "10px",
-              }}
-              sx={{ typography: FontSizeStandards.secondaryHeading }}
-            >
-              {responseMessage}
-            </Typography>
+             <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
+                    {responseMessage}
+             </FormHelperText>
           </Grid>
 
           <Grid  
@@ -491,6 +502,7 @@ function UpdatePassword({}) {
             <CustomButton
               type={"submit"}
               text={"Update Password"}
+              loading={loading}
               buttonStyle={{
                 borderRadius: 50,
                 backgroundColor: AppColors.primary,
