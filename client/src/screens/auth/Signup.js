@@ -59,9 +59,11 @@ function SignUp() {
   };
 
   const handleSubmit = async (event, values) => {
+    
     setLoading(true);
     try {
-      let response = await ApiManager.signUpUser(event.name, event.email, event.password)
+      let email = event.email.toLowerCase();
+      let response = await ApiManager.signUpUser(event.name, email, event.password)
 
       if(!response.success){
         setResponseMessage(response.message)
