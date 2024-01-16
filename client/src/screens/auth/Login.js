@@ -52,7 +52,8 @@ function Login() {
   const handleSubmit = async (event, values) => {
     setLoading(true);
     try {
-      let response = await ApiManager.loginUser(event.email, event.password);
+      let email = event.email.toLowerCase();
+      let response = await ApiManager.loginUser(email, event.password);
       if(!response.success){
         setResponseMessage(response.message)
       }else{
