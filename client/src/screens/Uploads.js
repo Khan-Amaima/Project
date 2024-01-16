@@ -34,7 +34,7 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CustomTablePagination from "../components/CustomTablePagination";
 import ApiManager from "../api/ApiManager";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);

@@ -246,7 +246,10 @@ function ItemDetail() {
           beforeChange={(e)=>{
             console.log(e, 'current', videoCurrentTime)
             if(userMedia?.primaryAudio == null){
-              audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+              // audioPlayerRefs.current[e].currentTime = videoCurrentTime;
+              for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                audioPlayerRefs.current[i].currentTime = videoCurrentTime;
+              }
               isPlaying && userMedia?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
             }
             setCurrentSlideIndex(e)
@@ -303,100 +306,98 @@ function ItemDetail() {
               minHeight={"160px"}
               width={"100%"}
               >
-
-             
-              <video
-                key={index}
-                ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
-                style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
-                controls
-                controlsList="nodownload noplaybackrate"
-                muted
-                src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                type="video/mp4"
-                onLoadedMetadata={()=>{
-                 
-                  const video = videoPlayerRefs.current[index];
-                    if(video.videoHeight > video.videoWidth){   
-                      setIsPortrait(true);
-                    }
-                 }}
-                onPlay = {()=>{
-                  try{
-                    // check is there any primary audio
-                    // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
-                    if(userMedia?.primaryAudio != null){
-                      try{
-                        !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
-                        audioPlayerRefs.current[0].currentTime = videoCurrentTime;
-                      }catch(err){
-                        console.log(err)
+                <video
+                  key={index}
+                  ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
+                  style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
+                  controls
+                  controlsList="nodownload noplaybackrate"
+                  muted
+                  src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+                  type="video/mp4"
+                  onLoadedMetadata={()=>{
+                  
+                    const video = videoPlayerRefs.current[index];
+                      if(video.videoHeight > video.videoWidth){   
+                        setIsPortrait(true);
                       }
-                    }else{
-                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                        if(i == currentSlideIndex){
-                          try{
-                            !isPlaying && userMedia?.videos[currentSlideIndex]?.audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
-                            audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
-                          }catch(err){
-                            console.log(err)
-                          }
-                        }else{
-                          try{
-                            isPlaying && audioPlayerRefs?.current[i]?.pause();
-                          }catch(err){
-                            console.log(err, '-------')
+                  }}
+                  onPlay = {()=>{
+                    try{
+                      // check is there any primary audio
+                      // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
+                      if(userMedia?.primaryAudio != null){
+                        try{
+                          !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
+                          audioPlayerRefs.current[0].currentTime = videoCurrentTime;
+                        }catch(err){
+                          console.log(err)
+                        }
+                      }else{
+                        for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                          if(i == currentSlideIndex){
+                            try{
+                              !isPlaying && userMedia?.videos[currentSlideIndex]?.audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
+                              audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
+                            }catch(err){
+                              console.log(err)
+                            }
+                          }else{
+                            try{
+                              isPlaying && audioPlayerRefs?.current[i]?.pause();
+                            }catch(err){
+                              console.log(err, '-------')
+                            }
                           }
                         }
                       }
-                    }
-                    // play all videos
-                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                      try{
-                        !isPlaying && videoPlayerRefs?.current[i]?.play();
-                      }catch(err){
-                        console.log(err, '-------')
+                      // play all videos
+                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                        try{
+                          !isPlaying && videoPlayerRefs?.current[i]?.play();
+                        }catch(err){
+                          console.log(err, '-------')
+                        }
                       }
-                    }
-                    setIsPlaying(true);
-                  }
-                  catch(err){
-                    console.log(err, 'err onPlay')
-                  }
-                }}
-                onPause = {()=>{
-                  for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                    try{
-                      isPlaying && videoPlayerRefs?.current[i]?.pause()
-                      isPlaying && audioPlayerRefs?.current[i]?.pause();
+                      setIsPlaying(true);
                     }
                     catch(err){
-                      console.log(err, 'err onPause')
+                      console.log(err, 'err onPlay')
                     }
-                  }
-                  setIsPlaying(false);
-                }}
-                onTimeUpdate={(e)=>{
-                  let videoTime = e.currentTarget.currentTime;
-                  setVideoCurrentTime(videoTime)
-                }}
-                onEnded={()=>{
-                    for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                      isPlaying && audioPlayerRefs?.current[i]?.pause();
-                    }
-                    setIsPlaying(false)
-                    setVideoCurrentTime(0);
+                  }}
+                  onPause = {()=>{
                     for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                       try{
-                        videoPlayerRefs.current[i].currentTime = 0;
-                      }catch(err){
-                        console.log(err, '-------')
+                        isPlaying && videoPlayerRefs?.current[i]?.pause()
+                        isPlaying && audioPlayerRefs?.current[i]?.pause();
+                      }
+                      catch(err){
+                        console.log(err, 'err onPause')
+                      }
+                    }
+                    setIsPlaying(false);
+                  }}
+                  onTimeUpdate={(e)=>{
+                    let videoTime = e.currentTarget.currentTime;
+                    setVideoCurrentTime(videoTime)
+                  }}
+                  onEnded={()=>{
+                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                        isPlaying && audioPlayerRefs?.current[i]?.pause();
+                      }
+                      setIsPlaying(false)
+                      setVideoCurrentTime(0);
+                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                        try{
+                          videoPlayerRefs.current[i].currentTime = 0;
+                        }catch(err){
+                          console.log(err, '-------')
+                        }
                       }
                     }
                   }
-                }
-              />
-               </Grid>
+                />
+              </Grid>
             );
           })}
         </Carousel>

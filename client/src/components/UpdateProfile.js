@@ -13,7 +13,7 @@ import { CustomStyle } from "../constants/CustomStyle";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
 import CustomButton from "./CustomButton";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ApiManager from "../api/ApiManager";
 
 function UpdateProfile({}) {

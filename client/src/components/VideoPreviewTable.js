@@ -18,7 +18,7 @@ import {CheckBox,CheckBoxOutlineBlank,UnfoldMore,} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 
@@ -31,9 +31,7 @@ function VideoPreviewTable({
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [deletedData, setDeletedData] = useState({});
- 
-  const dispatch = useDispatch();
-  const userReducerState = useSelector((state) => state.userRed);
+   const userReducerState = useSelector((state) => state.userRed);
 
   const columns = [
     {id: "count",label: "No",minWidth: 24,align: "center",},
@@ -146,6 +144,7 @@ function VideoPreviewTable({
                       height={90}
                       style={{
                         borderRadius: "6px",
+                        objectFit: "contain"
                       }}
                     />
                   </TableCell>
