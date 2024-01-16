@@ -30,7 +30,7 @@ class UserSignupView(generics.CreateAPIView):
         first_name = request.data.get('name')
         user = User.objects.filter(email=email).first()
         if user:
-            return Response({'message' : 'User already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'User already exists.'}, status=status.HTTP_400_BAD_REQUEST)
 
         username = email.split("@") 
         hashed_password = make_password(password)
@@ -43,7 +43,7 @@ class UserSignupView(generics.CreateAPIView):
 
         token, created = Token.objects.get_or_create(user=user)
         serializer = UserGETSerializer(user)
-        return Response({'token': token.key, 'user-info' : serializer.data}, status=status.HTTP_201_CREATED,)
+        return Response({'success' : True, 'message' : 'User created successfully.', 'token': token.key, 'user-info' : serializer.data}, status=status.HTTP_201_CREATED,)
   
 class UserLoginView(generics.CreateAPIView):
     authentication_classes = [TokenAuthentication]
@@ -55,7 +55,7 @@ class UserLoginView(generics.CreateAPIView):
         password = request.data.get('password')
 
         if not email or not password:
-            return Response({'message' : 'Email and password is required!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'Email and password is required!'}, status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.filter(email=email).first()
         if user:
@@ -65,13 +65,13 @@ class UserLoginView(generics.CreateAPIView):
             if auth_user:
                 token, created = Token.objects.get_or_create(user=user)
                 serializer = UserGETSerializer(user)
-                return Response({'token': token.key, 'user-info': serializer.data}, status=status.HTTP_200_OK)
+                return Response({'success' : True, 'message' : 'User login successfully.', 'token': token.key, 'user-info': serializer.data}, status=status.HTTP_200_OK)
             else:
                 # Authentication failed
                 msg = 'Access denied: wrong email or password.'
-                return Response({'message': msg}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'success' : False, 'message': msg}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            return Response({'message' : 'User not found!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False ,'message' : 'User not found!'}, status=status.HTTP_400_BAD_REQUEST)
     
 class UserLogoutView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -79,7 +79,7 @@ class UserLogoutView(APIView):
     def post(self, request):
         user_token = Token.objects.filter(user=request.user).first()
         user_token.delete()
-        return Response({"success": ("Successfully logged out.")}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Successfully logged out."}, status=status.HTTP_200_OK)
 
 
 class UserDetailView(APIView):
@@ -89,7 +89,7 @@ class UserDetailView(APIView):
     def get(self, request):
         user = request.user
         serializer = UserGETSerializer(user)
-        return Response({'user-info' : serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "User detail fetched Successfully.", 'user-info' : serializer.data}, status=status.HTTP_200_OK)
 
 class UserUpdateProfileView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -103,7 +103,7 @@ class UserUpdateProfileView(APIView):
             profileObject.profile_picture.delete()
         profileObject.profile_picture = picture[0]
         profileObject.save()
-        return Response({'success' : 'Profile Picture Updated'}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Profile Picture Updated Successfully.",}, status=status.HTTP_200_OK)
 
 class UserGetProfileView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -113,7 +113,7 @@ class UserGetProfileView(APIView):
         user = request.user
         profileObject = UserProfile.objects.get(user=user)
         serializer = UserProfileSerializer(profileObject)
-        return Response({'message' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success' : True, 'message' : 'User data fetched successfully', 'data' : serializer.data}, status=status.HTTP_200_OK)
     
 class UserUpdatePasswordView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -124,13 +124,13 @@ class UserUpdatePasswordView(APIView):
         old_password = request.data.get('old_password')
         new_password = request.data.get('new_password')
         if not old_password:
-            return Response({'message' : 'Old password is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'Old password is required'}, status=status.HTTP_400_BAD_REQUEST)
         if not new_password:
-            return Response({'message' : 'New password is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'New password is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         if user.check_password(request.data.get('old_password')):
             user.set_password(request.data.get('new_password'))
             user.save()
             update_session_auth_hash(request, user)
-            return Response({'success': 'Password changed successfully.'}, status=status.HTTP_200_OK)
-        return Response({'message': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : True, 'message': 'Password changed successfully.'}, status=status.HTTP_200_OK)
+        return Response({'success' : False, 'message': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)

@@ -29,11 +29,11 @@ class UploadVideoView(APIView):
         videos = [x for x in request.FILES.values()]
         user = User.objects.filter(email=email).first()
         if not email: 
-            return Response({'message' : 'Email is required.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False,  'message' : 'Email is required.'}, status=status.HTTP_400_BAD_REQUEST)
         if not user:
-            return Response({'message' : 'User no exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'User no exists.'}, status=status.HTTP_400_BAD_REQUEST)
         if not videos:
-            return Response({'message' : 'Please upload video.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, 'message' : 'Please upload video.'}, status=status.HTTP_400_BAD_REQUEST)
         
         mediaObject = UserMedia.objects.create(
             title = title,
@@ -70,7 +70,7 @@ class UploadVideoView(APIView):
                     mediaObject.primaryAudio = video_object
                     mediaObject.save()
 
-        return Response({"success": "Video upload successfully."}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Video upload successfully."}, status=status.HTTP_200_OK)
     
 class GetVideoView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -81,7 +81,7 @@ class GetVideoView(APIView):
         mediaObjects = UserMedia.objects.filter(user__username = user.username)
         serializer = UserMediaFetchSerializer(mediaObjects, many = True)
         
-        return Response({"success": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
 
 class DeleteVideoView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -90,9 +90,9 @@ class DeleteVideoView(APIView):
     def put(self, request):
         mediaObjectId = request.data.get('id')
         if not mediaObjectId:
-            return Response({"message": "Item id is required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, "message": "Item id is required"}, status=status.HTTP_400_BAD_REQUEST)
         retrieveMedia = UserMedia.objects.filter(id = mediaObjectId)
         if not retrieveMedia.first():
-            return Response({"message": "Video is not retrieved."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success' : False, "message": "Video is not retrieved."}, status=status.HTTP_400_BAD_REQUEST)
         retrieveMedia.delete()
-        return Response({"success": "Video deleted successfully."}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Video deleted successfully."}, status=status.HTTP_200_OK)
