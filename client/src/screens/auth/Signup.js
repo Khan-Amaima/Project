@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -31,6 +31,13 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    setTimeout(() => {
+      setResponseMessage("")
+    }, 3000);
+  }, [responseMessage])
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -52,11 +59,21 @@ function SignUp() {
   };
 
   const handleSubmit = async (event, values) => {
+    setLoading(true);
     try {
       let response = await ApiManager.signUpUser(event.name, event.email, event.password)
-      dispatch(setCurrentUserAuthToken(response.data.token));
-      navigate("/");
+
+      if(!response.success){
+        setResponseMessage(response.message)
+      }
+      else{
+        dispatch(setCurrentUserAuthToken(response.token));
+        navigate("/");
+      }
+      setLoading(false)
+
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -291,9 +308,9 @@ function SignUp() {
                <Grid
                 item
                 xs={12}
-                style={{ paddingTop: "0px", marginTop: "5px",display:"flex"}}
+                style={{display:"flex",marginInline:"10px"}}
                >
-                  <FormHelperText error id="confirmPassword">
+                  <FormHelperText error id="confirmPassword"  sx={{ typography: FontSizeStandards.tertiaryHeading}}>
                     {responseMessage}
                   </FormHelperText>
              

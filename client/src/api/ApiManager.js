@@ -13,10 +13,11 @@ const ApiManager = {
     try {
       const response = await axios.post(url, signupData);
       console.log(response);
-      return response;
+      return response.data;
     } catch (error) {
       console.error(error);
-      return error;
+      let response = error.response.data;
+      return response;
     }
   },
   loginUser: async (email, password) => {
