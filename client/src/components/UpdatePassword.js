@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { FormHelperText, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -29,7 +29,6 @@ function UpdatePassword({}) {
   const [loading, setLoading] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
-
   // useEffect(() => {
   //   setTimeout(() => {
   //     setResponseMessage("")
@@ -58,23 +57,26 @@ function UpdatePassword({}) {
   const handleSubmit = async (event, values) => {
     setLoading(true);
     try {
-      let response = await ApiManager.UpdatePassword(userReducerState?.authToken, event.oldPassword, event.newPassword)
-      if(response.success){
+      let response = await ApiManager.UpdatePassword(
+        userReducerState?.authToken,
+        event.oldPassword,
+        event.newPassword
+      );
+      if (response.success) {
         formik.resetForm();
         setLoading(false);
-        setMessage('Password Updated successfully')
+        setMessage("Password Updated successfully");
         handleModal();
-      }else{
+      } else {
         setLoading(false);
-        console.log("Error Handling ")
+        console.log("Error Handling ");
         setResponseMessage(response.message);
       }
-
     } catch (error) {
       setLoading(false);
 
-      console.log("error catch....................")
-      setResponseMessage(error)
+      console.log("error catch....................");
+      setResponseMessage(error);
     }
   };
 
@@ -86,8 +88,6 @@ function UpdatePassword({}) {
     },
   });
 
-  
-
   const handleShowOldPassword = () => setShowOldPassword((show) => !show);
 
   const handleShowPassword = () => setShowPassword((show) => !show);
@@ -97,31 +97,25 @@ function UpdatePassword({}) {
 
   return (
     <Grid
-    container
-    component="form"
-    onSubmit={formik.handleSubmit}
-    className="Change Password"
-    gap={3}
-    minWidth={{ xs: "250px", sm: "500px" }}
-    width={"auto"}
-    sx={{ width: { xs: "100%", lg: "100%" } }}
-    style={{
-      borderColor: AppColors.primary,
-      backgroundColor: "#F5F5F5",
-      borderRadius: "10px",
-      padding: 20,
-      direction: "row",
-      justifyContent: "start",
-      alignItems: "start",
+      container
+      component="form"
+      onSubmit={formik.handleSubmit}
+      className="Change Password"
+      gap={3}
+      minWidth={{ xs: "250px", sm: "500px" }}
+      width={"auto"}
+      sx={{ width: { xs: "100%", lg: "100%" } }}
+      style={{
+        borderColor: AppColors.primary,
+        backgroundColor: "#F5F5F5",
+        borderRadius: "10px",
+        padding: 20,
+        direction: "row",
+        justifyContent: "start",
+        alignItems: "start",
       }}
     >
-      <Grid
-        item
-        xs={12}
-        md={12}
-        alignItems={"start"}
-        justifyContent={"start"}
-      >
+      <Grid item xs={12} md={12} alignItems={"start"} justifyContent={"start"}>
         <Typography
           variant="h6"
           component="h2"
@@ -148,7 +142,8 @@ function UpdatePassword({}) {
           direction: "row",
           justifyContent: "center",
           alignItems: "center",
-          margin: "auto",}}
+          margin: "auto",
+        }}
       >
         <Grid
           item
@@ -361,141 +356,42 @@ function UpdatePassword({}) {
           )}
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          sm={5.5}
-          md={5.5}
-          lg={5.5}
-          style={{
-            borderColor: AppColors.primary,
-            display:"flex",
-            flexDirection:"column",
-            justifyContent: "start",
-            alignItems: "start",
-            alignSelf:"flex-start",
-          }}
-        >
-          <Typography
-            variant="h6"
-            component="h2"
-            style={{
-              fontFamily: "Poppins",
-              fontWeight: "500",
-              color: AppColors.tertiary,
-              paddingLeft: "5px",
-            }}
-            sx={{ typography: FontSizeStandards.secondaryHeading }}
-          >
-            Confirm Password
-          </Typography>
-          <TextField
-            id="confirmNewPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            fullWidth
-            InputProps={{
-              sx: {
-                typography: {
-                  xs: FontSizeStandards.secondaryHeading.xs,
-                  sm: FontSizeStandards.secondaryHeading.sm,
-                  md: FontSizeStandards.secondaryHeading.md,
-                  lg: FontSizeStandards.secondaryHeading.lg,
-                },
-              },
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleShowConfirmPassword}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? (
-                      <VisibilityOff
-                        sx={{
-                          width: {
-                            xs: ImageSize.UploadPicIcon.xs.width,
-                            sm: ImageSize.UploadPicIcon.sm.width,
-                            md: ImageSize.UploadPicIcon.md.width,
-                            lg: ImageSize.UploadPicIcon.lg.width,
-                            xl: ImageSize.UploadPicIcon.xl.width,
-                          },
-                          height: {
-                            xs: ImageSize.UploadPicIcon.xs.height,
-                            sm: ImageSize.UploadPicIcon.sm.height,
-                            md: ImageSize.UploadPicIcon.md.height,
-                            lg: ImageSize.UploadPicIcon.lg.height,
-                            xl: ImageSize.UploadPicIcon.xl.width,
-                          },
-                        }}
-                      />
-                    ) : (
-                      <Visibility
-                        sx={{
-                          width: {
-                            xs: ImageSize.UploadPicIcon.xs.width,
-                            sm: ImageSize.UploadPicIcon.sm.width,
-                            md: ImageSize.UploadPicIcon.md.width,
-                            lg: ImageSize.UploadPicIcon.lg.width,
-                            xl: ImageSize.UploadPicIcon.xl.width,
-                          },
-                          height: {
-                            xs: ImageSize.UploadPicIcon.xs.height,
-                            sm: ImageSize.UploadPicIcon.sm.height,
-                            md: ImageSize.UploadPicIcon.md.height,
-                            lg: ImageSize.UploadPicIcon.lg.height,
-                            xl: ImageSize.UploadPicIcon.xl.width,
-                          },
-                        }}
-                      />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Confirm new password"
-            value={formik.values.confirmNewPassword}
-            onChange={formik.handleChange}
-            sx={CustomStyle.inputStyle}
-            error={
-              formik.touched.confirmNewPassword &&
-              Boolean(formik.errors.confirmNewPassword)
-            }
-          />
-          {formik.touched.confirmNewPassword &&
-            formik.errors.confirmNewPassword && (
-              <FormHelperText error id="confirmNewPassword">
-                {formik.errors.confirmNewPassword}
-              </FormHelperText>
-            )}
-        </Grid>
-
-        
-
-          <Grid  
+        <Grid xs={12}>
+          <Grid
             item
             xs={12}
-            sm={12}
-            md={11.5}
-            lg={11.5}
+            sm={5.5}
+            md={5.5}
+            lg={5.5}
+            alignItems={"start"}
             style={{
-              display: {sm : 'block'},
-              justifyContent: "space-between",
-              alignItems: "center",
+              borderColor: AppColors.primary,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "start",
+              alignItems: "start",
+              alignSelf: "flex-start",
             }}
-            // sx={{xs : {display: 'block'}}}
           >
-             <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
-                    {responseMessage}
-             </FormHelperText>
-            <CustomButton
-              type={"submit"}
-              text={"Update Password"}
-              loading={loading}
-              buttonStyle={{
-                borderRadius: 50,
-                backgroundColor: AppColors.primary,
+            <Typography
+              variant="h6"
+              component="h2"
+              style={{
                 fontFamily: "Poppins",
-                fontSize: {
+                fontWeight: "500",
+                color: AppColors.tertiary,
+                paddingLeft: "5px",
+              }}
+              sx={{ typography: FontSizeStandards.secondaryHeading }}
+            >
+              Confirm Password
+            </Typography>
+            <TextField
+              id="confirmNewPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              fullWidth
+              InputProps={{
+                sx: {
                   typography: {
                     xs: FontSizeStandards.secondaryHeading.xs,
                     sm: FontSizeStandards.secondaryHeading.sm,
@@ -503,15 +399,116 @@ function UpdatePassword({}) {
                     lg: FontSizeStandards.secondaryHeading.lg,
                   },
                 },
-                fontWeight: 500,
-                color: AppColors.white,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleShowConfirmPassword}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? (
+                        <VisibilityOff
+                          sx={{
+                            width: {
+                              xs: ImageSize.UploadPicIcon.xs.width,
+                              sm: ImageSize.UploadPicIcon.sm.width,
+                              md: ImageSize.UploadPicIcon.md.width,
+                              lg: ImageSize.UploadPicIcon.lg.width,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                            height: {
+                              xs: ImageSize.UploadPicIcon.xs.height,
+                              sm: ImageSize.UploadPicIcon.sm.height,
+                              md: ImageSize.UploadPicIcon.md.height,
+                              lg: ImageSize.UploadPicIcon.lg.height,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                          }}
+                        />
+                      ) : (
+                        <Visibility
+                          sx={{
+                            width: {
+                              xs: ImageSize.UploadPicIcon.xs.width,
+                              sm: ImageSize.UploadPicIcon.sm.width,
+                              md: ImageSize.UploadPicIcon.md.width,
+                              lg: ImageSize.UploadPicIcon.lg.width,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                            height: {
+                              xs: ImageSize.UploadPicIcon.xs.height,
+                              sm: ImageSize.UploadPicIcon.sm.height,
+                              md: ImageSize.UploadPicIcon.md.height,
+                              lg: ImageSize.UploadPicIcon.lg.height,
+                              xl: ImageSize.UploadPicIcon.xl.width,
+                            },
+                          }}
+                        />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
               }}
+              placeholder="Confirm new password"
+              value={formik.values.confirmNewPassword}
+              onChange={formik.handleChange}
+              sx={CustomStyle.inputStyle}
+              error={
+                formik.touched.confirmNewPassword &&
+                Boolean(formik.errors.confirmNewPassword)
+              }
             />
+            {formik.touched.confirmNewPassword &&
+              formik.errors.confirmNewPassword && (
+                <FormHelperText error id="confirmNewPassword">
+                  {formik.errors.confirmNewPassword}
+                </FormHelperText>
+              )}
+          </Grid>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={11.5}
+          lg={11.5}
+          style={{
+            display: { sm: "block", md : 'flex' },
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+          // sx={{xs : {display: 'block'}}}
+        >
+          <FormHelperText
+            error
+            id="confirmPassword"
+            sx={{ typography: FontSizeStandards.tertiaryHeading }}
+          >
+            {responseMessage}
+          </FormHelperText>
+          <CustomButton
+            type={"submit"}
+            text={"Update Password"}
+            loading={loading}
+            buttonStyle={{
+              borderRadius: 50,
+              backgroundColor: AppColors.primary,
+              fontFamily: "Poppins",
+              fontSize: {
+                typography: {
+                  xs: FontSizeStandards.secondaryHeading.xs,
+                  sm: FontSizeStandards.secondaryHeading.sm,
+                  md: FontSizeStandards.secondaryHeading.md,
+                  lg: FontSizeStandards.secondaryHeading.lg,
+                },
+              },
+              fontWeight: 500,
+              color: AppColors.white,
+            }}
+          />
         </Grid>
       </Grid>
-
-
-
 
       <ConfirmationModal
         isModelOpen={isModalOpen}
