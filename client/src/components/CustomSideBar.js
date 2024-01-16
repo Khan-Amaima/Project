@@ -89,12 +89,12 @@ function CustomSideBar({ theme, open, handleDrawerClose }) {
           variant="h5"
           style={{
             fontFamily: "Rajdhani",
-            fontSize: 36,
+            fontSize: 28,
             fontWeight: 600,
             color: AppColors.primary,
           }}
         >
-          Rostraa
+          FocusPlayer
         </Typography>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (

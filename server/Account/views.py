@@ -68,7 +68,7 @@ class UserLoginView(generics.CreateAPIView):
                 return Response({'success' : True, 'message' : 'User login successfully.', 'token': token.key, 'user-info': serializer.data}, status=status.HTTP_200_OK)
             else:
                 # Authentication failed
-                msg = 'Access denied: wrong email or password.'
+                msg = 'Wrong email or password.'
                 return Response({'success' : False, 'message': msg}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'success' : False ,'message' : 'User not found!'}, status=status.HTTP_400_BAD_REQUEST)

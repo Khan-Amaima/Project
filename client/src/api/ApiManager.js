@@ -28,11 +28,10 @@ const ApiManager = {
     };
     try {
       const response = await axios.post(url, loginData);
-      console.log(response);
-      return response;
+      return response.data;
     } catch (error) {
-      console.error(error);
-      return error;
+      let response = error.response.data;
+      return response
     }
   },
   logoutUser: async (authToken) => {

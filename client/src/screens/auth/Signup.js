@@ -113,7 +113,7 @@ function SignUp() {
             }}
             sx={{ typography: FontSizeStandards.appName }}
           >
-            Rostraa
+            FocusPlayer
           </Typography>
         </Container>
 

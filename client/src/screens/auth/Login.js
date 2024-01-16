@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -29,6 +29,12 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setTimeout(() => {
+      setResponseMessage("")
+    }, 3000);
+  }, [responseMessage])
+  
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Enter a valid email")
@@ -47,8 +53,12 @@ function Login() {
     setLoading(true);
     try {
       let response = await ApiManager.loginUser(event.email, event.password);
-      dispatch(setCurrentUserAuthToken(response.data.token));
-      navigate("/");
+      if(!response.success){
+        setResponseMessage(response.message)
+      }else{
+        dispatch(setCurrentUserAuthToken(response.token));
+        navigate("/");
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -105,7 +115,7 @@ function Login() {
             }}
             sx={{ typography: FontSizeStandards.appName }}
           >
-            Rostraa
+            FocusPlayer
           </Typography>
         </Container>
 
@@ -244,6 +254,7 @@ function Login() {
             </Grid>
             <CustomButton
               type={"submit"}
+              loading={loading}
               text={"Login"}
               buttonStyle={{
                 borderRadius: "4px",
