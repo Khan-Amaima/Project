@@ -221,13 +221,13 @@ function Login() {
               <Grid
                 item
                 xs={12}
-                style={{ paddingTop: "0px", marginTop: "5px", display: "flex" }}
+                style={{ display: "flex" }}
               >
                 <Grid
                   xs={6}
                   style={{ paddingInline: "10px", backgroundColor: "" }}
                 >
-                  <FormHelperText error id="confirmPassword">
+                  <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
                     {responseMessage}
                   </FormHelperText>
                 </Grid>
