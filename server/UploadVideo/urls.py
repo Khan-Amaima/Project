@@ -7,6 +7,6 @@ from .views import DeleteVideoView
 urlpatterns = [
     path("", views.index, name="index"),
     path("upload-video", UploadVideoView.as_view()),
-    path("fetch-video", GetVideoView.as_view()),
+    path("fetch-video/", GetVideoView.as_view(), name='fetch-video'),
     path("delete-video", DeleteVideoView.as_view()),
 ]
