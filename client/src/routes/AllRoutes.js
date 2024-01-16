@@ -38,7 +38,7 @@ export const AllRoutes = [
         isPublic: false,
     }, 
     { 
-        path: "/itemDetail",
+        path: "/itemDetail/:id",
         name: "itemDetail",
         component: <ItemDetail />,
         isPublic: false,

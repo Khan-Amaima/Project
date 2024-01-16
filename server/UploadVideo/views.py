@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 from .models import UserMedia
 from .models import Video
-from UploadVideo.serializers import UserMediaFetchSerializer
+from UploadVideo.serializers import UserMediaFetchSerializer, UserMediaVideoFetchSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
@@ -96,11 +96,11 @@ class GetVideoView(APIView):
         if name_param:
             print(f'{UserMedia.objects.filter(id = name_param).first()} -=-=-=-=-=-=-=-=-')
             mediaObjects = UserMedia.objects.filter(id = name_param)
+            serializer = UserMediaVideoFetchSerializer(mediaObjects, many = True)
         else :
             user = request.user
             mediaObjects = UserMedia.objects.filter(user__username = user.username)
-
-        serializer = UserMediaFetchSerializer(mediaObjects, many = True)
+            serializer = UserMediaFetchSerializer(mediaObjects, many = True)
         
         return Response({'success' : True, "message": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
 

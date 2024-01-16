@@ -9,7 +9,7 @@ const EndPoints = {
     UpdatePassword : 'update-password',
     media : '/UploadVideo/',
     uploadVideo : 'upload-video', 
-    fetchVideo : 'fetch-video',
+    fetchVideo : 'fetch-video/',
     deleteVideo : 'delete-video',
     
 }

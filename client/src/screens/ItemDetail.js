@@ -1,5 +1,5 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
-import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Grid, IconButton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { userIcon } from "../assets/images";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
@@ -10,25 +10,65 @@ import UploadVideo from "../components/UploadVideo";
 import ConfirmationModal from "../components/ConfirmationModal";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import ApiManager from "../api/ApiManager";
 
 function ItemDetail() {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [pictureFile, setPictureFile] = useState(userIcon);
+  const userReducerState = useSelector((state) => state.userRed);
+  const [userMedia, setUserMedia] = useState();
   
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const itemDetailState = useSelector((state) => state.itemDetailRed);
   let [videoCurrentTime, setVideoCurrentTime] = useState(0);
   let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
-
+  
   const [isPortrait, setIsPortrait] = useState(false);
-
+  
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
-
+  
+  const fetchVideos = async () => {
+    setLoading(true);
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken, id);
+    if(response.success){
+      setUserMedia(response.data[0]);
+    }
+    setLoading(false)
+  };
+  
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+  
   return (
+    loading ? 
+    (
+      <Box
+        maxWidth="100vw"
+        style={{
+          height: "82vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress
+          size={50}
+          style={{
+            marginInline: 30,
+            padding: 1,
+            color: AppColors.primary,
+          }}
+        />
+      </Box>
+    )
+    : 
     <Grid>
       <Grid
         item
@@ -121,7 +161,7 @@ function ItemDetail() {
               textOverflow: "clip",
             }}
           >
-            {itemDetailState?.itemDetail?.user?.username}
+            {userMedia?.user?.username}
           </Typography>
 
           <Box
@@ -173,21 +213,21 @@ function ItemDetail() {
         </Grid>
 
         {
-          itemDetailState?.itemDetail?.primaryAudio != null ?            
+          userMedia?.primaryAudio != null ?            
             <audio 
               ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-              style={{display: 'none'}}
-              src={`${process.env.REACT_APP_BASE_URL}${itemDetailState?.itemDetail?.primaryAudio?.audio != null &&  itemDetailState?.itemDetail?.primaryAudio?.audio}`} 
+              // style={{display: 'none'}}
+              src={`${process.env.REACT_APP_BASE_URL}${userMedia?.primaryAudio?.audio != null &&  userMedia?.primaryAudio?.audio}`} 
               controls
             >
             </audio>
           :
-          itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
+          userMedia?.videos?.map((singleVideo, index) => {
             return (
               <audio 
                 key={index} 
                 ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-                style={{display: 'none'}}
+                // style={{display: 'none'}}
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
                 controls
               >
@@ -205,15 +245,15 @@ function ItemDetail() {
           slidesToSlide={1}
           beforeChange={(e)=>{
             console.log(e, 'current', videoCurrentTime)
-            if(itemDetailState?.itemDetail?.primaryAudio == null){
+            if(userMedia?.primaryAudio == null){
               audioPlayerRefs.current[e].currentTime = videoCurrentTime;
-              isPlaying && itemDetailState?.itemDetail?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
+              isPlaying && userMedia?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
             }
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
             console.log(e, 'before', videoCurrentTime)
-            if(itemDetailState?.itemDetail?.primaryAudio == null){
+            if(userMedia?.primaryAudio == null){
               isPlaying && audioPlayerRefs?.current[e]?.pause();
             }
           }}
@@ -252,7 +292,7 @@ function ItemDetail() {
             },
           }}
         >
-          {itemDetailState?.itemDetail?.videos.map((singleVideo, index) => {
+          {userMedia?.videos?.map((singleVideo, index) => {
             if(index==0){
               const video = videoPlayerRefs.current[index];
             }
@@ -273,7 +313,7 @@ function ItemDetail() {
                 controlsList="nodownload noplaybackrate"
                 muted
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-
+                type="video/mp4"
                 onLoadedMetadata={()=>{
                  
                   const video = videoPlayerRefs.current[index];
@@ -285,9 +325,9 @@ function ItemDetail() {
                   try{
                     // check is there any primary audio
                     // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
-                    if(itemDetailState?.itemDetail?.primaryAudio != null){
+                    if(userMedia?.primaryAudio != null){
                       try{
-                        !isPlaying && itemDetailState?.itemDetail?.videos[0].audio != null && audioPlayerRefs?.current[0]?.play();
+                        !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
                         audioPlayerRefs.current[0].currentTime = videoCurrentTime;
                       }catch(err){
                         console.log(err)
@@ -296,7 +336,7 @@ function ItemDetail() {
                       for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
                         if(i == currentSlideIndex){
                           try{
-                            !isPlaying && itemDetailState?.itemDetail?.videos[currentSlideIndex].audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
+                            !isPlaying && userMedia?.videos[currentSlideIndex]?.audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
                             audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
                           }catch(err){
                             console.log(err)
@@ -385,7 +425,7 @@ function ItemDetail() {
               }}
               sx={FontSizeStandards.mainHeading}
             >
-              {itemDetailState.itemDetail.title || "Title not added"}
+              {userMedia?.title || "Title not added"}
             </Typography>
           </Box>
 
@@ -467,7 +507,7 @@ function ItemDetail() {
               fontFamily: "Poppins",
             }}
           >
-            {itemDetailState.itemDetail.description || "Description not added"}
+            {userMedia?.description || "Description not added"}
           </Typography>
         </Box>
       </Container>

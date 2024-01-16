@@ -58,11 +58,11 @@ function Uploads() {
   const fetchVideos = async () => {
     setLoading(true);
     let response = await ApiManager.fetchVideos(userReducerState?.authToken);
-    if(response.data.success){
-      setLoading(false)
-      console.log(response.data.data)
-      setUserData(response.data.data);
+    if(response.success){
+      console.log(response.data)
+      setUserData(response.data);
     }
+    setLoading(false)
   };
   
   useEffect(() => {

@@ -18,7 +18,6 @@ import {CheckBox,CheckBoxOutlineBlank,UnfoldMore,} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
-import {setItemDetail} from '../redux/actions/itemDetailActions'
 import { connect, useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
@@ -138,8 +137,7 @@ function VideoPreviewTable({
                     width={140}
                     height={80}
                     onClick={() => {
-                      dispatch(setItemDetail(item))
-                      navigate("/itemDetail")
+                      navigate(`/itemDetail/${item.id}`)
                     }}
                   >
                     <img
@@ -245,8 +243,4 @@ function VideoPreviewTable({
   );
 }
 
-const mapDispatchToProps = {
-  setItemDetail,
-};
-
-export default connect(null, mapDispatchToProps)(VideoPreviewTable);
+export default VideoPreviewTable;
