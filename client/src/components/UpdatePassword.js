@@ -30,11 +30,11 @@ function UpdatePassword({}) {
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
 
-  useEffect(() => {
-    setTimeout(() => {
-      setResponseMessage("")
-    }, 3000);
-  }, [responseMessage])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setResponseMessage("")
+  //   }, 3000);
+  // }, [responseMessage])
 
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old password is required"),
@@ -469,23 +469,7 @@ function UpdatePassword({}) {
             )}
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={6}
-          lg={6}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-           
-          }}
-        >
-             <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
-                    {responseMessage}
-             </FormHelperText>
-          </Grid>
+        
 
           <Grid  
             item
@@ -494,11 +478,15 @@ function UpdatePassword({}) {
             md={11.5}
             lg={11.5}
             style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "end",
+              display: {sm : 'block'},
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
+            // sx={{xs : {display: 'block'}}}
           >
+             <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
+                    {responseMessage}
+             </FormHelperText>
             <CustomButton
               type={"submit"}
               text={"Update Password"}
