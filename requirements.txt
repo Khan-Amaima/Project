@@ -12,6 +12,7 @@ future==0.18.3
 idna==3.6
 imageio==2.33.1
 imageio-ffmpeg==0.4.8
+moviepy==1.0.3
 mutagen==1.46.0
 numpy==1.26.3
 Pillow==10.1.0
@@ -20,5 +21,6 @@ psycopg2-binary==2.9.9
 pytz==2023.3.post1
 requests==2.31.0
 sqlparse==0.4.4
+thumbnail==1.5
 tqdm==4.66.1
 urllib3==2.1.0

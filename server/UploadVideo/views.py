@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
 from audio_extract import extract_audio
 from moviepy.editor import VideoFileClip
+from thumbnail import generate_thumbnail
 
 # Create your views here.
 def index(request):
@@ -42,13 +43,21 @@ class UploadVideoView(APIView):
         )
 
         # Create Video object in the database
-        for singleVideo in request.FILES.values():
-            print(f'{singleVideo.name} -----------------------')
+        for index, singleVideo in enumerate(request.FILES.values()):
+            # print(f'{singleVideo.name, index} -----------------------')
             video_object = Video.objects.create(
                 mediaObject=mediaObject,
                 video=singleVideo,
             )
             
+            options = {
+                'trim': False,
+                'height': 300,
+                'width': 300,
+                'quality': 85,
+                'type': 'thumbnail'
+            }
+
             video_name_split_slash = video_object.video.name.split('/')
             video_name_split_dot = video_name_split_slash[1].split('.')
 
@@ -69,6 +78,13 @@ class UploadVideoView(APIView):
                 if primaryAudio == singleVideo.name:
                     mediaObject.primaryAudio = video_object
                     mediaObject.save()
+            
+            thumbnail_path = f'video_thumbnail/{video_name_split_dot[0]}.jpg'
+            if index == 0:
+                print(f'{settings.BASE_MEDIA}/{thumbnail_path} =================================', index)
+                generate_thumbnail(f'{settings.BASE_MEDIA}/{video_object.video.name}', f'{settings.BASE_MEDIA}/{thumbnail_path}', options)
+                mediaObject.thumbnail = thumbnail_path
+                mediaObject.save()
 
         return Response({'success' : True, "message": "Video upload successfully."}, status=status.HTTP_200_OK)
     

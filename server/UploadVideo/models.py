@@ -6,6 +6,7 @@ class UserMedia(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
+    thumbnail = models.FileField(upload_to='video_thumbnail/', null=True)
     primaryAudio = models.OneToOneField('Video', null=True, on_delete=models.CASCADE)
 
 class Video(models.Model):
@@ -18,4 +19,5 @@ class UserMediaFetch(models.Model):
     title = models.TextField()
     videos = models.ForeignKey(UserMedia, on_delete=models.CASCADE)
     description = models.TextField()
+    thumbnail = models.FileField(null=True)
     primaryAudio = models.OneToOneField('Video', null=True, on_delete=models.CASCADE)
