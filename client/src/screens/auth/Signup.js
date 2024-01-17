@@ -21,7 +21,7 @@ import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import SvgIcons from "../../assets/images/svgicons";
 import ApiManager from "../../api/ApiManager";
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { setCurrentUserAuthToken } from '../../redux/actions/userActions';
+import { setCurrentUserAuthToken, setCurrentUserDetail } from '../../redux/actions/userActions';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -70,6 +70,7 @@ function SignUp() {
       }
       else{
         dispatch(setCurrentUserAuthToken(response.token));
+        dispatch(setCurrentUserDetail(response['user-info']));
         navigate("/");
       }
       setLoading(false)
@@ -423,6 +424,7 @@ function SignUp() {
 
 const mapDispatchToProps = {
   setCurrentUserAuthToken,
+  setCurrentUserDetail
 };
 
 export default connect(null, mapDispatchToProps)(SignUp);

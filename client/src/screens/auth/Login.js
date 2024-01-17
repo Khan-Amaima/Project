@@ -20,7 +20,7 @@ import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import ApiManager from "../../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { setCurrentUserAuthToken } from "../../redux/actions/userActions";
+import { setCurrentUserAuthToken, setCurrentUserDetail } from "../../redux/actions/userActions";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +58,7 @@ function Login() {
         setResponseMessage(response.message)
       }else{
         dispatch(setCurrentUserAuthToken(response.token));
+        dispatch(setCurrentUserDetail(response['user-info']));
         navigate("/");
       }
       setLoading(false);

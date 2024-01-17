@@ -13,9 +13,9 @@ function CustomCarousel({ data, heading, subHeading, redirectTo }) {
         <Typography style={{ fontFamily: 'Poppins',fontWeight: '600', color: AppColors.tertiary, textAlign: 'center' }} sx={{typography:FontSizeStandards.primaryHeading}}>
           {heading}
         </Typography>
-        <Link href={redirectTo} style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500', marginLeft: '5px' }}sx={{typography:FontSizeStandards.subHeading}}>
+        {/* <Link href={redirectTo} style={{ color: AppColors.primary, fontFamily: "Poppins", fontWeight: '500', marginLeft: '5px' }}sx={{typography:FontSizeStandards.subHeading}}>
           {subHeading}
-        </Link>
+        </Link> */}
       </Container>}
       <Carousel
         additionalTransfrom={0}
@@ -74,7 +74,7 @@ function CustomCarousel({ data, heading, subHeading, redirectTo }) {
         }}
       >
         {data.map(card => {
-          return <CustomCard {...card} key={card.image} />;
+          return <CustomCard {...card} key={card.id} />;
         })}
       </Carousel>
     </>

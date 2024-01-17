@@ -147,6 +147,20 @@ const ApiManager = {
       return error;
     }
   },
+  fetchAllUserVideos: async (authToken, param = "") => {
+    const url =
+      process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.fetchAllUserVideo;
+    try {
+      const response = await axios.get(`${url}?name=${param}`, {
+        headers: { Authorization: `Token ${authToken}` },
+      });
+      console.log(response.data, '-===-=-=-=-=-=-=-=-=-==-')
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return error.response.data;
+    }
+  },
   UpdatePassword: async (authToken, old_password, new_password) => {
     const url =
       process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.UpdatePassword;

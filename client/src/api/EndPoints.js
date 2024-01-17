@@ -11,7 +11,7 @@ const EndPoints = {
     uploadVideo : 'upload-video', 
     fetchVideo : 'fetch-video/',
     deleteVideo : 'delete-video',
-    
+    fetchAllUserVideo : 'fetch-all-video/',
 }
 
 export default EndPoints;
