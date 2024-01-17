@@ -16,27 +16,28 @@ import CustomButton from "../components/CustomButton";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import { tab } from "@testing-library/user-event/dist/tab";
-import { CommitSharp } from "@mui/icons-material";
+import { CommitSharp, Verified } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ConfirmationModal from "./ConfirmationModal";
 import { WarningAmber } from "@mui/icons-material";
 
-function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
+function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const videoInputRef = useRef();
   const dragTabRef = useRef(0);
   const draggedOverTabRef = useRef(0);
+  const [loading , setLoading] = useState(false)
   const [tableData, setTableData] = useState([]);
   const [isDisableButton, setButtonDisable] = useState();
   const [isPrimarySound, setPrimarySound] = useState(true);
   const [selectedSoundIndex, setSelectedSoundIndex] = useState(undefined);
   const userReducerState = useSelector((state) => state.userRed);
   const [videoDuration, setVideoDuration] = useState(null);
-  const [durationError, setDurationError] = useState(false);
-  const [durationErrorMessage, setDurationErrorMessage] = useState("");
+  const [isErrorCase, setIsErrorCase] = useState(false);
+  const [message, setMessage] = useState("");
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const videoEl = useRef(null);
 
@@ -46,7 +47,8 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
 
   const handleConfirmationModal = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
-    setDurationErrorMessage("")
+    setIsErrorCase(false)
+    setMessage("")
   };
   const handleFileChange = async (event) => {
     if (tableData.length >= 0 && tableData.length < 4) {
@@ -89,11 +91,13 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
           }
            else {
             if(totalDurationSeconds > 30){
-              setDurationErrorMessage("The duration of the video must be smaller than 30 seconds.")
+              setIsErrorCase(true)
+              setMessage("The duration of the video must be smaller than 30 seconds.")
               setIsConfirmationModalOpen(!isConfirmationModalOpen);
             }
             else{
-              setDurationErrorMessage("The duration of all videos must be the same to proceed.")
+              setIsErrorCase(true)
+              setMessage("The duration of all videos must be the same to proceed.")
               setIsConfirmationModalOpen(!isConfirmationModalOpen);
           }}
             
@@ -229,7 +233,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
           >
             Select a file or drag and drop here
           </Typography>
-          {durationError? (
+          {isErrorCase? (
             <Typography
               style={{
                 marginTop: "5px",
@@ -239,7 +243,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
               }}
               sx={{typography:FontSizeStandards.subHeading}}
             >
-              {durationErrorMessage}
+              {message}
             </Typography>
           ):isDisableButton ? (
             <Typography
@@ -428,6 +432,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
           />
           <CustomButton
             onTap={async () => {
+              setLoading(true);
               try {
                 let response = await ApiManager.uploadVideo(
                   userReducerState?.userDetail?.email,
@@ -443,9 +448,12 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
               } catch (err) {
                 console.log(err);
               }
+              setLoading(false)
               console.log("do some functionality");
             }}
             text={"Upload Videos"}
+            loading={loading}
+            isDisable={loading}
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: AppColors.primary,
@@ -465,17 +473,20 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos }) {
             }}
           />
         </Box>
-        <ConfirmationModal
+      </Box>
+      )}
+      <ConfirmationModal
         isModelOpen={isConfirmationModalOpen}
-        confirmationText={durationErrorMessage}
+        confirmationText={message}
         rightButtonText={"Close"}
         rightButtonFunction={handleConfirmationModal}
         icon={
+          isErrorCase ? 
           <WarningAmber style={{ width: "60px", height: "60px", color: "red" }} />
+          :
+          <Verified style={{ width: "60px", height: "60px", color: "green" }} />
         }
       />
-      </Box>
-      )}
     </CustomModal>
 
   );

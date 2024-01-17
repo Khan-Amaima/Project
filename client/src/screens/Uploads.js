@@ -27,6 +27,8 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowLeftOutlined,
   KeyboardArrowRightOutlined,
+  Verified,
+  WarningAmber,
 } from "@mui/icons-material";
 import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
@@ -35,6 +37,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CustomTablePagination from "../components/CustomTablePagination";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 function Uploads() {
   const [loading, setLoading] = useState(false);
@@ -43,8 +46,23 @@ function Uploads() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isErrorCase, setIsErrorCase] = useState(false);
+  const [message, setMessage] = useState("");
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const userReducerState = useSelector((state) => state.userRed);
+
+  const handleConfirmationModal = () => {
+    setIsConfirmationModalOpen(!isConfirmationModalOpen)
+    setIsErrorCase(false)
+    setMessage("")
+  };
+
+  const openConfirmationModal =()=>{
+    console.log('call ----------------')
+    setIsConfirmationModalOpen(true)
+    setMessage('message')
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -305,6 +323,18 @@ function Uploads() {
       </Grid> */}
 
       <VideoPreviewTable tableData={userData} fetchVideos={fetchVideos} />
+      <ConfirmationModal
+        isModelOpen={isConfirmationModalOpen}
+        confirmationText={message}
+        rightButtonText={"Close"}
+        rightButtonFunction={handleConfirmationModal}
+        icon={
+          isErrorCase ? 
+          <WarningAmber style={{ width: "60px", height: "60px", color: "red" }} />
+          :
+          <Verified style={{ width: "60px", height: "60px", color: "green" }} />
+        }
+      />
     </>
   );
 }
