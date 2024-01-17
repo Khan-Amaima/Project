@@ -304,6 +304,7 @@ function ItemDetail() {
               minWidth={"280px"}
               minHeight={"160px"}
               width={"100%"}
+              key={index}
               >
                 <video
                   key={index}
@@ -316,7 +317,7 @@ function ItemDetail() {
                   type="video/mp4"
                   onLoadedMetadata={()=>{
                   
-                    const video = videoPlayerRefs.current[index];
+                    const video = videoPlayerRefs.current[index];    
                       if(video.videoHeight > video.videoWidth){   
                         setIsPortrait(true);
                       }
