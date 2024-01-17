@@ -45,6 +45,23 @@ function ItemDetail() {
   useEffect(() => {
     fetchVideos();
   }, []);
+   
+    const handleTimeUpdate = (e) => {
+      const videoTime = e.currentTarget.currentTime;
+      setVideoCurrentTime(videoTime);
+    };
+  
+    const handleProgressBarClick = (e) => {
+      const progressBar = e.currentTarget;
+      const clickPosition = e.clientX - progressBar.getBoundingClientRect().left;
+      const progressBarWidth = progressBar.clientWidth;
+      const videoDuration = videoPlayerRefs.current.duration;
+  
+      const newTime = (clickPosition / progressBarWidth) * videoDuration;
+  
+      videoPlayerRefs.current.currentTime = newTime;
+      setVideoCurrentTime(newTime);
+    };
   
   return (
     loading ? 
@@ -303,6 +320,7 @@ function ItemDetail() {
               minWidth={"280px"}
               minHeight={"160px"}
               width={"100%"}
+              key={index}
               >
                 <video
                   key={index}
@@ -312,10 +330,10 @@ function ItemDetail() {
                   controlsList="nodownload noplaybackrate"
                   muted
                   src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                  type="video/mp4"
+                  // type="video/webm"
                   onLoadedMetadata={()=>{
                   
-                    const video = videoPlayerRefs.current[index];
+                    const video = videoPlayerRefs.current[index];    
                       if(video.videoHeight > video.videoWidth){   
                         setIsPortrait(true);
                       }
@@ -371,8 +389,21 @@ function ItemDetail() {
                     setIsPlaying(false);
                   }}
                   onTimeUpdate={(e)=>{
+                    // handleTimeUpdate
                     let videoTime = e.currentTarget.currentTime;
+                    console.log('V=============',videoTime)
                     setVideoCurrentTime(videoTime)
+}}
+                  onProgress={(e)=>{
+                    const progressBar = e.currentTarget;
+                    const clickPosition = e.clientX - progressBar.getBoundingClientRect().left;
+                    const progressBarWidth = progressBar.clientWidth;
+                    const videoDuration = videoPlayerRefs.current.duration;
+                
+                    const newTime = (clickPosition / progressBarWidth) * videoDuration;
+                
+                    videoPlayerRefs.current.currentTime = newTime;
+                    setVideoCurrentTime(newTime);
                   }}
                   onEnded={()=>{
                       for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){

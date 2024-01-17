@@ -93,12 +93,12 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
             if(totalDurationSeconds > 30){
               setIsErrorCase(true)
               setMessage("The duration of the video must be smaller than 30 seconds.")
-              setIsConfirmationModalOpen(!isConfirmationModalOpen);
+              setIsConfirmationModalOpen(true);
             }
             else{
               setIsErrorCase(true)
               setMessage("The duration of all videos must be the same to proceed.")
-              setIsConfirmationModalOpen(!isConfirmationModalOpen);
+              setIsConfirmationModalOpen(true);
           }}
             
         }
@@ -233,19 +233,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
           >
             Select a file or drag and drop here
           </Typography>
-          {isErrorCase? (
-            <Typography
-              style={{
-                marginTop: "5px",
-                fontFamily: "Poppins",
-                fontWeight: "500",
-                color: "red", 
-              }}
-              sx={{typography:FontSizeStandards.subHeading}}
-            >
-              {message}
-            </Typography>
-          ):isDisableButton ? (
+          {isDisableButton ? (
             <Typography
               style={{
                 marginTop: "5px",
@@ -441,9 +429,8 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
                   tableData,
                   selectedSoundIndex != undefined ? tableData[selectedSoundIndex].file.name : null
                 );
-                setSelectedSoundIndex(undefined)
-                handleModal();
-                fetchVideos();
+                 setMessage("Videos Uploaded Successfully")
+                  setIsConfirmationModalOpen(true);
                 console.log(response, "--------response-------");
               } catch (err) {
                 console.log(err);
@@ -479,7 +466,13 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
         isModelOpen={isConfirmationModalOpen}
         confirmationText={message}
         rightButtonText={"Close"}
-        rightButtonFunction={handleConfirmationModal}
+        rightButtonFunction={()=>{
+          handleConfirmationModal();
+          if(!isErrorCase){
+          setSelectedSoundIndex(undefined)   
+          handleModal();
+          fetchVideos();}
+        }}
         icon={
           isErrorCase ? 
           <WarningAmber style={{ width: "60px", height: "60px", color: "red" }} />
