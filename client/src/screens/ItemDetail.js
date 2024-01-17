@@ -12,6 +12,7 @@ import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ApiManager from "../api/ApiManager";
+import moment from "moment";
 
 function ItemDetail() {
   const { id } = useParams();
@@ -208,7 +209,7 @@ function ItemDetail() {
               textOverflow: "clip",
             }}
           >
-            03-01-2024
+            {moment(userMedia?.created_at).format("MMM Do yy")}
           </Typography>
         </Grid>
 
