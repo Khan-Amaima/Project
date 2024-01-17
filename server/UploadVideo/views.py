@@ -104,6 +104,22 @@ class GetVideoView(APIView):
         
         return Response({'success' : True, "message": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
 
+class GetAllUserVideosView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        name_param = self.request.query_params.get('name', None)
+        if name_param:
+            print(f'{UserMedia.objects.filter(id = name_param).first()} -=-=-=-=-=-=-=-=-')
+            mediaObjects = UserMedia.objects.filter(id = name_param)
+            serializer = UserMediaVideoFetchSerializer(mediaObjects, many = True)
+        else :
+            mediaObjects = UserMedia.objects.all()
+            serializer = UserMediaFetchSerializer(mediaObjects, many = True)
+        
+        return Response({'success' : True, "message": "Video data fetched successfully.", "data" : serializer.data}, status=status.HTTP_200_OK)
+
 class DeleteVideoView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
