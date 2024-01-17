@@ -246,18 +246,16 @@ function ItemDetail() {
           beforeChange={(e)=>{
             console.log(e, 'current', videoCurrentTime)
             if(userMedia?.primaryAudio == null){
-              // audioPlayerRefs.current[e].currentTime = videoCurrentTime;
-              for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                audioPlayerRefs.current[i].currentTime = videoCurrentTime;
+              if(isPlaying && userMedia.videos[e].audio != null){
+                audioPlayerRefs.current[e].volume = 1;
               }
-              isPlaying && userMedia?.videos[e].audio != null && audioPlayerRefs?.current[e]?.play();
             }
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
             console.log(e, 'before', videoCurrentTime)
-            if(userMedia?.primaryAudio == null){
-              isPlaying && audioPlayerRefs?.current[e]?.pause();
+            if(userMedia?.primaryAudio == null && isPlaying){
+              audioPlayerRefs.current[e].volume = 0;
             }
           }}
           responsive={{
@@ -325,29 +323,24 @@ function ItemDetail() {
                   onPlay = {()=>{
                     try{
                       // check is there any primary audio
-                      // if yes then prefer primary audio else play video specific audio of current index and pause audio of other videos
+                      // if yes then prefer primary audio else play all audio's
                       if(userMedia?.primaryAudio != null){
                         try{
                           !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
-                          audioPlayerRefs.current[0].currentTime = videoCurrentTime;
                         }catch(err){
                           console.log(err)
                         }
                       }else{
                         for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                          if(i == currentSlideIndex){
-                            try{
-                              !isPlaying && userMedia?.videos[currentSlideIndex]?.audio != null && audioPlayerRefs?.current[currentSlideIndex]?.play();
-                              audioPlayerRefs.current[currentSlideIndex].currentTime = videoCurrentTime;
-                            }catch(err){
-                              console.log(err)
+                          try{
+                            !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
+                            if(i == currentSlideIndex){
+                              audioPlayerRefs.current[i].volume = 1
+                            }else{
+                              audioPlayerRefs.current[i].volume = 0
                             }
-                          }else{
-                            try{
-                              isPlaying && audioPlayerRefs?.current[i]?.pause();
-                            }catch(err){
-                              console.log(err, '-------')
-                            }
+                          }catch(err){
+                            console.log(err)
                           }
                         }
                       }
