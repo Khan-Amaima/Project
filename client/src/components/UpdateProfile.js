@@ -548,9 +548,9 @@ function UpdateProfile({}) {
           sm={4}
           md={4}
           lg={4}
+          justifyContent= {{ xs: "center", sm: "flex-end", }}
           style={{
             display: "flex",
-            justifyContent: "flex-end",
             alignItems: "center",
           }}
         >

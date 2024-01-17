@@ -356,7 +356,7 @@ function UpdatePassword({}) {
           )}
         </Grid>
 
-        <Grid container xs={11.8} md={11.57} style={{justifyContent:"flex-start",alignItems:"flex-start",alignContent:"flex-start",
+        <Grid item xs={11.8} md={11.57} style={{justifyContent:"flex-start",alignItems:"flex-start",alignContent:"flex-start",
       }}>
           <Grid
             item
@@ -470,14 +470,14 @@ function UpdatePassword({}) {
         </Grid>
 
         <Grid
-          container
+          item
           xs={12}
           sm={12}
           md={11.5}
           lg={11.5}
           justifyContent= {{ xs: "center", sm: "space-between",md:"space-between" }}
+          display = {{xs: "contents", sm: "flex",md:"flex"}}
           style={{
-            display: "flex",
             alignItems: "center",
           }}
         >
