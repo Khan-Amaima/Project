@@ -217,7 +217,7 @@ function ItemDetail() {
           userMedia?.primaryAudio != null ?            
             <audio 
               ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-              // style={{display: 'none'}}
+              style={{display: 'none'}}
               src={`${process.env.REACT_APP_BASE_URL}${userMedia?.primaryAudio?.audio != null &&  userMedia?.primaryAudio?.audio}`} 
               controls
             >
@@ -228,13 +228,13 @@ function ItemDetail() {
               <audio 
                 key={index} 
                 ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
-                // style={{display: 'none'}}
+                style={{display: 'none'}}
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
                 controls
-                onSeeked={(e)=>{
-                  videoPlayerRefs.current[0].currentTime = e.currentTarget.currentTime;
-                  console.log(e.currentTarget.currentTime, '-=---=================', videoPlayerRefs.current.currentTime)
-                }}
+                // onSeeked={(e)=>{
+                //   videoPlayerRefs.current[0].currentTime = e.currentTarget.currentTime;
+                //   console.log(e.currentTarget.currentTime, '-=---=================', videoPlayerRefs.current.currentTime)
+                // }}
               >
               </audio>
             );
