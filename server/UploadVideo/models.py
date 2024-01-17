@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
  
 class UserMedia(models.Model):
+    created_at = models.DateTimeField('created at date', default=timezone.now, editable=False)
+    updated_at = models.DateTimeField('last updated date at', default=timezone.now, editable=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
