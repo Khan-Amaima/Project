@@ -10,7 +10,7 @@ import UploadVideo from "../components/UploadVideo";
 import ConfirmationModal from "../components/ConfirmationModal";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ApiManager from "../api/ApiManager";
 import moment from "moment";
 
@@ -28,7 +28,7 @@ function ItemDetail() {
   let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
-  
+  const navigate = useNavigate()
   const [isPortrait, setIsPortrait] = useState(false);
   
   const handleModal = () => setIsModalOpen(!isModalOpen);
@@ -88,15 +88,17 @@ function ItemDetail() {
         <IconButton
           size="large"
           color={AppColors.primary}
-          onClick={() => {}}
+          onClick={() => {
+            navigate(-1)
+          }}
           aria-label="open drawer"
         >
           <KeyboardBackspace />
         </IconButton>
 
-        <CustomButton
+        {/* <CustomButton
           onTap={() => {
-            // handleModal();
+            handleModal();
           }}
           text={"upload Video"}
           loading={false}
@@ -112,7 +114,7 @@ function ItemDetail() {
             paddingX: 4,
           }}
         />
-        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} />
+        <UploadVideo isModalOpen={isModalOpen} handleModal={handleModal} /> */}
       </Grid>
       <Container>
         <Grid
