@@ -21,6 +21,7 @@ import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 function VideoPreviewTable({
   tableData,
@@ -195,7 +196,7 @@ function VideoPreviewTable({
                       }}
                       sx={{typography:FontSizeStandards.secondaryHeading}}
                     >
-                      {"20 Dec"}
+                      {moment(item.created_at).format("MMM Do")}
                     </Typography>
                   </TableCell>
 
