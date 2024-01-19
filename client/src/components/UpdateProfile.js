@@ -100,10 +100,15 @@ function UpdateProfile({}) {
           setIsNameChanged(false);
          
         }
-        
         else {
-          setIsDisableButton(false);
-          setIsNameChanged(true);
+          if(values.name.trim() == initialValues.name ){
+            setIsNameChanged(false);
+          }
+          else{
+            setIsDisableButton(false);
+            setIsNameChanged(true);
+          }
+          
         }
       }
     },
