@@ -17,9 +17,11 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Avatar, Container } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getCurrentLocation } from "../shared-services/SharedFunctions";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
+import UploadVideo from "./UploadVideo";
+import { CustomStyle } from "../constants/CustomStyle";
 
 const drawerWidth = 240;
 
@@ -97,7 +99,8 @@ function CustomAppBar({ toggleDrawer, open }) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const userReducerState = useSelector((state) => state.userRed);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -105,6 +108,10 @@ function CustomAppBar({ toggleDrawer, open }) {
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
+
+  const afterUpload=()=>{
+    navigate("/uploads");
+  }
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -114,6 +121,8 @@ function CustomAppBar({ toggleDrawer, open }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -157,6 +166,11 @@ function CustomAppBar({ toggleDrawer, open }) {
       <MenuItem>
         <CustomButton
           prefixIcon={AddCircleOutlineIcon}
+          onTap={
+            ()=>{
+              handleModal();
+            }
+          }
           text={"upload video"}
           buttonStyle={{
             borderRadius: 50,
@@ -168,6 +182,11 @@ function CustomAppBar({ toggleDrawer, open }) {
           }}
         />
       </MenuItem>
+      <UploadVideo
+            isModalOpen={isModalOpen}
+            handleModal={handleModal}
+            fetchVideos={afterUpload}
+          />
       <MenuItem></MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <Box
@@ -256,11 +275,17 @@ function CustomAppBar({ toggleDrawer, open }) {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              fullWidth
               placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+              width="inherit"
+              inputProps={{ "aria-label": "search",}}
+              style={
+                {color: AppColors.tertiary,}
+              }
             />
           </Search>
           <CustomButton
+          onTap={()=>{handleModal();}}
             prefixIcon={AddCircleOutlineIcon}
             text={"upload video"}
             buttonStyle={{

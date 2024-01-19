@@ -25,7 +25,7 @@ function CustomButton({
       type={type}
       startIcon={PrefixIcon && <PrefixIcon style={{ width: 24, height: 24,color:IconColor }} />}
       endIcon= {SuffixIcon && <SuffixIcon style={{ width: 24, height: 24 }} />}
-      style={{minWidth:"fit-content"}}
+      style={{minWidth:"max-content"}}
       sx={{
         typography: FontSizeStandards.tertiaryHeading,
         paddingX: 2,

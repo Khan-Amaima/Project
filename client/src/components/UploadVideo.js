@@ -471,7 +471,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
           if(!isErrorCase){
           setSelectedSoundIndex(undefined)   
           handleModal();
-          fetchVideos();}
+          fetchVideos && fetchVideos();}
         }}
         icon={
           isErrorCase ? 

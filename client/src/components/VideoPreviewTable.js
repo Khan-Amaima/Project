@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import React, { useState,lazy,Suspense } from "react";
+import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { deleteIcon, disableSoundIcon, soundIcon } from "../assets/images";
 import CustomButton from "./CustomButton";
@@ -22,6 +22,8 @@ import { useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+
+const LazyThumbnail = lazy(() => import('./LazyThumbnail.js')); 
 
 function VideoPreviewTable({
   tableData,
@@ -139,15 +141,10 @@ function VideoPreviewTable({
                       navigate(`/itemDetail/${item.id}`)
                     }}
                   >
-                    <img
-                      src={`${process.env.REACT_APP_BASE_URL}${item?.thumbnail}`}
-                      width={160}
-                      height={90}
-                      style={{
-                        borderRadius: "6px",
-                        objectFit: "contain"
-                      }}
-                    />
+                     <Suspense fallback={<Skeleton variant="rectangular" width={160} height={90} />}>
+                       <LazyThumbnail item={item}/>
+                      </Suspense>
+                    
                   </TableCell>
 
                   <TableCell
