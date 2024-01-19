@@ -77,7 +77,7 @@ function StartUploadingVideo ({ primaryLabel, secondaryLabel ,secondaryLabelSize
       <Typography
         component="h1"
         variant="h5"
-
+        lineHeight= {{xs:"20px",sm:"21px",md:"22px",lg:"23px",xl:"25px"}}
         minWidth={"250px"}
         style={{
             
@@ -88,7 +88,6 @@ function StartUploadingVideo ({ primaryLabel, secondaryLabel ,secondaryLabelSize
           fontFamily: "Poppins",
           fontWeight: 500,
           color: AppColors.secondary,
-          lineHeight: "20px",
           marginTop: 25,
           marginBottom: 30,
 
