@@ -277,9 +277,10 @@ function CustomAppBar({ toggleDrawer, open }) {
             <StyledInputBase
               fullWidth
               placeholder="Search…"
+              width="inherit"
               inputProps={{ "aria-label": "search",}}
               style={
-                {color: AppColors.secondary,}
+                {color: AppColors.tertiary,}
               }
             />
           </Search>

@@ -4,13 +4,21 @@ import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Box, CircularProgress } from "@mui/material";
 import AppColors from "../constants/AppColors";
+import StartUploadingVideo from "../components/StartUploadingVideo";
+import { useNavigate } from "react-router-dom";
+import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function Home() {
   const dispatch = useDispatch();
   const [allUserData, setAllUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
+  const navigate = useNavigate();
 
+  const afterFirstUpload=()=>{
+    navigate("/uploads");
+  }
+  
   const fetchAllUserVideos = async () => {
     setLoading(true);
     let response = await ApiManager.fetchAllUserVideos(
@@ -48,6 +56,14 @@ function Home() {
             }}
           />
         </Box>
+      ) : (
+        allUserData.length == 0 && loading == false) ? (
+        <StartUploadingVideo 
+          primaryLabel={"Upload an existing video"}
+          secondaryLabel={"Choose a video from your device to enhance, customize, and share like a pro."}
+          secondaryLabelSize={FontSizeStandards.primaryHeading}
+          buttonTap={afterFirstUpload}
+        />
       ) : (
         <CustomCarousel
           data={allUserData}
