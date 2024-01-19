@@ -68,9 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
+    // minWidth:"200px"
   },
 }));
 
@@ -270,7 +268,7 @@ function CustomAppBar({ toggleDrawer, open }) {
             {getCurrentLocation(location)}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Search>
+          <Search style={{minWidth:"200px"}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
