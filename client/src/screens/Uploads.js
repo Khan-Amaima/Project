@@ -1,40 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Box,
-  Typography,
-  Grid,
-  IconButton,
-  CircularProgress,
-  TableRow,
-  Table,
-  TableBody
-} from "@mui/material";
+import { Box, Grid, CircularProgress } from "@mui/material";
 import AppColors from "../constants/AppColors";
-import { uploadVideoImage } from "../assets/images";
 import CustomButton from "../components/CustomButton";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import UploadVideo from "../components/UploadVideo";
-import { ImageSize } from "../constants/BoxSizes";
-import SvgIcons from "../assets/images/svgicons";
-import CustomTable from "../components/CustomTable";
 import VideoPreviewTable from "../components/VideoPreviewTable";
-import {
-  AddCircleOutline,
-  CheckBoxOutlineBlank,
-  CheckBoxOutlineBlankOutlined,
-  KeyboardArrowDown,
-  KeyboardArrowLeft,
-  KeyboardArrowLeftOutlined,
-  KeyboardArrowRightOutlined,
-  Verified,
-  WarningAmber,
-} from "@mui/icons-material";
-import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
-import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
-import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import CustomTablePagination from "../components/CustomTablePagination";
+import { AddCircleOutline, KeyboardArrowDown, Verified, WarningAmber } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -43,9 +14,6 @@ import StartUploadingVideo from "../components/StartUploadingVideo";
 function Uploads() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const [uploadedVideos, setUploadedVideos] = useState([1, 2]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isErrorCase, setIsErrorCase] = useState(false);
@@ -59,26 +27,10 @@ function Uploads() {
     setMessage("")
   };
 
-  const openConfirmationModal =()=>{
-    console.log('call ----------------')
-    setIsConfirmationModalOpen(true)
-    setMessage('message')
-  }
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const fetchVideos = async () => {
     setLoading(true);
     let response = await ApiManager.fetchVideos(userReducerState?.authToken);
     if(response.success){
-      console.log(response.data)
       setUserData(response.data);
     }
     setLoading(false)
@@ -180,67 +132,6 @@ function Uploads() {
           />
     
       </Grid>
-
-      {/* <Grid
-        item
-        xs={11.5}
-        md={11.5}
-        style={{
-          display: "flex",
-          direction: "row",
-          justifyContent: "end",
-          alignItems: "center",
-          padding: "5px",
-          borderRadius: "5px",
-          minWidth: "220px",
-          
-        }}
-      >
-        <Grid
-          item
-          xs={7}
-          md={5}
-          style={{
-            display: "inline",
-            direction: "row",
-            justifyContent: "end",
-            alignItems: "end",
-            padding: "20px",
-            borderRadius: "5px",
-          }}
-        >
-         
-           <Table>
-           <TableBody>
-            <TableRow>
-            < CustomTablePagination
-              // rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={40}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  "aria-label": "Rows per page",
-                },
-                actions: {
-                  showFirstButton: false,
-                  showLastButton: false,
-                  slots: {
-                    nextPageIcon: ChevronRightRoundedIcon,
-                    backPageIcon: ChevronLeftRoundedIcon,
-                  },
-                },
-              }}
-              onPageChange={handleChangePage}
-              // onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-            </TableRow>
-           </TableBody>
-           </Table>
-          
-        </Grid>
-      </Grid> */}
 
       <VideoPreviewTable tableData={userData} fetchVideos={fetchVideos} />
       <ConfirmationModal

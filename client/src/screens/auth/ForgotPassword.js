@@ -50,7 +50,6 @@ function ForgotPassword() {
     setLoading(true);
     event.preventDefault();
     try {
-      console.log("SignIn successfully");
       setLoading(false);
     } catch (error) {
       console.log(error);

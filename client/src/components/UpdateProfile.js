@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import { Cancel } from "@mui/icons-material";
 import { FormHelperText } from "@mui/material";
@@ -17,7 +16,6 @@ import { useSelector } from "react-redux";
 import ApiManager from "../api/ApiManager";
 
 function UpdateProfile({}) {
-  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isDisableButton, setIsDisableButton] = useState(true);
@@ -85,7 +83,7 @@ function UpdateProfile({}) {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-
+    enableReinitialize: true,
     onSubmit: async (event, values) => {
       handleSubmit(event, values);
     },

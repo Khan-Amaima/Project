@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
-import { deleteIcon, disableSoundIcon, soundIcon } from "../assets/images";
 import CustomButton from "../components/CustomButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,8 +8,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import CustomVideoPlayer from "./CustomVideoPlayer";
-import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
@@ -130,11 +127,9 @@ function CustomTable({
                   onDragOver={(e) => {
                     e.preventDefault();
                     setDraggingOver(true);
-                    console.log("setting dragOver", isDraggingOver);
                   }}
                   onDragLeave={() => {
                     setDraggingOver(false);
-                    console.log("left");
                   }}
                   hover
                   role="checkbox"

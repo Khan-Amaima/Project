@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FormHelperText, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -15,10 +14,9 @@ import { ImageSize } from "../constants/BoxSizes";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
-import { Delete, Verified } from "@mui/icons-material";
+import { Verified } from "@mui/icons-material";
 
 function UpdatePassword({}) {
-  const navigate = useNavigate();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -69,13 +67,11 @@ function UpdatePassword({}) {
         handleModal();
       } else {
         setLoading(false);
-        console.log("Error Handling ");
         setResponseMessage(response.message);
       }
     } catch (error) {
       setLoading(false);
 
-      console.log("error catch....................");
       setResponseMessage(error);
     }
   };

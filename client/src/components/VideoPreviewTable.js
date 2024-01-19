@@ -1,21 +1,16 @@
 import React, { useState,lazy,Suspense } from "react";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
-import { deleteIcon, disableSoundIcon, soundIcon } from "../assets/images";
-import CustomButton from "./CustomButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import CustomVideoPlayer from "./CustomVideoPlayer";
-import CustomVideoCarousel from "./CustomVideoCarousel";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
-import {CheckBox,CheckBoxOutlineBlank,UnfoldMore,} from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
+import { UnfoldMore,} from "@mui/icons-material";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
@@ -29,8 +24,6 @@ function VideoPreviewTable({
   tableData,
   fetchVideos
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleModal = () => setIsModalOpen(!isModalOpen);
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [deletedData, setDeletedData] = useState({});

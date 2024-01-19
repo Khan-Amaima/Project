@@ -2,7 +2,7 @@ import React from 'react'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import CustomCard from './CustomCard';
-import { Container, Link, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import AppColors from '../constants/AppColors';
 import { FontSizeStandards } from '../constants/FontSizeStandards';
 

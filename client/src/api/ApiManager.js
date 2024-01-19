@@ -12,7 +12,6 @@ const ApiManager = {
     };
     try {
       const response = await axios.post(url, signupData);
-      console.log(response);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -93,7 +92,6 @@ const ApiManager = {
     }
   },
   uploadVideo: async (email, title, description, videos, primaryAudio = null) => {
-    console.log(primaryAudio, 'sajdflkjasdlkjflkjasdlk')
     const url =
       process.env.REACT_APP_BASE_URL + EndPoints.media + EndPoints.uploadVideo;
     try {
@@ -178,7 +176,6 @@ const ApiManager = {
       return response.data;
     } catch (error) {
       let response = error.response.data;
-      console.log(response);
       return response;
     }
   },

@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { appImage, appLogo, checkBoxOutline } from "../../assets/images";
+import { checkBoxOutline } from "../../assets/images";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";

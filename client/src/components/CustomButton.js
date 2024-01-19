@@ -1,8 +1,5 @@
 import React from "react";
-import { Box, Button, CircularProgress } from "@mui/material";
-import { useState, useEffect } from "react";
-
-import AppColors from "../constants/AppColors";
+import { Button, CircularProgress } from "@mui/material";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 
@@ -18,7 +15,6 @@ function CustomButton({
   type,
 }) {
 
-  // console.log("disable",isDisable)
   return (
     <Button
       disabled={isDisable}

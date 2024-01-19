@@ -15,8 +15,7 @@ import AppColors from "../constants/AppColors";
 import CustomButton from "../components/CustomButton";
 import SvgIcons from "../assets/images/svgicons";
 import { ImageSize } from "../constants/BoxSizes";
-import { tab } from "@testing-library/user-event/dist/tab";
-import { CommitSharp, Verified } from "@mui/icons-material";
+import { Verified } from "@mui/icons-material";
 import ApiManager from "../api/ApiManager";
 import { useSelector } from "react-redux";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
@@ -40,10 +39,6 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
   const [message, setMessage] = useState("");
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const videoEl = useRef(null);
-
-  if(tableData.length > 0 && selectedSoundIndex != undefined){
-    console.log(tableData[0].file.name, '-==-=-=-=-=-=-=-=-=-=-=-=-', tableData[selectedSoundIndex].file.name)
-  }
 
   const handleConfirmationModal = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
@@ -113,7 +108,6 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
     setTableData(extractedVideos);
     
     if (tableData.length <= 1) {
-      console.log("setting vd null")
       setVideoDuration(null);
     }
     if (tableData.length <= 4) {
@@ -125,11 +119,9 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
   const handleSetPrimarySound = (id) => {
     const updatedVideosWithSound = tableData.map((item, index) => {
       if (id == selectedSoundIndex) {
-        console.log("Call reset");
         setSelectedSoundIndex(undefined);
         return { ...item, sound: true };
       } else {
-        console.log("Call set");
         if (index === id) {
           // Set 'sound' to true for the specific object
           setSelectedSoundIndex(index);
@@ -431,12 +423,10 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
                 );
                  setMessage("Videos Uploaded Successfully")
                   setIsConfirmationModalOpen(true);
-                console.log(response, "--------response-------");
               } catch (err) {
                 console.log(err);
               }
               setLoading(false)
-              console.log("do some functionality");
             }}
             text={"Upload Videos"}
             loading={loading}

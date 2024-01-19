@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomCarousel from "../components/CustomCarousel";
 import ApiManager from "../api/ApiManager";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, CircularProgress } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import StartUploadingVideo from "../components/StartUploadingVideo";
@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 
 function Home() {
-  const dispatch = useDispatch();
   const [allUserData, setAllUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const userReducerState = useSelector((state) => state.userRed);
@@ -25,7 +24,6 @@ function Home() {
       userReducerState?.authToken
     );
     if (response.success) {
-      console.log(response.data);
       setAllUserData(response.data);
     }
     setLoading(false);

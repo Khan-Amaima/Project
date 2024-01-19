@@ -1,12 +1,10 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
 import { Box, CircularProgress, Container, Grid, IconButton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
-import { userIcon } from "../assets/images";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
 import Carousel from "react-multi-carousel";
 import React, { useRef, useState, useEffect } from "react";
-import UploadVideo from "../components/UploadVideo";
 import ConfirmationModal from "../components/ConfirmationModal";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
@@ -19,7 +17,7 @@ function ItemDetail() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [pictureFile, setPictureFile] = useState(userIcon);
+  const [pictureFile, setPictureFile] = useState();
   const userReducerState = useSelector((state) => state.userRed);
   const [userMedia, setUserMedia] = useState();
   
@@ -233,10 +231,6 @@ function ItemDetail() {
                 style={{display: 'none'}}
                 src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
                 controls
-                // onSeeked={(e)=>{
-                //   videoPlayerRefs.current[0].currentTime = e.currentTarget.currentTime;
-                //   console.log(e.currentTarget.currentTime, '-=---=================', videoPlayerRefs.current.currentTime)
-                // }}
               >
               </audio>
             );
@@ -251,7 +245,6 @@ function ItemDetail() {
           showDots={false}
           slidesToSlide={1}
           beforeChange={(e)=>{
-            console.log(e, 'current', videoCurrentTime)
             if(userMedia?.primaryAudio == null){
               if(isPlaying && userMedia.videos[e].audio != null){
                 audioPlayerRefs.current[e].volume = 1;
@@ -260,7 +253,6 @@ function ItemDetail() {
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
-            console.log(e, 'before', videoCurrentTime)
             if(userMedia?.primaryAudio == null && isPlaying){
               audioPlayerRefs.current[e].volume = 0;
             }

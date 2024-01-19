@@ -9,7 +9,6 @@ function CustomVideoCarousel({ isModalOpen, handleModal, videos }) {
             <Carousel
                 additionalTransfrom={0}
                 arrows
-                afterChange={()=>{console.log('hello')}}
                 centerMode={false}
                 containerClass="container-with-dots"
                 minimumTouchDrag={80}
