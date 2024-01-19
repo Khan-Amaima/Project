@@ -91,16 +91,19 @@ function UpdateProfile({}) {
     },
     validate: (values) => {
       if (focusedField == "name") {
-        if (values.name == initialValues.name ) {
+        if (values.name == initialValues.name && pictureFile == null ) {
           setIsDisableButton(true);
+          setIsEmailChanged(false)
         } 
-        else if(values.name.trim() == initialValues.name) {
+        else if(values.name.trim() == initialValues.name && pictureFile == null) {
           setIsDisableButton(true);
+          setIsNameChanged(false);
          
         }
         
         else {
           setIsDisableButton(false);
+          setIsNameChanged(true);
         }
       }
     },
@@ -121,7 +124,8 @@ function UpdateProfile({}) {
       }
     } catch (err) {
       console.log(err, "upload Picture error");
-      setIsDisableButton(true)
+      if(!isEmailChanged){
+      setIsDisableButton(true)}
     }
   };
 
@@ -407,7 +411,8 @@ function UpdateProfile({}) {
                     <IconButton
                       onClick={() => {
                         handleDeleteFile();
-                        setIsDisableButton(true)
+                        if(!isNameChanged){
+                        setIsDisableButton(true)}
                       }}
                       style={{
                         position: "absolute",
