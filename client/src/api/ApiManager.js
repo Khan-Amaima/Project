@@ -119,7 +119,6 @@ const ApiManager = {
       const response = await axios.get(`${url}?name=${param}`, {
         headers: { Authorization: `Token ${authToken}` },
       });
-      console.log(response.data, '-===-=-=-=-=-=-=-=-=-==-')
       return response.data;
     } catch (error) {
       console.error(error);
@@ -154,7 +153,6 @@ const ApiManager = {
       const response = await axios.get(`${url}?name=${param}`, {
         headers: { Authorization: `Token ${authToken}` },
       });
-      console.log(response.data, '-===-=-=-=-=-=-=-=-=-==-')
       return response.data;
     } catch (error) {
       console.error(error);

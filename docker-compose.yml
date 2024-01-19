@@ -1,13 +1,49 @@
 version: "3.8"
 
 services:
+
+  db:
+    image: postgres:16
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=mahmad
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=rostraa
+
   client:
     build: ./client
     container_name: client-c
     ports:
       - 3000:3000
-    env_file:
-      - client/.env
+    restart: unless-stopped
     volumes:
       - /app/src
       - /app/node_modules
+    depends_on:
+      - db
+    links:
+      - db:db
+    env_file:
+      - client/.env
+
+  server:
+    container_name: server
+    image: server-c
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    env_file:
+      - server/server/.env
+    volumes:
+      - ./server:/app
+    depends_on:
+      - db
+    links:
+      - db:db
+    command: sh -c 'python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+    build:
+      context: ./server
+      dockerfile: Dockerfile

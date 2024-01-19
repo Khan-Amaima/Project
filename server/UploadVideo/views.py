@@ -15,6 +15,7 @@ from django.conf import settings
 from audio_extract import extract_audio
 from moviepy.editor import VideoFileClip
 from thumbnail import generate_thumbnail
+import os
 
 # Create your views here.
 def index(request):
@@ -79,6 +80,12 @@ class UploadVideoView(APIView):
                     mediaObject.save()
             
             thumbnail_path = f'video_thumbnail/{video_name_split_dot[0]}.jpg'
+
+            # Create the directory if it doesn't exist
+            thumbnail_directory = os.path.join(settings.BASE_MEDIA, 'video_thumbnail')
+            if not os.path.exists(thumbnail_directory):
+                os.makedirs(thumbnail_directory)
+
             if index == 0:
                 print(f'{settings.BASE_MEDIA}/{thumbnail_path} =================================', index)
                 generate_thumbnail(f'{settings.BASE_MEDIA}/{video_object.video.name}', f'{settings.BASE_MEDIA}/{thumbnail_path}', options)

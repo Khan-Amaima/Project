@@ -41,6 +41,12 @@ class UserSignupView(generics.CreateAPIView):
             password=hashed_password
         )
 
+        userProfile = UserProfile.objects.create(
+            user = user,
+        )
+
+        userProfile.save()
+
         token, created = Token.objects.get_or_create(user=user)
         serializer = UserGETSerializer(user)
         return Response({'success' : True, 'message' : 'User created successfully.', 'token': token.key, 'user-info' : serializer.data}, status=status.HTTP_201_CREATED,)
