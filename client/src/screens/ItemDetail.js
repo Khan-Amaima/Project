@@ -1,12 +1,5 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import {Box,CircularProgress,Container,Grid,IconButton,Typography,} from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
@@ -58,28 +51,19 @@ function ItemDetail() {
     setLoading(false);
   };
 
+  const handleDeleteVideo = async (id) => {
+    let response = await ApiManager.deleteVideo(userReducerState?.authToken, id)
+    if(response.data.success){
+      setIsConfirmModalOpen(!isConfirmModalOpen)
+      navigate(-1);
+      fetchVideos()
+    
+    }
+  }
+
   useEffect(() => {
     fetchVideos();
   }, []);
-  useEffect(() => {
-    // Get the video element by its ID
-    const video = document.getElementById("myVideo");
-
-    // Check if the video element exists
-    if (video) {
-      // Add an event listener for when the video is loaded
-      video.addEventListener("loadeddata", () => {
-        // Get the video controls
-        const controls = video.querySelector("[controls]");
-
-        // Hide the volume control by setting its display to 'none'
-        const volumeControl = controls.querySelector(".vjs-volume-menu-button");
-        if (volumeControl) {
-          volumeControl.style.display = "none";
-        }
-      });
-    }
-  });
 
   return loading ? (
     <Box
@@ -354,7 +338,6 @@ function ItemDetail() {
                   src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                   type="video/mp4"
                   preload="auto"
-                  fluid="false"
                   aspectRatio="9:5.06"
                   onLoadedMetadata={() => {
                     const video = videoPlayerRefs.current[index];
@@ -442,7 +425,7 @@ function ItemDetail() {
                     }
                   }}
                 >
-                  <BigPlayButton position="center" />
+                  <BigPlayButton position="center"  className="bigPlayButton"/>
                   <ControlBar autoHide={false} autoPlay>
                     <VolumeMenuButton disabled />
                   </ControlBar>
@@ -537,7 +520,7 @@ function ItemDetail() {
               leftButtonFunction={() => {
                 handleConfirmModal();
               }}
-              rightButtonFunction={() => console.log("Delete")}
+              rightButtonFunction={() => {handleDeleteVideo(id)}}
               icon={
                 <Delete
                   style={{ width: "60px", height: "60px", color: "red" }}

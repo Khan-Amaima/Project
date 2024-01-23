@@ -9,7 +9,7 @@ function CustomCard(props) {
     const { thumbnail, title, description, user, id } = props;
     const navigate = useNavigate();
     return (
-        <Card sx={{maxWidth: 260, maxHeight: 250, marginRight: '10px', marginBottom: '1px',}} style={{ boxShadow: 'none' }}>
+        <Card sx={{maxWidth: 260, maxHeight: 250, marginInline: '20px', marginBottom: '1px',}} style={{ boxShadow: 'none' }}>
             <CardActionArea onClick={()=>{navigate(`/itemDetail/${id}`)}}style={{justifyContent:"center",alignItems:"center",display:"flex",flexDirection:"column"}}>
                 <LazyThumbnail item={thumbnail} height={140} width={"auto"}/>
                 <Container style={{ display: 'flex', justifyContent: 'start', alignItems: 'start', padding: 0, margin: 0, marginTop: '10px', }}>

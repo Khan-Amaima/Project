@@ -226,8 +226,9 @@ function Login() {
                 style={{ display: "flex" }}
               >
                 <Grid
+                  item
                   xs={6}
-                  style={{ paddingInline: "10px", backgroundColor: "" }}
+                  style={{ paddingInline: "10px",  }}
                 >
                   <FormHelperText error id="confirmPassword" sx={{ typography: FontSizeStandards.tertiaryHeading}}>
                     {responseMessage}
@@ -237,7 +238,7 @@ function Login() {
                 <Grid item xs={6}>
                   <Link
                     href="./forgotPassword"
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: "none",justifyContent:"end",alignItems:"end",display:"flex"}}
                   >
                     <Typography
                       style={{
@@ -246,7 +247,7 @@ function Login() {
                         fontWeight: "400",
                       }}
                       sx={{ typography: FontSizeStandards.tertiaryHeading }}
-                      align="end"
+                    
                     >
                       {"Forgot Password? "}
                     </Typography>
