@@ -3,7 +3,7 @@ import { Box, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import IconButton from "@mui/material/IconButton";
-import { Cancel } from "@mui/icons-material";
+import { Cancel, LogoDev } from "@mui/icons-material";
 import { FormHelperText } from "@mui/material";
 import SvgIcons from "../assets/images/svgicons";
 import AppColors from "../constants/AppColors";
@@ -14,6 +14,8 @@ import CustomIcon from "./CustomIcon";
 import CustomButton from "./CustomButton";
 import { useSelector } from "react-redux";
 import ApiManager from "../api/ApiManager";
+import ConfirmationModal from "./ConfirmationModal";
+import { Verified } from "@mui/icons-material";
 
 function UpdateProfile({}) {
   const [name, setName] = useState("");
@@ -24,9 +26,13 @@ function UpdateProfile({}) {
   const [pictureFile, setPictureFile] = useState(null);
   const [pictureUrl, setPictureUrl] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
+  const [message, setMessage] = useState();
   const [responseMessage, setResponseMessage] = useState("");
   const pictureInputRef = useRef();
   const userReducerState = useSelector((state) => state.userRed);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const getProfileData = async () => {
     let response = await ApiManager.getProfile(userReducerState?.authToken);
@@ -43,13 +49,40 @@ function UpdateProfile({}) {
 
   setTimeout(() => {
     setResponseMessage("");
-  }, 3000);
+  }, 10000);
+  
   const updateProfileData = async () => {
-    let response = await ApiManager.updateProfile(
-      userReducerState?.authToken,
-      pictureFile
-    );
-    console.log(response);
+    setLoading(true);
+    try {
+      let response = await ApiManager.updateProfile(userReducerState?.authToken,pictureFile);
+      if (response.success) {
+        setTimeout(() => {
+          setLoading(false);
+          setMessage("Profile Updated successfully");
+          handleModal();
+          setIsDisableButton(true);
+        }, 3000);
+       
+       
+      } else {
+        setTimeout(() => {
+          setLoading(false);
+          setResponseMessage("Profile Update Failed");
+          console.log("Error on update name ------------------------------------",response.message)
+          setIsDisableButton(false);
+        }, 3000);
+        
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setLoading(false);
+        setResponseMessage("Profile Update Failed");
+      setIsDisableButton(false);
+      console.log(error);
+      }, 4000);
+      
+     
+    }
   };
 
   useEffect(() => {
@@ -100,6 +133,7 @@ function UpdateProfile({}) {
         }
         else {
           if(values.name.trim() == initialValues.name ){
+            setIsDisableButton(true);
             setIsNameChanged(false);
           }
           else{
@@ -566,6 +600,7 @@ function UpdateProfile({}) {
             type={"submit"}
             text={"Update Profile"}
             isDisable={isDisableButton}
+            loading={loading}
             buttonStyle={{
               borderRadius: 50,
               backgroundColor: isDisableButton
@@ -586,6 +621,15 @@ function UpdateProfile({}) {
           />
         </Grid>
       </Grid>
+      <ConfirmationModal
+        isModelOpen={isModalOpen}
+        confirmationText={message}
+        rightButtonText={"Close"}
+        rightButtonFunction={handleModal}
+        icon={
+          <Verified style={{ width: "60px", height: "60px", color: "green" }} />
+        }
+      />
     </Grid>
   );
 }
