@@ -135,7 +135,7 @@ function VideoPreviewTable({
                     }}
                   >
                      <Suspense fallback={<Skeleton variant="rectangular" width={160} height={90} />}>
-                       <LazyThumbnail item={item}/>
+                       <LazyThumbnail item={item?.thumbnail} width={160} height={90}/>
                       </Suspense>
                     
                   </TableCell>

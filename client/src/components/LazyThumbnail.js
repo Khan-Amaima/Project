@@ -1,14 +1,15 @@
 import React from 'react';
 
-const LazyThumbnail = ({ item,refer }) => {
-  return (<img
+const LazyThumbnail = ({ item,refer,height,width }) => {
+  return (
+  <img
   ref={refer}
-    src={`${process.env.REACT_APP_BASE_URL}${item?.thumbnail}`}
-    width={160}
-    height={90}
+    src={`${process.env.REACT_APP_BASE_URL}${item}`}
+    width={width}
+    height={height}
     style={{
       borderRadius: "6px",
-      objectFit: "contain"
+      objectFit:'contain'
     }}
   /> );
 };
