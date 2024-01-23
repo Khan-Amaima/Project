@@ -292,7 +292,6 @@ function UpdateProfile({}) {
             value={formik.values.email || email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
-            // sx={CustomStyle.inputStyle}
           />
           {formik.touched.email && formik.errors.email && (
             <FormHelperText error id="confirmPassword">
