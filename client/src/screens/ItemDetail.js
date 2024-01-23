@@ -18,9 +18,13 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiManager from "../api/ApiManager";
 import moment from "moment";
-import { Player, ControlBar, VolumeMenuButton, BigPlayButton } from 'video-react';
-import 'video-react/dist/video-react.css';
-
+import {
+  Player,
+  ControlBar,
+  VolumeMenuButton,
+  BigPlayButton,
+} from "video-react";
+import "video-react/dist/video-react.css";
 
 function ItemDetail() {
   const { id } = useParams();
@@ -333,123 +337,116 @@ function ItemDetail() {
         >
           {userMedia?.videos?.map((singleVideo, index) => {
             return (
-              <Grid
-             
-                key={index}
-              >
+              <Grid key={index}>
                 <Player
-                     
-                     key={index}
-                     ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
-                     aria-hidden="true"
-                     aria-controls="hidden"
-                     clear
-                     controls
-                     volumeControl={true}
-                    //  autoPlay
-                     muted
-                    //  volume={"0"}
-                     src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                     type="video/mp4"
-                     preload="auto"
-                     onLoadedMetadata={()=>{
-                       const video = videoPlayerRefs.current[index];    
-                       if(video.videoHeight > video.videoWidth){   
-                         setIsPortrait(true);
-                       }
-                     }}
-                     fluid="false"
-                     aspectRatio="9:5.06"
-                     onSeeked = {()=>{
-                      console.log("seeked")
-                     }}
-                     onPlay = {()=>{
-                      try{
-                        // check is there any primary audio
-                        // if yes then prefer primary audio else play all audio's
-                        if(userMedia?.primaryAudio != null){
-                          try{
-                            !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
-                            if(i === currentSlideIndex){
-                              audioPlayerRefs.current[i].volume = 1
-                            }else{
-                              audioPlayerRefs.current[i].volume = 0
+                  key={index}
+                  ref={(ref) =>
+                    ref != null &&
+                    !videoPlayerRefs.current.includes(ref) &&
+                    videoPlayerRefs.current.push(ref)
+                  }
+                  aria-hidden="true"
+                  aria-controls="hidden"
+                  clear
+                  controls
+                  volumeControl={true}
+                  muted
+                  src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+                  type="video/mp4"
+                  preload="auto"
+                  fluid="false"
+                  aspectRatio="9:5.06"
+                  onLoadedMetadata={() => {
+                    const video = videoPlayerRefs.current[index];
+                    if (video.videoHeight > video.videoWidth) {
+                      setIsPortrait(true);
+                    }
+                  }}
+                  onPlay={() => {
+                    try {
+                      // check is there any primary audio
+                      // if yes then prefer primary audio else play all audio's
+                      if (userMedia?.primaryAudio != null) {
+                        try {
+                          !isPlaying &&
+                            userMedia?.videos[0]?.audio != null &&
+                            audioPlayerRefs?.current[0]?.play();
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      } else {
+                        for (
+                          let i = 0;
+                          i < audioPlayerRefs?.current?.length;
+                          i++
+                        ) {
+                          try {
+                            !isPlaying &&
+                              userMedia?.videos[i]?.audio != null &&
+                              audioPlayerRefs?.current[i]?.play();
+                            if (i === currentSlideIndex) {
+                              audioPlayerRefs.current[i].volume = 1;
+                            } else {
+                              audioPlayerRefs.current[i].volume = 0;
                             }
-                          }catch(err){
-                            console.log(err)
-                          }
-                        }else{
-                          for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                            try{
-                              !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
-                              if(i == currentSlideIndex){
-                                audioPlayerRefs.current[i].volume = 1
-                              }else{
-                                audioPlayerRefs.current[i].volume = 0
-                              }
-                            }catch(err){
-                              console.log(err)
-                            }
+                          } catch (err) {
+                            console.log(err);
                           }
                         }
-                        // play all videos
-                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                          try{
-                            !isPlaying && videoPlayerRefs?.current[i]?.play();
-                          }catch(err){
-                            console.log(err, '-------')
-                          }
-                        }
-                        setIsPlaying(true);
                       }
-                      catch(err){
-                        console.log(err, 'err onPlay')
-                      }
-                    }}
-                     onPause = {()=>{
-                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                        try{
-                          isPlaying && videoPlayerRefs?.current[i]?.pause()
-                          isPlaying && audioPlayerRefs?.current[i]?.pause();
-                        }
-                        catch(err){
-                          console.log(err, 'err onPause')
+                      // play all videos
+                      for (
+                        let i = 0;
+                        i < videoPlayerRefs?.current?.length;
+                        i++
+                      ) {
+                        try {
+                          !isPlaying && videoPlayerRefs?.current[i]?.play();
+                        } catch (err) {
+                          console.log(err, "-------");
                         }
                       }
-                      setIsPlaying(false);
-                    }}
-                    onTimeUpdate={(e)=>{
-                      let videoTime = e.currentTarget.currentTime;
-                      setVideoCurrentTime(videoTime)
-                      console.log("timeUpdates")
-                    }}
-                    onEnded={()=>{
-                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                      setIsPlaying(true);
+                    } catch (err) {
+                      console.log(err, "err onPlay");
+                    }
+                  }}
+                  onPause={() => {
+                    for (let i = 0; i < videoPlayerRefs?.current?.length; i++) {
+                      try {
+                        isPlaying && videoPlayerRefs?.current[i]?.pause();
                         isPlaying && audioPlayerRefs?.current[i]?.pause();
-                      }
-                      setIsPlaying(false)
-                      setVideoCurrentTime(0);
-                      console.log("OnEnd")
-                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                        try{
-                          console.log("Try In End")
-                          videoPlayerRefs.current[i].currentTime = 0;
-                          audioPlayerRefs.current[i].currentTime = 0;
-                        }catch(err){
-                          console.log(err, '-------')
-                        }
+                      } catch (err) {
+                        console.log(err, "err onPause");
                       }
                     }
-                  }
-                     
+                    setIsPlaying(false);
+                  }}
+                  onTimeUpdate={(e) => {
+                    let videoTime = e.currentTarget.currentTime;
+                    setVideoCurrentTime(videoTime);
+                  }}
+                  onEnded={() => {
+                    for (let i = 0; i < audioPlayerRefs?.current?.length; i++) {
+                      isPlaying && audioPlayerRefs?.current[i]?.pause();
+                    }
+                    setIsPlaying(false);
+                    setVideoCurrentTime(0);
+                    for (let i = 0; i < videoPlayerRefs?.current?.length; i++) {
+                      try {
+                        videoPlayerRefs.current[i].currentTime = 0;
+                        audioPlayerRefs.current[i].currentTime = 0;
+                      } catch (err) {
+                        console.log(err, "-------");
+                      }
+                    }
+                  }}
                 >
-                   <BigPlayButton position="center"/>
+                  <BigPlayButton position="center" />
                   <ControlBar autoHide={false} autoPlay>
-                    <VolumeMenuButton disabled/>
+                    <VolumeMenuButton disabled />
                   </ControlBar>
-                 
                 </Player>
-
               </Grid>
             );
           })}
@@ -512,24 +509,26 @@ function ItemDetail() {
                 paddingX: 2,
               }}
             />
-            {userMedia?.user?.email === userReducerState?.userDetail?.email &&  <CustomButton
-              onTap={() => {
-                handleConfirmModal();
-              }}
-              prefixIcon={Delete}
-              text={"Delete"}
-              loading={false}
-              buttonStyle={{
-                borderRadius: 50,
-                fontFamily: "Poppins",
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "red",
-                marginY: 1,
-                marginX: 0,
-                paddingX: 2,
-              }}
-            />}
+            {userMedia?.user?.email === userReducerState?.userDetail?.email && (
+              <CustomButton
+                onTap={() => {
+                  handleConfirmModal();
+                }}
+                prefixIcon={Delete}
+                text={"Delete"}
+                loading={false}
+                buttonStyle={{
+                  borderRadius: 50,
+                  fontFamily: "Poppins",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "red",
+                  marginY: 1,
+                  marginX: 0,
+                  paddingX: 2,
+                }}
+              />
+            )}
             <ConfirmationModal
               isModelOpen={isConfirmModalOpen}
               confirmationText={"Are you sure, you want to delete this file?"}
