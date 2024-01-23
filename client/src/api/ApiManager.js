@@ -78,8 +78,6 @@ const ApiManager = {
   },
   updateProfile: async (authToken, name, profilePicture) => {
     const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.updateProfile;
-    console.log(name, '=================')
-
     try {
       let formData = new FormData();
       formData.append("name", name);
