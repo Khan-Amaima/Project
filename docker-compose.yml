@@ -13,22 +13,6 @@ services:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=rostraa
 
-  client:
-    build: ./client
-    container_name: client-c
-    ports:
-      - 3000:3000
-    restart: unless-stopped
-    volumes:
-      - /app/src
-      - /app/node_modules
-    depends_on:
-      - db
-    links:
-      - db:db
-    env_file:
-      - client/.env
-
   server:
     container_name: server
     image: server-c

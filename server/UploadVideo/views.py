@@ -101,7 +101,6 @@ class GetVideoView(APIView):
     def get(self, request):
         name_param = self.request.query_params.get('name', None)
         if name_param:
-            print(f'{UserMedia.objects.filter(id = name_param).first()} -=-=-=-=-=-=-=-=-')
             mediaObjects = UserMedia.objects.filter(id = name_param)
             serializer = UserMediaVideoFetchSerializer(mediaObjects, many = True)
         else :
@@ -118,7 +117,6 @@ class GetAllUserVideosView(APIView):
     def get(self, request):
         name_param = self.request.query_params.get('name', None)
         if name_param:
-            print(f'{UserMedia.objects.filter(id = name_param).first()} -=-=-=-=-=-=-=-=-')
             mediaObjects = UserMedia.objects.filter(id = name_param)
             serializer = UserMediaVideoFetchSerializer(mediaObjects, many = True)
         else :

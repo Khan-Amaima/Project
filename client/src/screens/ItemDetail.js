@@ -384,6 +384,7 @@ function ItemDetail() {
                       for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                         try{
                           videoPlayerRefs.current[i].currentTime = 0;
+                          audioPlayerRefs.current[i].currentTime = 0;
                         }catch(err){
                           console.log(err, '-------')
                         }
