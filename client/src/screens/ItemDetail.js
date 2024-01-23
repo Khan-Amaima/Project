@@ -36,6 +36,7 @@ function ItemDetail() {
     setLoading(true);
     let response = await ApiManager.fetchVideos(userReducerState?.authToken, id);
     if(response.success){
+      console.log(response.data[0], '------------------------')
       setUserMedia(response.data[0]);
     }
     setLoading(false)
@@ -452,7 +453,7 @@ function ItemDetail() {
                 paddingX: 2,
               }}
             />
-            <CustomButton
+            {userMedia?.user?.email === userReducerState?.userDetail?.email &&  <CustomButton
               onTap={() => {
                 handleConfirmModal();
               }}
@@ -469,7 +470,7 @@ function ItemDetail() {
                 marginX: 0,
                 paddingX: 2,
               }}
-            />
+            />}
             <ConfirmationModal
               isModelOpen={isConfirmModalOpen}
               confirmationText={"Are you sure, you want to delete this file?"}
