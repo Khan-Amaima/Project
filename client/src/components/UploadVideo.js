@@ -317,13 +317,6 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
             }}
             onChange={(e) => setTitle(e.target.value)}
             InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="pencil-icon" edge="end">
-                    <EditOutlinedIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
               sx: {
                 typography: {
                   fontSize:"16"
