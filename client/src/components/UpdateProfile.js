@@ -47,41 +47,22 @@ function UpdateProfile({}) {
     }
   };
 
-  setTimeout(() => {
-    setResponseMessage("");
-  }, 10000);
-  
-  const updateProfileData = async () => {
+  const updateProfileData = async (nameValue) => {
     setLoading(true);
-    try {
-      let response = await ApiManager.updateProfile(userReducerState?.authToken,pictureFile);
-      if (response.success) {
-        setTimeout(() => {
-          setLoading(false);
-          setMessage("Profile Updated successfully");
-          handleModal();
-          setIsDisableButton(true);
-        }, 3000);
-       
-       
-      } else {
-        setTimeout(() => {
-          setLoading(false);
-          setResponseMessage("Profile Update Failed");
-          console.log("Error on update name ------------------------------------",response.message)
-          setIsDisableButton(false);
-        }, 3000);
-        
-      }
-    } catch (error) {
-      setTimeout(() => {
-        setLoading(false);
-        setResponseMessage("Profile Update Failed");
+    let response = await ApiManager.updateProfile(
+      userReducerState?.authToken,
+      nameValue,
+      pictureFile
+    );
+    if(response.success){
+      setLoading(false);
+      setMessage(response.message);
+      handleModal();
+      setIsDisableButton(true);
+    }else{
+      setLoading(false);
+      setResponseMessage("Profile not updated");
       setIsDisableButton(false);
-      console.log(error);
-      }, 4000);
-      
-     
     }
   };
 
@@ -101,8 +82,7 @@ function UpdateProfile({}) {
 
   const handleSubmit = (event, values) => {
     try {
-      console.log(" successs", event);
-      updateProfileData();
+      updateProfileData(event.name);
       // navigate("/");
     } catch (error) {
       console.log(error);
@@ -121,18 +101,18 @@ function UpdateProfile({}) {
       handleSubmit(event, values);
     },
     validate: (values) => {
-      if (focusedField == "name") {
-        if (values.name == initialValues.name && pictureFile == null ) {
+      if (focusedField === "name") {
+        if (values.name === initialValues.name && pictureFile === null ) {
           setIsDisableButton(true);
           setIsEmailChanged(false)
         } 
-        else if(values.name.trim() == initialValues.name && pictureFile == null) {
+        else if(values.name.trim() === initialValues.name && pictureFile === null) {
           setIsDisableButton(true);
           setIsNameChanged(false);
          
         }
         else {
-          if(values.name.trim() == initialValues.name ){
+          if(values.name.trim() === initialValues.name ){
             setIsDisableButton(true);
             setIsNameChanged(false);
           }
@@ -140,7 +120,6 @@ function UpdateProfile({}) {
             setIsDisableButton(false);
             setIsNameChanged(true);
           }
-          
         }
       }
     },
@@ -326,7 +305,6 @@ function UpdateProfile({}) {
             value={formik.values.email || email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
-            // sx={CustomStyle.inputStyle}
           />
           {formik.touched.email && formik.errors.email && (
             <FormHelperText error id="confirmPassword">

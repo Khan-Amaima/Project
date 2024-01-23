@@ -103,13 +103,19 @@ class UserUpdateProfileView(APIView):
 
     def post(self, request):
         user = request.user
+        print(request.data.get('name'))
+        first_name = request.data.get('name')
+        if first_name:
+            user.first_name = first_name
+            user.save()
         picture = [x for x in request.FILES.values()]
         profileObject = UserProfile.objects.get(user=user)
-        if profileObject.profile_picture:
-            profileObject.profile_picture.delete()
-        profileObject.profile_picture = picture[0]
+        if picture and picture[0]:
+            if profileObject.profile_picture:
+                profileObject.profile_picture.delete()
+            profileObject.profile_picture = picture[0]
         profileObject.save()
-        return Response({'success' : True, "message": "Profile Picture Updated Successfully.",}, status=status.HTTP_200_OK)
+        return Response({'success' : True, "message": "Profile Updated Successfully.",}, status=status.HTTP_200_OK)
 
 class UserGetProfileView(APIView):
     authentication_classes = [TokenAuthentication]

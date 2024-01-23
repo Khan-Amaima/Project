@@ -332,9 +332,6 @@ function ItemDetail() {
           }}
         >
           {userMedia?.videos?.map((singleVideo, index) => {
-            if (index == 0) {
-              const video = videoPlayerRefs.current[index];
-            }
             return (
               <Grid
              
@@ -372,7 +369,12 @@ function ItemDetail() {
                         // if yes then prefer primary audio else play all audio's
                         if(userMedia?.primaryAudio != null){
                           try{
-                            !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
+                            !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
+                            if(i === currentSlideIndex){
+                              audioPlayerRefs.current[i].volume = 1
+                            }else{
+                              audioPlayerRefs.current[i].volume = 0
+                            }
                           }catch(err){
                             console.log(err)
                           }
@@ -432,6 +434,7 @@ function ItemDetail() {
                         try{
                           console.log("Try In End")
                           videoPlayerRefs.current[i].currentTime = 0;
+                          audioPlayerRefs.current[i].currentTime = 0;
                         }catch(err){
                           console.log(err, '-------')
                         }
@@ -509,7 +512,7 @@ function ItemDetail() {
                 paddingX: 2,
               }}
             />
-            <CustomButton
+            {userMedia?.user?.email === userReducerState?.userDetail?.email &&  <CustomButton
               onTap={() => {
                 handleConfirmModal();
               }}
@@ -526,7 +529,7 @@ function ItemDetail() {
                 marginX: 0,
                 paddingX: 2,
               }}
-            />
+            />}
             <ConfirmationModal
               isModelOpen={isConfirmModalOpen}
               confirmationText={"Are you sure, you want to delete this file?"}
