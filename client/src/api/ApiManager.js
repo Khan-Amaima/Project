@@ -76,10 +76,13 @@ const ApiManager = {
       return error;
     }
   },
-  updateProfile: async (authToken, profilePicture) => {
+  updateProfile: async (authToken, name, profilePicture) => {
     const url = process.env.REACT_APP_BASE_URL + EndPoints.auth + EndPoints.updateProfile;
+    console.log(name, '=================')
+
     try {
       let formData = new FormData();
+      formData.append("name", name);
       formData.append("profilePicture", profilePicture);
       const response = await axios.post(url, formData, {
         headers: { Authorization: `Token ${authToken}` },

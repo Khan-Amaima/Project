@@ -44,9 +44,11 @@ function UpdateProfile({}) {
   setTimeout(() => {
     setResponseMessage("");
   }, 3000);
-  const updateProfileData = async () => {
+
+  const updateProfileData = async (nameValue) => {
     let response = await ApiManager.updateProfile(
       userReducerState?.authToken,
+      nameValue,
       pictureFile
     );
     console.log(response);
@@ -68,8 +70,7 @@ function UpdateProfile({}) {
 
   const handleSubmit = (event, values) => {
     try {
-      console.log(" successs", event);
-      updateProfileData();
+      updateProfileData(event.name);
       // navigate("/");
     } catch (error) {
       console.log(error);
