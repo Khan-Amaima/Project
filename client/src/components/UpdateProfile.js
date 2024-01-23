@@ -89,25 +89,24 @@ function UpdateProfile({}) {
       handleSubmit(event, values);
     },
     validate: (values) => {
-      if (focusedField == "name") {
-        if (values.name == initialValues.name && pictureFile == null ) {
+      if (focusedField === "name") {
+        if (values.name === initialValues.name && pictureFile === null ) {
           setIsDisableButton(true);
           setIsEmailChanged(false)
         } 
-        else if(values.name.trim() == initialValues.name && pictureFile == null) {
+        else if(values.name.trim() === initialValues.name && pictureFile === null) {
           setIsDisableButton(true);
           setIsNameChanged(false);
          
         }
         else {
-          if(values.name.trim() == initialValues.name ){
+          if(values.name.trim() === initialValues.name ){
             setIsNameChanged(false);
           }
           else{
             setIsDisableButton(false);
             setIsNameChanged(true);
           }
-          
         }
       }
     },

@@ -55,7 +55,7 @@ function Home() {
           />
         </Box>
       ) : (
-        allUserData.length == 0 && loading == false) ? (
+        allUserData.length === 0 && loading === false) ? (
         <StartUploadingVideo 
           primaryLabel={"Upload an existing video"}
           secondaryLabel={"Choose a video from your device to enhance, customize, and share like a pro."}

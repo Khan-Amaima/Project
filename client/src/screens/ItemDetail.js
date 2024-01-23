@@ -36,7 +36,6 @@ function ItemDetail() {
     setLoading(true);
     let response = await ApiManager.fetchVideos(userReducerState?.authToken, id);
     if(response.success){
-      console.log(response.data[0], '------------------------')
       setUserMedia(response.data[0]);
     }
     setLoading(false)
@@ -294,9 +293,6 @@ function ItemDetail() {
           }}
         >
           {userMedia?.videos?.map((singleVideo, index) => {
-            if(index==0){
-              const video = videoPlayerRefs.current[index];
-            }
             return (
               <Grid
               height={isPortrait? {xs: "250px", sm: "370px",md:"430px",lg:"620px",xl:"650px"}:"auto"}
@@ -335,7 +331,7 @@ function ItemDetail() {
                         for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
                           try{
                             !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
-                            if(i == currentSlideIndex){
+                            if(i === currentSlideIndex){
                               audioPlayerRefs.current[i].volume = 1
                             }else{
                               audioPlayerRefs.current[i].volume = 0
