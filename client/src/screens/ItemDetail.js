@@ -5,6 +5,7 @@ import {
   Container,
   Grid,
   IconButton,
+  Paper,
   Typography,
 } from "@mui/material";
 import AppColors from "../constants/AppColors";
@@ -18,13 +19,12 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiManager from "../api/ApiManager";
 import moment from "moment";
-import {
-  Player,
-  ControlBar,
-  VolumeMenuButton,
-  BigPlayButton,
-} from "video-react";
-import "video-react/dist/video-react.css";
+import { Slider, Tooltip } from "@mui/material";
+
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 function ItemDetail() {
   const { id } = useParams();
@@ -57,29 +57,21 @@ function ItemDetail() {
     }
     setLoading(false);
   };
-
   useEffect(() => {
     fetchVideos();
   }, []);
-  useEffect(() => {
-    // Get the video element by its ID
-    const video = document.getElementById("myVideo");
 
-    // Check if the video element exists
-    if (video) {
-      // Add an event listener for when the video is loaded
-      video.addEventListener("loadeddata", () => {
-        // Get the video controls
-        const controls = video.querySelector("[controls]");
-
-        // Hide the volume control by setting its display to 'none'
-        const volumeControl = controls.querySelector(".vjs-volume-menu-button");
-        if (volumeControl) {
-          volumeControl.style.display = "none";
-        }
-      });
+  const handleDeleteVideo = async (id) => {
+    let response = await ApiManager.deleteVideo(
+      userReducerState?.authToken,
+      id
+    );
+    if (response.data.success) {
+      setIsConfirmModalOpen(!isConfirmModalOpen);
+      navigate(-1);
+      fetchVideos();
     }
-  });
+  };
 
   return loading ? (
     <Box
@@ -106,6 +98,7 @@ function ItemDetail() {
         item
         xs={11.5}
         md={11.5}
+      
         style={{
           display: "flex",
           direction: "row",
@@ -152,6 +145,7 @@ function ItemDetail() {
           item
           xs={5.5}
           md={5.5}
+          // minWidth={"350px"}
           style={{
             marginTop: "40px",
             display: "flex",
@@ -188,12 +182,12 @@ function ItemDetail() {
 
           <Typography
             style={{
-              fontSize: FontSizeStandards.tertiaryHeading,
-              fontWeight: 500,
+              fontWeight: 600,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
+            sx={{ typography: FontSizeStandards.tertiaryHeading }}
           >
             {userMedia?.user?.username}
           </Typography>
@@ -210,12 +204,12 @@ function ItemDetail() {
           >
             <Typography
               style={{
-                fontSize: "12px",
                 fontWeight: 400,
                 color: AppColors.tertiary,
                 fontFamily: "Poppins",
                 textOverflow: "clip",
               }}
+              sx={{ typography: FontSizeStandards.tertiaryHeading }}
             >
               Owner
             </Typography>
@@ -236,11 +230,12 @@ function ItemDetail() {
           <Typography
             style={{
               fontSize: FontSizeStandards.tertiaryHeading,
-              fontWeight: 500,
+              fontWeight: 600,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
+            sx={{ typography: FontSizeStandards.tertiaryHeading }}
           >
             {moment(userMedia?.created_at).format("MMM Do yy")}
           </Typography>
@@ -337,116 +332,141 @@ function ItemDetail() {
         >
           {userMedia?.videos?.map((singleVideo, index) => {
             return (
-              <Grid key={index}>
-                <Player
-                  key={index}
-                  ref={(ref) =>
-                    ref != null &&
-                    !videoPlayerRefs.current.includes(ref) &&
-                    videoPlayerRefs.current.push(ref)
-                  }
-                  aria-hidden="true"
-                  aria-controls="hidden"
-                  clear
-                  controls
-                  volumeControl={true}
-                  muted
-                  src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                  type="video/mp4"
-                  preload="auto"
-                  fluid="false"
-                  aspectRatio="9:5.06"
-                  onLoadedMetadata={() => {
-                    const video = videoPlayerRefs.current[index];
-                    if (video.videoHeight > video.videoWidth) {
-                      setIsPortrait(true);
-                    }
+              <Grid
+                // height={isPortrait? {xs: "250px", sm: "370px",md:"430px",lg:"620px",xl:"650px"}:"auto"}
+                // minWidth={"310px"}
+                // minHeight={"160px"}
+                // width={"100%"}
+                style={{ position: "relative", paddingTop: "56.25%" }}
+                key={index}
+              >
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
                   }}
-                  onPlay={() => {
-                    try {
-                      // check is there any primary audio
-                      // if yes then prefer primary audio else play all audio's
-                      if (userMedia?.primaryAudio != null) {
-                        try {
-                          !isPlaying &&
-                            userMedia?.videos[0]?.audio != null &&
-                            audioPlayerRefs?.current[0]?.play();
-                        } catch (err) {
-                          console.log(err);
-                        }
-                      } else {
-                        for (
-                          let i = 0;
-                          i < audioPlayerRefs?.current?.length;
-                          i++
-                        ) {
+                >
+                  <video
+                    key={index}
+                    ref={(ref) =>
+                      ref != null &&
+                      !videoPlayerRefs.current.includes(ref) &&
+                      videoPlayerRefs.current.push(ref)
+                    }
+                    style={{
+                      borderRadius: "10px",
+                      objectFit: "contain",
+                      width: "100%",
+                      height: "100%" ,
+                    }}
+                    controls
+                    controlsList="nodownload noplaybackrate"
+                    muted
+                    src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+                    type="video/mp4"
+                    preload="auto"
+                    onLoadedMetadata={() => {
+                      const video = videoPlayerRefs.current[index];
+                      if (video.videoHeight > video.videoWidth) {
+                        setIsPortrait(true);
+                      }
+                    }}
+                    onPlay={() => {
+                      try {
+                        // check is there any primary audio
+                        // if yes then prefer primary audio else play all audio's
+                        if (userMedia?.primaryAudio != null) {
                           try {
                             !isPlaying &&
-                              userMedia?.videos[i]?.audio != null &&
-                              audioPlayerRefs?.current[i]?.play();
-                            if (i === currentSlideIndex) {
-                              audioPlayerRefs.current[i].volume = 1;
-                            } else {
-                              audioPlayerRefs.current[i].volume = 0;
-                            }
+                              userMedia?.videos[0]?.audio != null &&
+                              audioPlayerRefs?.current[0]?.play();
                           } catch (err) {
                             console.log(err);
                           }
+                        } else {
+                          for (
+                            let i = 0;
+                            i < audioPlayerRefs?.current?.length;
+                            i++
+                          ) {
+                            try {
+                              !isPlaying &&
+                                userMedia?.videos[i]?.audio != null &&
+                                audioPlayerRefs?.current[i]?.play();
+                              if (i === currentSlideIndex) {
+                                audioPlayerRefs.current[i].volume = 1;
+                              } else {
+                                audioPlayerRefs.current[i].volume = 0;
+                              }
+                            } catch (err) {
+                              console.log(err);
+                            }
+                          }
                         }
+                        // play all videos
+                        for (
+                          let i = 0;
+                          i < videoPlayerRefs?.current?.length;
+                          i++
+                        ) {
+                          try {
+                            !isPlaying && videoPlayerRefs?.current[i]?.play();
+                          } catch (err) {
+                            console.log(err, "-------");
+                          }
+                        }
+                        setIsPlaying(true);
+                      } catch (err) {
+                        console.log(err, "err onPlay");
                       }
-                      // play all videos
+                    }}
+                    onPause={() => {
                       for (
                         let i = 0;
                         i < videoPlayerRefs?.current?.length;
                         i++
                       ) {
                         try {
-                          !isPlaying && videoPlayerRefs?.current[i]?.play();
+                          isPlaying && videoPlayerRefs?.current[i]?.pause();
+                          isPlaying && audioPlayerRefs?.current[i]?.pause();
+                        } catch (err) {
+                          console.log(err, "err onPause");
+                        }
+                      }
+                      setIsPlaying(false);
+                    }}
+                    onTimeUpdate={(e) => {
+                      let videoTime = e.currentTarget.currentTime;
+                      setVideoCurrentTime(videoTime);
+                    }}
+                    onEnded={() => {
+                      for (
+                        let i = 0;
+                        i < audioPlayerRefs?.current?.length;
+                        i++
+                      ) {
+                        isPlaying && audioPlayerRefs?.current[i]?.pause();
+                      }
+                      setIsPlaying(false);
+                      setVideoCurrentTime(0);
+                      for (
+                        let i = 0;
+                        i < videoPlayerRefs?.current?.length;
+                        i++
+                      ) {
+                        try {
+                          videoPlayerRefs.current[i].currentTime = 0;
+                          audioPlayerRefs.current[i].currentTime = 0;
                         } catch (err) {
                           console.log(err, "-------");
                         }
                       }
-                      setIsPlaying(true);
-                    } catch (err) {
-                      console.log(err, "err onPlay");
-                    }
-                  }}
-                  onPause={() => {
-                    for (let i = 0; i < videoPlayerRefs?.current?.length; i++) {
-                      try {
-                        isPlaying && videoPlayerRefs?.current[i]?.pause();
-                        isPlaying && audioPlayerRefs?.current[i]?.pause();
-                      } catch (err) {
-                        console.log(err, "err onPause");
-                      }
-                    }
-                    setIsPlaying(false);
-                  }}
-                  onTimeUpdate={(e) => {
-                    let videoTime = e.currentTarget.currentTime;
-                    setVideoCurrentTime(videoTime);
-                  }}
-                  onEnded={() => {
-                    for (let i = 0; i < audioPlayerRefs?.current?.length; i++) {
-                      isPlaying && audioPlayerRefs?.current[i]?.pause();
-                    }
-                    setIsPlaying(false);
-                    setVideoCurrentTime(0);
-                    for (let i = 0; i < videoPlayerRefs?.current?.length; i++) {
-                      try {
-                        videoPlayerRefs.current[i].currentTime = 0;
-                        audioPlayerRefs.current[i].currentTime = 0;
-                      } catch (err) {
-                        console.log(err, "-------");
-                      }
-                    }
-                  }}
-                >
-                  <BigPlayButton position="center" />
-                  <ControlBar autoHide={false} autoPlay>
-                    <VolumeMenuButton disabled />
-                  </ControlBar>
-                </Player>
+                    }}
+                  />
+                </Box>
               </Grid>
             );
           })}
@@ -469,12 +489,11 @@ function ItemDetail() {
           <Box>
             <Typography
               style={{
-                fontSize: "22px",
                 fontWeight: 600,
                 color: AppColors.tertiary,
                 fontFamily: "Poppins",
               }}
-              sx={FontSizeStandards.mainHeading}
+              sx={{ typography: FontSizeStandards.tertiaryHeading }}
             >
               {userMedia?.title || "Title not added"}
             </Typography>
@@ -501,7 +520,6 @@ function ItemDetail() {
               buttonStyle={{
                 borderRadius: 50,
                 fontFamily: "Poppins",
-                fontSize: "14px",
                 fontWeight: 600,
                 color: AppColors.primary,
                 marginY: 1,
@@ -520,7 +538,6 @@ function ItemDetail() {
                 buttonStyle={{
                   borderRadius: 50,
                   fontFamily: "Poppins",
-                  fontSize: "14px",
                   fontWeight: 600,
                   color: "red",
                   marginY: 1,
@@ -537,7 +554,7 @@ function ItemDetail() {
               leftButtonFunction={() => {
                 handleConfirmModal();
               }}
-              rightButtonFunction={() => console.log("Delete")}
+              rightButtonFunction={() => handleDeleteVideo(id)}
               icon={
                 <Delete
                   style={{ width: "60px", height: "60px", color: "red" }}
@@ -556,11 +573,11 @@ function ItemDetail() {
         >
           <Typography
             style={{
-              fontSize: FontSizeStandards.mainHeading,
               fontWeight: 400,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
             }}
+            sx={{ typography: FontSizeStandards.tertiaryHeading }}
           >
             {userMedia?.description || "Description not added"}
           </Typography>
