@@ -164,12 +164,12 @@ function ItemDetail() {
 
           <Typography
             style={{
-              fontSize: FontSizeStandards.tertiaryHeading,
-              fontWeight: 500,
+              fontWeight: 600,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
+            sx={{typography : FontSizeStandards.tertiaryHeading}}
           >
             {userMedia?.user?.username}
           </Typography>
@@ -186,12 +186,12 @@ function ItemDetail() {
           >
             <Typography
               style={{
-                fontSize: "12px",
-                fontWeight: 400,
+                fontWeight: 500,
                 color: AppColors.tertiary,
                 fontFamily: "Poppins",
                 textOverflow: "clip",
               }}
+              sx={{typography : FontSizeStandards.tertiaryHeading}}
             >
               Owner
             </Typography>
@@ -211,12 +211,12 @@ function ItemDetail() {
 
           <Typography
             style={{
-              fontSize: FontSizeStandards.tertiaryHeading,
-              fontWeight: 500,
+              fontWeight: 600,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
+            sx={{typography : FontSizeStandards.tertiaryHeading}}
           >
             {moment(userMedia?.created_at).format("MMM Do yy")}
           </Typography>
@@ -304,99 +304,106 @@ function ItemDetail() {
           {userMedia?.videos?.map((singleVideo, index) => {
             return (
               <Grid
-              height={isPortrait? {xs: "250px", sm: "370px",md:"430px",lg:"620px",xl:"650px"}:"auto"}
-              minWidth={"280px"}
-              minHeight={"160px"}
-              width={"100%"}
+              style={{ position: "relative", paddingTop: "56.25%" }}
               key={index}
               >
-                <video
-                  key={index}
-                  ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
-                  style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
-                  controls
-                  controlsList="nodownload noplaybackrate"
-                  muted
-                  src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
-                  type="video/mp4"
-                  preload="auto"
-                  onLoadedMetadata={()=>{
-                    const video = videoPlayerRefs.current[index];    
-                    if(video.videoHeight > video.videoWidth){   
-                      setIsPortrait(true);
-                    }
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
                   }}
-                  onPlay = {()=>{
-                    try{
-                      // check is there any primary audio
-                      // if yes then prefer primary audio else play all audio's
-                      if(userMedia?.primaryAudio != null){
-                        try{
-                          !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
-                        }catch(err){
-                          console.log(err)
-                        }
-                      }else{
-                        for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                >
+                  <video
+                    key={index}
+                    ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
+                    style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
+                    controls
+                    controlsList="nodownload noplaybackrate"
+                    muted
+                    src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
+                    type="video/mp4"
+                    preload="auto"
+                    onLoadedMetadata={()=>{
+                      const video = videoPlayerRefs.current[index];    
+                      if(video.videoHeight > video.videoWidth){   
+                        setIsPortrait(true);
+                      }
+                    }}
+                    onPlay = {()=>{
+                      try{
+                        // check is there any primary audio
+                        // if yes then prefer primary audio else play all audio's
+                        if(userMedia?.primaryAudio != null){
                           try{
-                            !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
-                            if(i === currentSlideIndex){
-                              audioPlayerRefs.current[i].volume = 1
-                            }else{
-                              audioPlayerRefs.current[i].volume = 0
-                            }
+                            !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
                           }catch(err){
                             console.log(err)
                           }
+                        }else{
+                          for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                            try{
+                              !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
+                              if(i === currentSlideIndex){
+                                audioPlayerRefs.current[i].volume = 1
+                              }else{
+                                audioPlayerRefs.current[i].volume = 0
+                              }
+                            }catch(err){
+                              console.log(err)
+                            }
+                          }
                         }
-                      }
-                      // play all videos
-                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                        try{
-                          !isPlaying && videoPlayerRefs?.current[i]?.play();
-                        }catch(err){
-                          console.log(err, '-------')
+                        // play all videos
+                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                          try{
+                            !isPlaying && videoPlayerRefs?.current[i]?.play();
+                          }catch(err){
+                            console.log(err, '-------')
+                          }
                         }
-                      }
-                      setIsPlaying(true);
-                    }
-                    catch(err){
-                      console.log(err, 'err onPlay')
-                    }
-                  }}
-                  onPause = {()=>{
-                    for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
-                      try{
-                        isPlaying && videoPlayerRefs?.current[i]?.pause()
-                        isPlaying && audioPlayerRefs?.current[i]?.pause();
+                        setIsPlaying(true);
                       }
                       catch(err){
-                        console.log(err, 'err onPause')
+                        console.log(err, 'err onPlay')
                       }
-                    }
-                    setIsPlaying(false);
-                  }}
-                  onTimeUpdate={(e)=>{
-                    let videoTime = e.currentTarget.currentTime;
-                    setVideoCurrentTime(videoTime)
-                  }}
-                  onEnded={()=>{
-                      for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
-                        isPlaying && audioPlayerRefs?.current[i]?.pause();
-                      }
-                      setIsPlaying(false)
-                      setVideoCurrentTime(0);
+                    }}
+                    onPause = {()=>{
                       for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                         try{
-                          videoPlayerRefs.current[i].currentTime = 0;
-                          audioPlayerRefs.current[i].currentTime = 0;
-                        }catch(err){
-                          console.log(err, '-------')
+                          isPlaying && videoPlayerRefs?.current[i]?.pause()
+                          isPlaying && audioPlayerRefs?.current[i]?.pause();
+                        }
+                        catch(err){
+                          console.log(err, 'err onPause')
+                        }
+                      }
+                      setIsPlaying(false);
+                    }}
+                    onTimeUpdate={(e)=>{
+                      let videoTime = e.currentTarget.currentTime;
+                      setVideoCurrentTime(videoTime)
+                    }}
+                    onEnded={()=>{
+                        for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                          isPlaying && audioPlayerRefs?.current[i]?.pause();
+                        }
+                        setIsPlaying(false)
+                        setVideoCurrentTime(0);
+                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                          try{
+                            videoPlayerRefs.current[i].currentTime = 0;
+                            audioPlayerRefs.current[i].currentTime = 0;
+                          }catch(err){
+                            console.log(err, '-------')
+                          }
                         }
                       }
                     }
-                  }
-                />
+                  />
+                </Box>
               </Grid>
             );
           })}

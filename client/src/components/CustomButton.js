@@ -19,7 +19,7 @@ function CustomButton({
     <Button
       disabled={isDisable}
       type={type}
-      startIcon={PrefixIcon && <PrefixIcon style={{ width: 24, height: 24,color:IconColor }} />}
+      startIcon={PrefixIcon && <PrefixIcon style={{ color:IconColor }} sx={{width:{xs:20,sm:21,md:22,lg:23,xl:24} , height:{xs:20,sm:21,md:22,lg:23,xl:24}}} />}
       endIcon= {SuffixIcon && <SuffixIcon style={{ width: 24, height: 24 }} />}
       style={{minWidth:"max-content"}}
       sx={{

@@ -48,7 +48,6 @@ function UpdateProfile({}) {
   };
 
   const updateProfileData = async (nameValue) => {
-    setLoading(true);
     let response = await ApiManager.updateProfile(
       userReducerState?.authToken,
       nameValue,
@@ -81,12 +80,16 @@ function UpdateProfile({}) {
   };
 
   const handleSubmit = (event, values) => {
+    if(!loading){
+    setLoading(true);
     try {
+      setName(event.name)
       updateProfileData(event.name);
       // navigate("/");
     } catch (error) {
       console.log(error);
     }
+  }
   };
 
   const handleFocus = (fieldName) => {
