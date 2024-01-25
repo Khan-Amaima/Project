@@ -21,6 +21,7 @@ import { FontSizeStandards } from "../../constants/FontSizeStandards";
 import ApiManager from "../../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { setCurrentUserAuthToken, setCurrentUserDetail } from "../../redux/actions/userActions";
+import SvgIcons from "../../assets/images/svgicons";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -83,13 +84,13 @@ function Login() {
       maxWidth="auto"
       style={{
         height: "100vh",
+        overflow:"scroll",
         backgroundColor: AppColors.backgroundColor,
-        display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Container component="main" maxWidth="sm" disableGutters>
+      <Container component="main" maxWidth="sm" disableGutters style={{marginTop:"50px",marginBottom:"50px"}}>
         <Container
           style={{
             display: "flex",
@@ -100,13 +101,13 @@ function Login() {
           }}
         >
           <Box
-            component="img"
             sx={{
               height: 50,
               width: 40,
             }}
-            src={appImage}
-          />
+          >
+            {SvgIcons.appLogo}
+          </Box>
           <Typography
             component="h1"
             variant="h5"

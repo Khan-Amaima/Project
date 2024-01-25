@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import IconButton from "@mui/material/IconButton";
@@ -32,11 +32,14 @@ function UpdateProfile({}) {
   const userReducerState = useSelector((state) => state.userRed);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isDataGetting, setIsDataGetting] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const getProfileData = async () => {
+    setIsDataGetting(true);
     let response = await ApiManager.getProfile(userReducerState?.authToken);
     if (response?.data?.success) {
+      setIsDataGetting(false);
       setName(response.data.data.user.first_name);
       setEmail(response.data.data.user.email);
       if (response.data.data.profile_picture) {
@@ -44,6 +47,8 @@ function UpdateProfile({}) {
         setPictureFile(file);
         setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`);
       }
+    }else{
+      setIsDataGetting(false);
     }
   };
 
@@ -174,7 +179,21 @@ function UpdateProfile({}) {
         margin: "",
       }}
     >
-      <Grid item xs={12} md={12} alignItems={"start"} justifyContent={"start"}>
+     
+        {isDataGetting ? 
+        ( <CircularProgress
+          size={50}
+          style={{
+            marginTop:40,
+            marginBottom:40,
+            marginInline:30,
+            padding: 1,
+            color: AppColors.primary,
+          }}
+        />
+        ):(
+        <>
+        <Grid item xs={12} md={12} alignItems={"start"} justifyContent={"start"}>
         <Typography
           variant="h6"
           component="h2"
@@ -611,6 +630,9 @@ function UpdateProfile({}) {
           <Verified style={{ width: "60px", height: "60px", color: "green" }} />
         }
       />
+      </>
+      )}
+    
     </Grid>
   );
 }

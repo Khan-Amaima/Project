@@ -369,10 +369,25 @@ function ItemDetail() {
                     type="video/mp4"
                     preload="auto"
                     onLoadedMetadata={() => {
+                      console.log("Meta Data Loaded")
                       const video = videoPlayerRefs.current[index];
                       if (video.videoHeight > video.videoWidth) {
                         setIsPortrait(true);
                       }
+                    }}
+
+                    onWaiting={
+                      () => {
+                        console.log('Video is waiting/buffering');
+                      }
+                    }
+
+                    onCanPlay={()=>{
+                      console.log("Can Play")
+                    }}
+
+                    onCanPlayThrough={()=>{
+                      console.log("Can Play Through")
                     }}
                     onPlay={() => {
                       try {

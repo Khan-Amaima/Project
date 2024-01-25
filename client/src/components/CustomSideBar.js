@@ -17,6 +17,8 @@ import ApiManager from "../api/ApiManager";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { setCurrentUserAuthToken } from "../redux/actions/userActions";
 import navigation from "../constants/Navigation";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -67,12 +69,41 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-function CustomSideBar({ theme, open, handleDrawerClose }) {
+function CustomSideBar({ theme, open, handleDrawerClose,handleDrawerOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const userReducerState = useSelector((state) => state.userRed);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Check the screen width and update the state
+      setIsSmallScreen(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    // Initial check on mount
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on component unmount
+    
+
+    // Effect for handling drawer open/close based on screen size and drawer state
+   
+
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isSmallScreen, open, handleDrawerClose]);
+  if ((isSmallScreen && open) || (!isSmallScreen && !open)) {
+    if (isSmallScreen) {
+      handleDrawerClose();
+    } 
+  }
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>

@@ -8,10 +8,11 @@ import AppColors from "../../constants/AppColors";
 import { appImage } from "../../assets/images";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { FormHelperText } from "@mui/material";
+import { FormHelperText, SvgIcon } from "@mui/material";
 import { CustomStyle } from "../../constants/CustomStyle";
 import CustomButton from "../../components/CustomButton";
 import { FontSizeStandards } from "../../constants/FontSizeStandards";
+import SvgIcons from "../../assets/images/svgicons";
 
 function ForgotPassword() {
   const [loading, setLoading] = useState(false);
@@ -70,13 +71,13 @@ function ForgotPassword() {
       maxWidth="auto"
       style={{
         height: "100vh",
+        overflow:"scroll",
         backgroundColor: AppColors.backgroundColor,
-        display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Container component="main" maxWidth="sm" disableGutters>
+      <Container component="main" maxWidth="sm" disableGutters  style={{marginTop:"50px",marginBottom:"50px"}}>
         <Container
           style={{
             display: "flex",
@@ -87,17 +88,13 @@ function ForgotPassword() {
           }}
         >
           <Box
-            component="img"
             sx={{
-              box: {
-                xs: AppIcon.xs,
-                sm: AppIcon.sm,
-                md: AppIcon.md,
-                lg: AppIcon.lg,
-              },
+              height: 50,
+              width: 40,
             }}
-            src={appImage}
-          />
+          >
+            {SvgIcons.appLogo}
+          </Box>
           <Typography
             component="h1"
             variant="h5"
