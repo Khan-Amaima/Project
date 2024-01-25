@@ -115,7 +115,8 @@ class UserUpdateProfileView(APIView):
                 profileObject.profile_picture.delete()
             profileObject.profile_picture = picture[0]
         profileObject.save()
-        return Response({'success' : True, "message": "Profile Updated Successfully.",}, status=status.HTTP_200_OK)
+        serializer = UserProfileSerializer(profileObject)
+        return Response({'success' : True, "message": "Profile Updated Successfully.", 'data' : serializer.data}, status=status.HTTP_200_OK)
 
 class UserGetProfileView(APIView):
     authentication_classes = [TokenAuthentication]

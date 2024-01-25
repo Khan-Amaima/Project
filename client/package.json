@@ -1,6 +1,5 @@
 {
   "homepage": ".",
-  "proxy": "http://52.37.159.33:8000",
   "name": "rostraa",
   "version": "0.1.0",
   "private": true,

@@ -13,7 +13,7 @@ function CustomCard(props) {
             <CardActionArea onClick={()=>{navigate(`/itemDetail/${id}`)}}style={{justifyContent:"center",alignItems:"center",display:"flex",flexDirection:"column"}}>
                 <LazyThumbnail item={thumbnail} height={140} width={"auto"}/>
                 <Container style={{ display: 'flex', justifyContent: 'start', alignItems: 'start', padding: 0, margin: 0, marginTop: '10px', }}>
-                    <Avatar sx={{ bgcolor: AppColors.tertiary, marginRight: '10px', width: 30, height: 30 }}>{user.username[0]}</Avatar>
+                    <Avatar sx={{ bgcolor: AppColors.tertiary, marginRight: '10px', width: 30, height: 30 }}>{user.first_name[0]}</Avatar>
                     <Box>
                         <Typography style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: '600', color: title ? AppColors.tertiary : AppColors.secondary }}>
                             {title || 'Title not added.'}

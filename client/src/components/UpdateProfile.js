@@ -12,10 +12,12 @@ import { CustomStyle } from "../constants/CustomStyle";
 import { ImageSize } from "../constants/BoxSizes";
 import CustomIcon from "./CustomIcon";
 import CustomButton from "./CustomButton";
-import { useSelector } from "react-redux";
 import ApiManager from "../api/ApiManager";
 import ConfirmationModal from "./ConfirmationModal";
 import { Verified } from "@mui/icons-material";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { setCurrentUserDetail } from "../redux/actions/userActions";
+
 
 function UpdateProfile({}) {
   const [name, setName] = useState("");
@@ -30,6 +32,7 @@ function UpdateProfile({}) {
   const [responseMessage, setResponseMessage] = useState("");
   const pictureInputRef = useRef();
   const userReducerState = useSelector((state) => state.userRed);
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
@@ -56,6 +59,7 @@ function UpdateProfile({}) {
     if(response.success){
       setLoading(false);
       setMessage(response.message);
+      dispatch(setCurrentUserDetail(response.data.user));
       handleModal();
       setIsDisableButton(true);
     }else{
@@ -615,4 +619,8 @@ function UpdateProfile({}) {
   );
 }
 
-export default UpdateProfile;
+const mapDispatchToProps = {
+  setCurrentUserDetail,
+};
+
+export default connect(null, mapDispatchToProps)(UpdateProfile);

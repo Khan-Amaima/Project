@@ -171,7 +171,7 @@ function ItemDetail() {
             }}
             sx={{typography : FontSizeStandards.tertiaryHeading}}
           >
-            {userMedia?.user?.username}
+            {userMedia?.user?.first_name ?? userMedia?.user?.username}
           </Typography>
 
           <Box
