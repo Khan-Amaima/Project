@@ -5,7 +5,7 @@ from .models import Video, UserMediaFetch, UserMedia
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'first_name', 'email']
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:

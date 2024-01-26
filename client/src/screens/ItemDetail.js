@@ -1,13 +1,5 @@
 import { Delete, IosShare, KeyboardBackspace } from "@mui/icons-material";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Container, Grid, IconButton, Typography } from "@mui/material";
 import AppColors from "../constants/AppColors";
 import { FontSizeStandards } from "../constants/FontSizeStandards";
 import SvgIcons from "../assets/images/svgicons";
@@ -19,12 +11,6 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiManager from "../api/ApiManager";
 import moment from "moment";
-import { Slider, Tooltip } from "@mui/material";
-
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 function ItemDetail() {
   const { id } = useParams();
@@ -34,71 +20,68 @@ function ItemDetail() {
   const [pictureFile, setPictureFile] = useState();
   const userReducerState = useSelector((state) => state.userRed);
   const [userMedia, setUserMedia] = useState();
-
+  
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   let [videoCurrentTime, setVideoCurrentTime] = useState(0);
   let [isPlaying, setIsPlaying] = useState(false);
   let videoPlayerRefs = useRef([]);
   let audioPlayerRefs = useRef([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [isPortrait, setIsPortrait] = useState(false);
-
+  
   const handleModal = () => setIsModalOpen(!isModalOpen);
   const handleConfirmModal = () => setIsConfirmModalOpen(!isConfirmModalOpen);
-
+  
   const fetchVideos = async () => {
     setLoading(true);
-    let response = await ApiManager.fetchVideos(
-      userReducerState?.authToken,
-      id
-    );
-    if (response.success) {
+    let response = await ApiManager.fetchVideos(userReducerState?.authToken, id);
+    if(response.success){
       setUserMedia(response.data[0]);
     }
-    setLoading(false);
+    setLoading(false)
   };
+  
   useEffect(() => {
     fetchVideos();
   }, []);
 
   const handleDeleteVideo = async (id) => {
-    let response = await ApiManager.deleteVideo(
-      userReducerState?.authToken,
-      id
-    );
-    if (response.data.success) {
-      setIsConfirmModalOpen(!isConfirmModalOpen);
+    let response = await ApiManager.deleteVideo(userReducerState?.authToken, id)
+    if(response.data.success){
+      setIsConfirmModalOpen(!isConfirmModalOpen)
       navigate(-1);
-      fetchVideos();
+      fetchVideos()
     }
-  };
-
-  return loading ? (
-    <Box
-      maxWidth="100vw"
-      style={{
-        height: "82vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <CircularProgress
-        size={50}
+  }
+  
+  return (
+    loading ? 
+    (
+      <Box
+        maxWidth="100vw"
         style={{
-          marginInline: 30,
-          padding: 1,
-          color: AppColors.primary,
+          height: "82vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      />
-    </Box>
-  ) : (
+      >
+        <CircularProgress
+          size={50}
+          style={{
+            marginInline: 30,
+            padding: 1,
+            color: AppColors.primary,
+          }}
+        />
+      </Box>
+    )
+    : 
     <Grid>
       <Grid
         item
         xs={11.5}
         md={11.5}
-      
         style={{
           display: "flex",
           direction: "row",
@@ -113,7 +96,7 @@ function ItemDetail() {
           size="large"
           color={AppColors.primary}
           onClick={() => {
-            navigate(-1);
+            navigate(-1)
           }}
           aria-label="open drawer"
         >
@@ -145,7 +128,6 @@ function ItemDetail() {
           item
           xs={5.5}
           md={5.5}
-          // minWidth={"350px"}
           style={{
             marginTop: "40px",
             display: "flex",
@@ -187,9 +169,9 @@ function ItemDetail() {
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
-            sx={{ typography: FontSizeStandards.tertiaryHeading }}
+            sx={{typography : FontSizeStandards.tertiaryHeading}}
           >
-            {userMedia?.user?.username}
+            {userMedia?.user?.first_name ?? userMedia?.user?.username}
           </Typography>
 
           <Box
@@ -204,12 +186,12 @@ function ItemDetail() {
           >
             <Typography
               style={{
-                fontWeight: 400,
+                fontWeight: 500,
                 color: AppColors.tertiary,
                 fontFamily: "Poppins",
                 textOverflow: "clip",
               }}
-              sx={{ typography: FontSizeStandards.tertiaryHeading }}
+              sx={{typography : FontSizeStandards.tertiaryHeading}}
             >
               Owner
             </Typography>
@@ -229,51 +211,40 @@ function ItemDetail() {
 
           <Typography
             style={{
-              fontSize: FontSizeStandards.tertiaryHeading,
               fontWeight: 600,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
               textOverflow: "clip",
             }}
-            sx={{ typography: FontSizeStandards.tertiaryHeading }}
+            sx={{typography : FontSizeStandards.tertiaryHeading}}
           >
             {moment(userMedia?.created_at).format("MMM Do yy")}
           </Typography>
         </Grid>
 
-        {userMedia?.primaryAudio != null ? (
-          <audio
-            ref={(ref) =>
-              ref != null &&
-              !audioPlayerRefs.current.includes(ref) &&
-              audioPlayerRefs.current.push(ref)
-            }
-            style={{ display: "none" }}
-            src={`${process.env.REACT_APP_BASE_URL}${
-              userMedia?.primaryAudio?.audio != null &&
-              userMedia?.primaryAudio?.audio
-            }`}
-            controls
-          ></audio>
-        ) : (
+        {
+          userMedia?.primaryAudio != null ?            
+            <audio 
+              ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+              style={{display: 'none'}}
+              src={`${process.env.REACT_APP_BASE_URL}${userMedia?.primaryAudio?.audio != null &&  userMedia?.primaryAudio?.audio}`} 
+              controls
+            >
+            </audio>
+          :
           userMedia?.videos?.map((singleVideo, index) => {
             return (
-              <audio
-                key={index}
-                ref={(ref) =>
-                  ref != null &&
-                  !audioPlayerRefs.current.includes(ref) &&
-                  audioPlayerRefs.current.push(ref)
-                }
-                style={{ display: "none" }}
-                src={`${process.env.REACT_APP_BASE_URL}${
-                  singleVideo.audio != null && singleVideo.audio
-                }`}
+              <audio 
+                key={index} 
+                ref={ref => ref != null && !audioPlayerRefs.current.includes(ref) && audioPlayerRefs.current.push(ref)}
+                style={{display: 'none'}}
+                src={`${process.env.REACT_APP_BASE_URL}${singleVideo.audio != null &&  singleVideo.audio}`} 
                 controls
-              ></audio>
+              >
+              </audio>
             );
           })
-        )}
+        }
         <Carousel
           additionalTransfrom={0}
           arrows
@@ -282,16 +253,16 @@ function ItemDetail() {
           minimumTouchDrag={80}
           showDots={false}
           slidesToSlide={1}
-          beforeChange={(e) => {
-            if (userMedia?.primaryAudio == null) {
-              if (isPlaying && userMedia.videos[e].audio != null) {
+          beforeChange={(e)=>{
+            if(userMedia?.primaryAudio == null){
+              if(isPlaying && userMedia.videos[e].audio != null){
                 audioPlayerRefs.current[e].volume = 1;
               }
             }
-            setCurrentSlideIndex(e);
+            setCurrentSlideIndex(e)
           }}
-          afterChange={(e) => {
-            if (userMedia?.primaryAudio == null && isPlaying) {
+          afterChange={(e)=>{
+            if(userMedia?.primaryAudio == null && isPlaying){
               audioPlayerRefs.current[e].volume = 0;
             }
           }}
@@ -333,12 +304,8 @@ function ItemDetail() {
           {userMedia?.videos?.map((singleVideo, index) => {
             return (
               <Grid
-                // height={isPortrait? {xs: "250px", sm: "370px",md:"430px",lg:"620px",xl:"650px"}:"auto"}
-                // minWidth={"310px"}
-                // minHeight={"160px"}
-                // width={"100%"}
-                style={{ position: "relative", paddingTop: "56.25%" }}
-                key={index}
+              style={{ position: "relative", paddingTop: "56.25%" }}
+              key={index}
               >
                 <Box
                   style={{
@@ -351,142 +318,97 @@ function ItemDetail() {
                 >
                   <video
                     key={index}
-                    ref={(ref) =>
-                      ref != null &&
-                      !videoPlayerRefs.current.includes(ref) &&
-                      videoPlayerRefs.current.push(ref)
-                    }
-                    style={{
-                      borderRadius: "10px",
-                      objectFit: "contain",
-                      width: "100%",
-                      height: "100%" ,
-                    }}
+                    ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
+                    style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
                     controls
                     controlsList="nodownload noplaybackrate"
                     muted
                     src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                     type="video/mp4"
                     preload="auto"
-                    onLoadedMetadata={() => {
-                      console.log("Meta Data Loaded")
-                      const video = videoPlayerRefs.current[index];
-                      if (video.videoHeight > video.videoWidth) {
+                    onLoadedMetadata={()=>{
+                      const video = videoPlayerRefs.current[index];    
+                      if(video.videoHeight > video.videoWidth){   
                         setIsPortrait(true);
                       }
                     }}
-
-                    onWaiting={
-                      () => {
-                        console.log('Video is waiting/buffering');
-                      }
-                    }
-
-                    onCanPlay={()=>{
-                      console.log("Can Play")
-                    }}
-
-                    onCanPlayThrough={()=>{
-                      console.log("Can Play Through")
-                    }}
-                    onPlay={() => {
-                      try {
+                    onPlay = {()=>{
+                      try{
                         // check is there any primary audio
                         // if yes then prefer primary audio else play all audio's
-                        if (userMedia?.primaryAudio != null) {
-                          try {
-                            !isPlaying &&
-                              userMedia?.videos[0]?.audio != null &&
-                              audioPlayerRefs?.current[0]?.play();
-                          } catch (err) {
-                            console.log(err);
+                        if(userMedia?.primaryAudio != null){
+                          try{
+                            !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
+                          }catch(err){
+                            console.log(err)
                           }
-                        } else {
-                          for (
-                            let i = 0;
-                            i < audioPlayerRefs?.current?.length;
-                            i++
-                          ) {
-                            try {
-                              !isPlaying &&
-                                userMedia?.videos[i]?.audio != null &&
-                                audioPlayerRefs?.current[i]?.play();
-                              if (i === currentSlideIndex) {
-                                audioPlayerRefs.current[i].volume = 1;
-                              } else {
-                                audioPlayerRefs.current[i].volume = 0;
+                        }else{
+                          for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                            try{
+                              !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
+                              if(i === currentSlideIndex){
+                                audioPlayerRefs.current[i].volume = 1
+                              }else{
+                                audioPlayerRefs.current[i].volume = 0
                               }
-                            } catch (err) {
-                              console.log(err);
+                            }catch(err){
+                              console.log(err)
                             }
                           }
                         }
                         // play all videos
-                        for (
-                          let i = 0;
-                          i < videoPlayerRefs?.current?.length;
-                          i++
-                        ) {
-                          try {
+                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                          try{
                             !isPlaying && videoPlayerRefs?.current[i]?.play();
-                          } catch (err) {
-                            console.log(err, "-------");
+                          }catch(err){
+                            console.log(err, '-------')
                           }
                         }
                         setIsPlaying(true);
-                      } catch (err) {
-                        console.log(err, "err onPlay");
+                      }
+                      catch(err){
+                        console.log(err, 'err onPlay')
                       }
                     }}
-                    onPause={() => {
-                      for (
-                        let i = 0;
-                        i < videoPlayerRefs?.current?.length;
-                        i++
-                      ) {
-                        try {
-                          isPlaying && videoPlayerRefs?.current[i]?.pause();
+                    onPause = {()=>{
+                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                        try{
+                          isPlaying && videoPlayerRefs?.current[i]?.pause()
                           isPlaying && audioPlayerRefs?.current[i]?.pause();
-                        } catch (err) {
-                          console.log(err, "err onPause");
+                        }
+                        catch(err){
+                          console.log(err, 'err onPause')
                         }
                       }
                       setIsPlaying(false);
                     }}
-                    onTimeUpdate={(e) => {
+                    onTimeUpdate={(e)=>{
                       let videoTime = e.currentTarget.currentTime;
-                      setVideoCurrentTime(videoTime);
+                      setVideoCurrentTime(videoTime)
                     }}
-                    onEnded={() => {
-                      for (
-                        let i = 0;
-                        i < audioPlayerRefs?.current?.length;
-                        i++
-                      ) {
-                        isPlaying && audioPlayerRefs?.current[i]?.pause();
-                      }
-                      setIsPlaying(false);
-                      setVideoCurrentTime(0);
-                      for (
-                        let i = 0;
-                        i < videoPlayerRefs?.current?.length;
-                        i++
-                      ) {
-                        try {
-                          videoPlayerRefs.current[i].currentTime = 0;
-                          audioPlayerRefs.current[i].currentTime = 0;
-                        } catch (err) {
-                          console.log(err, "-------");
+                    onEnded={()=>{
+                        for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+                          isPlaying && audioPlayerRefs?.current[i]?.pause();
+                        }
+                        setIsPlaying(false)
+                        setVideoCurrentTime(0);
+                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                          try{
+                            videoPlayerRefs.current[i].currentTime = 0;
+                            audioPlayerRefs.current[i].currentTime = 0;
+                          }catch(err){
+                            console.log(err, '-------')
+                          }
                         }
                       }
-                    }}
+                    }
                   />
                 </Box>
               </Grid>
             );
           })}
         </Carousel>
-
+  
         <Grid
           item
           xs={11.5}
@@ -504,11 +426,12 @@ function ItemDetail() {
           <Box>
             <Typography
               style={{
+                fontSize: "22px",
                 fontWeight: 600,
                 color: AppColors.tertiary,
                 fontFamily: "Poppins",
               }}
-              sx={{ typography: FontSizeStandards.tertiaryHeading }}
+              sx={FontSizeStandards.mainHeading}
             >
               {userMedia?.title || "Title not added"}
             </Typography>
@@ -535,6 +458,7 @@ function ItemDetail() {
               buttonStyle={{
                 borderRadius: 50,
                 fontFamily: "Poppins",
+                fontSize: "14px",
                 fontWeight: 600,
                 color: AppColors.primary,
                 marginY: 1,
@@ -542,33 +466,30 @@ function ItemDetail() {
                 paddingX: 2,
               }}
             />
-            {userMedia?.user?.email === userReducerState?.userDetail?.email && (
-              <CustomButton
-                onTap={() => {
-                  handleConfirmModal();
-                }}
-                prefixIcon={Delete}
-                text={"Delete"}
-                loading={false}
-                buttonStyle={{
-                  borderRadius: 50,
-                  fontFamily: "Poppins",
-                  fontWeight: 600,
-                  color: "red",
-                  marginY: 1,
-                  marginX: 0,
-                  paddingX: 2,
-                }}
-              />
-            )}
+            {userMedia?.user?.email === userReducerState?.userDetail?.email &&  <CustomButton
+              onTap={() => {
+                handleConfirmModal();
+              }}
+              prefixIcon={Delete}
+              text={"Delete"}
+              loading={false}
+              buttonStyle={{
+                borderRadius: 50,
+                fontFamily: "Poppins",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "red",
+                marginY: 1,
+                marginX: 0,
+                paddingX: 2,
+              }}
+            />}
             <ConfirmationModal
               isModelOpen={isConfirmModalOpen}
               confirmationText={"Are you sure, you want to delete this file?"}
               leftButtonText={"Cancel"}
               rightButtonText={"Delete"}
-              leftButtonFunction={() => {
-                handleConfirmModal();
-              }}
+              leftButtonFunction={() => {handleConfirmModal()}}
               rightButtonFunction={() => handleDeleteVideo(id)}
               icon={
                 <Delete
@@ -588,11 +509,11 @@ function ItemDetail() {
         >
           <Typography
             style={{
+              fontSize: FontSizeStandards.mainHeading,
               fontWeight: 400,
               color: AppColors.tertiary,
               fontFamily: "Poppins",
             }}
-            sx={{ typography: FontSizeStandards.tertiaryHeading }}
           >
             {userMedia?.description || "Description not added"}
           </Typography>
