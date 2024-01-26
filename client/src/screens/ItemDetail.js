@@ -53,6 +53,47 @@ function ItemDetail() {
       fetchVideos()
     }
   }
+
+  const handlePlayVideoAndAudio = () =>{
+    try{
+      // focus the video player on enable the keyboard controls
+      videoPlayerRefs?.current[0]?.focus();
+      // check is there any primary audio
+      // if yes then prefer primary audio else play all audio's
+      if(userMedia?.primaryAudio != null){
+        try{
+          !isPlaying && userMedia?.videos[0]?.audio != null && audioPlayerRefs?.current[0]?.play();
+        }catch(err){
+          console.log(err)
+        }
+      }else{
+        for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
+          try{
+            !isPlaying && userMedia?.videos[i]?.audio != null && audioPlayerRefs?.current[i]?.play();
+            if(i === currentSlideIndex){
+              audioPlayerRefs.current[i].volume = 1
+            }else{
+              audioPlayerRefs.current[i].volume = 0
+            }
+          }catch(err){
+            console.log(err)
+          }
+        }
+      }
+      // play all videos
+      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+        try{
+          !isPlaying && videoPlayerRefs?.current[i]?.play();
+        }catch(err){
+          console.log(err, '-------')
+        }
+      }
+      setIsPlaying(true);
+    }
+    catch(err){
+      console.log(err, 'err onPlay')
+    }
+  }
   
   return (
     loading ? 
@@ -253,6 +294,7 @@ function ItemDetail() {
           minimumTouchDrag={80}
           showDots={false}
           slidesToSlide={1}
+          keyBoardControl={true}
           beforeChange={(e)=>{
             if(userMedia?.primaryAudio == null){
               if(isPlaying && userMedia.videos[e].audio != null){
@@ -327,10 +369,7 @@ function ItemDetail() {
                     type="video/mp4"
                     preload="auto"
                     onLoadedMetadata={()=>{
-                      const video = videoPlayerRefs.current[index];    
-                      if(video.videoHeight > video.videoWidth){   
-                        setIsPortrait(true);
-                      }
+                      handlePlayVideoAndAudio()
                     }}
                     onPlay = {()=>{
                       try{
@@ -403,7 +442,7 @@ function ItemDetail() {
                     }}
                     onWaiting={
                       () => {
-                        console.log('Video is waiting/buffering');
+                        // console.log('Video is waiting/buffering');
                         for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                           try{
                             isPlaying && audioPlayerRefs?.current[i]?.pause();
@@ -415,7 +454,7 @@ function ItemDetail() {
                       }
                     }
                     onCanPlay={()=>{
-                      console.log("Can Play")
+                      // console.log("Can Play")
                       for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
                         try{
                           isPlaying && audioPlayerRefs?.current[i]?.play();
@@ -428,6 +467,7 @@ function ItemDetail() {
                     onEnded={()=>{
                         for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
                           isPlaying && audioPlayerRefs?.current[i]?.pause();
+                          isPlaying && videoPlayerRefs?.current[i]?.pause();
                         }
                         setIsPlaying(false)
                         setVideoCurrentTime(0);
@@ -439,6 +479,9 @@ function ItemDetail() {
                             console.log(err, '-------')
                           }
                         }
+                        setTimeout(() => {
+                          handlePlayVideoAndAudio();
+                        }, 500);
                       }
                     }
                   />

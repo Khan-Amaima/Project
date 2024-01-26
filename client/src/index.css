@@ -38,3 +38,11 @@ code {
 .react-multi-carousel-item{
   width: 'auto' !important;
 }
+
+video::-webkit-media-controls-volume-slider {
+  display:none;
+  }
+  
+video::-webkit-media-controls-mute-button {
+  display:none;
+}
