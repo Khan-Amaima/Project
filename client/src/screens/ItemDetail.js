@@ -382,9 +382,48 @@ function ItemDetail() {
                       }
                       setIsPlaying(false);
                     }}
+                    // onSeeked={(e)=>{
+                    //   let videoTime = e.currentTarget.currentTime;
+                    //   setVideoCurrentTime(videoTime)
+                    //   for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                    //     try{
+                    //       audioPlayerRefs.current[i].currentTime = videoTime;
+                    //       if(i !== currentSlideIndex){
+                    //         videoPlayerRefs.current[i].currentTime = videoTime;
+                    //       }
+                    //     }
+                    //     catch(err){
+                    //       console.log(err, 'err onPause')
+                    //     }
+                    //   }
+                    // }}
                     onTimeUpdate={(e)=>{
                       let videoTime = e.currentTarget.currentTime;
                       setVideoCurrentTime(videoTime)
+                    }}
+                    onWaiting={
+                      () => {
+                        console.log('Video is waiting/buffering');
+                        for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                          try{
+                            isPlaying && audioPlayerRefs?.current[i]?.pause();
+                          }
+                          catch(err){
+                            console.log(err, 'err onPause')
+                          }
+                        }
+                      }
+                    }
+                    onCanPlay={()=>{
+                      console.log("Can Play")
+                      for(let i=0 ; i < videoPlayerRefs?.current?.length ; i++){
+                        try{
+                          isPlaying && audioPlayerRefs?.current[i]?.play();
+                        }
+                        catch(err){
+                          console.log(err, 'err onPause')
+                        }
+                      }
                     }}
                     onEnded={()=>{
                         for(let i=0 ; i < audioPlayerRefs?.current?.length ; i++){
