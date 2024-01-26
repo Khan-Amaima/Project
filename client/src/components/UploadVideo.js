@@ -37,6 +37,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
   const [videoDuration, setVideoDuration] = useState(null);
   const [isErrorCase, setIsErrorCase] = useState(false);
   const [message, setMessage] = useState("");
+  const [totalNumberVideos ,setTotalNumberVideos] = useState(20);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const videoEl = useRef(null);
 
@@ -46,60 +47,138 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
     setMessage("")
   };
   const handleFileChange = async (event) => {
-    if (tableData.length >= 0 && tableData.length < 4) {
-      try {
+  
+    const videoFiles = event.target.files;
 
-        const file = event.target.files[0];
+    if (videoFiles.length > 0 && videoFiles.length <= totalNumberVideos && tableData.length <= totalNumberVideos)  {
+     
+         try {
 
-        if (file) {
-          const url = URL.createObjectURL(file);
+              let listOfObjects=[];
+              let primaryDuration= null;
+            if(tableData.length==0){
 
-          const video = document.createElement("video");
-          video.src = url;
-          await new Promise((resolve) => {
-            video.addEventListener("loadedmetadata", resolve);
-          });
+              for (let index = 0; index < videoFiles.length; index++) {
+                const file = videoFiles[index];
+                console.log("file---------------------------",file)
 
-          const durationInSeconds = video.duration;
-          const totalDurationSeconds = Math.round(durationInSeconds);
-          if (tableData.length == 0 &&  (totalDurationSeconds <= 30 && videoDuration == null)) {
-            setVideoDuration(totalDurationSeconds);
-          }
-         
+                if (file) {
+                  const url = URL.createObjectURL(file);
+        
+                  const video = document.createElement("video");
+                  video.src = url;
+                  await new Promise((resolve) => {
+                    video.addEventListener("loadedmetadata", resolve);
+                  });
+        
+                  const durationInSeconds = video.duration;
+                  const totalDurationSeconds = Math.round(durationInSeconds);
 
-          let customSize = file.size / 1024 / 1024;
-
-          if ((totalDurationSeconds <= 30) && ((totalDurationSeconds == videoDuration) || videoDuration==null)) {
-            setTableData([
-              ...tableData,
-              {
-                video: url,
-                sound: true,
-                size: `${customSize.toFixed(2)}Mb`,
-                file: file,
-              },
+                  if (tableData.length == 0 &&  (totalDurationSeconds <= 30 && videoDuration == null &&  index == 0 )) {
+                    primaryDuration=totalDurationSeconds;
+                    setVideoDuration(totalDurationSeconds);
+                  }
+                
+                  let customSize = file.size / 1024 / 1024;
+                
+                  if ((totalDurationSeconds <= 30) && ((totalDurationSeconds == primaryDuration) )) {
+                
+                    listOfObjects.push({
+                      video: url,
+                      sound: true,
+                      size: `${customSize.toFixed(2)}Mb`,
+                      file: file,
+                    },)
+                    console.log("length table update",listOfObjects.length);
+                  
+                    if (videoFiles.length === totalNumberVideos) {
+                      setButtonDisable(true);
+                    }
+                  }
+                  else {
+                  
+                    console.log( "Duration Error");
+                    if(totalDurationSeconds > 30){
+                      setIsErrorCase(true)
+                      setMessage("The duration of the video must be smaller than 30 seconds.")
+                      setIsConfirmationModalOpen(true);
+                    }
+                    else{
+                      setIsErrorCase(true)
+                      setMessage("The duration of all videos must be the same to proceed.")
+                      setIsConfirmationModalOpen(true);
+                  }}
+                }
+                
+              } setTableData(listOfObjects)
               
-            ]);
-            if (tableData.length === 3) {
-              setButtonDisable(true);
-            }
-          }
-           else {
-            if(totalDurationSeconds > 30){
-              setIsErrorCase(true)
-              setMessage("The duration of the video must be smaller than 30 seconds.")
-              setIsConfirmationModalOpen(true);
-            }
-            else{
-              setIsErrorCase(true)
-              setMessage("The duration of all videos must be the same to proceed.")
-              setIsConfirmationModalOpen(true);
-          }}
+            } else if (tableData.length + videoFiles.length <=totalNumberVideos  ){
+              for (let index = 0; index < videoFiles.length; index++) {
+                const file = videoFiles[index];
+
+                if (file) {
+                  const url = URL.createObjectURL(file);
+        
+                  const video = document.createElement("video");
+                  video.src = url;
+                  await new Promise((resolve) => {
+                    video.addEventListener("loadedmetadata", resolve);
+                  });
+        
+                  const durationInSeconds = video.duration;
+                  const totalDurationSeconds = Math.round(durationInSeconds);
+
+                  if ((totalDurationSeconds <= 30 && totalDurationSeconds==videoDuration )) {
+                    setVideoDuration(totalDurationSeconds);
+                  }
+                
+                  let customSize = file.size / 1024 / 1024;
+                
+                  if ((totalDurationSeconds <= 30) && ((totalDurationSeconds == videoDuration) )) {
+                
+                    listOfObjects.push({
+                      video: url,
+                      sound: true,
+                      size: `${customSize.toFixed(2)}Mb`,
+                      file: file,
+                    },)
+                    console.log("length table update",listOfObjects.length);
+                  
+                    if (tableData.length + listOfObjects.length >= totalNumberVideos) {
+                      setButtonDisable(true);
+                    }
+                  } else {
+                  
+                    console.log( "Duration Error");
+                    if(totalDurationSeconds > 30){
+                      setIsErrorCase(true)
+                      setMessage("The duration of the video must be smaller than 30 seconds.")
+                      setIsConfirmationModalOpen(true);
+                    }else{
+                      setIsErrorCase(true)
+                      setMessage("The duration of all videos must be the same to proceed.")
+                      setIsConfirmationModalOpen(true);
+                    }
+                  }
+                }
+          
+              } setTableData([...tableData ,...listOfObjects])
+        
+            } else {
+                setIsErrorCase(true)
+                setMessage("Cant Add More than 20 Videos")
+                setIsConfirmationModalOpen(true);
             
+            }
+      
+        
+        } catch (err) {
+          console.log(err, "upload Video error");
         }
-      } catch (err) {
-        console.log(err, "upload Video error");
-      }
+    }else {
+      setIsErrorCase(true)
+      setMessage("Cant Add More than 4 Videos")
+      setIsConfirmationModalOpen(true);
     }
   };
 
@@ -235,7 +314,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
               }}
               sx={{typography:FontSizeStandards.subHeading}}
             >
-              Can't Add more than 4 Videos
+              Can't Add more than 20 Videos
             </Typography>
           ) : (
             <Typography
@@ -247,12 +326,13 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
               }}
               sx={{typography:FontSizeStandards.subHeading}}
             >
-              MP3, MP4 or flash, file size no more than 10MB
+              Upload MP4 files, 30 second maximum duration
             </Typography>
           )}
         </Grid>
         <Grid item xs={12}   md={3} style={{justifyContent:"center",alignItems:'center',display:"flex"}}>
           <input
+            multiple
             ref={videoInputRef}
             style={{ display: "none" }}
             type="file"
