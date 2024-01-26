@@ -367,7 +367,7 @@ function ItemDetail() {
                   <video
                     key={index}
                     ref={ref => ref != null && !videoPlayerRefs.current.includes(ref) && videoPlayerRefs.current.push(ref)}
-                    style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
+                    style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: "100%"}}
                     controls
                     controlsList="nodownload noplaybackrate"
                     disablePictureInPicture
