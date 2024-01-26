@@ -35,14 +35,14 @@ function UpdateProfile({}) {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isDataGetting, setIsDataGetting] = useState(false);
+  const [initialDataLoading, setInitialDataLoading] = useState(false);
   const handleModal = () => setIsModalOpen(!isModalOpen);
 
   const getProfileData = async () => {
-    setIsDataGetting(true);
+    setInitialDataLoading(true);
     let response = await ApiManager.getProfile(userReducerState?.authToken);
     if (response?.data?.success) {
-      setIsDataGetting(false);
+      setInitialDataLoading(false);
       setName(response.data.data.user.first_name);
       setEmail(response.data.data.user.email);
       if (response.data.data.profile_picture) {
@@ -51,7 +51,7 @@ function UpdateProfile({}) {
         setPictureUrl(`${process.env.REACT_APP_BASE_URL}${file}`);
       }
     }else{
-      setIsDataGetting(false);
+      setInitialDataLoading(false);
     }
   };
 
@@ -184,7 +184,7 @@ function UpdateProfile({}) {
       }}
     >
      
-        {isDataGetting ? 
+        {initialDataLoading ? 
         ( <CircularProgress
           size={50}
           style={{
