@@ -296,6 +296,9 @@ function ItemDetail() {
           slidesToSlide={1}
           keyBoardControl={true}
           beforeChange={(e)=>{
+            // focus the video player on enable the keyboard controls
+            videoPlayerRefs?.current[0]?.focus();
+
             if(userMedia?.primaryAudio == null){
               if(isPlaying && userMedia.videos[e].audio != null){
                 audioPlayerRefs.current[e].volume = 1;
@@ -304,6 +307,9 @@ function ItemDetail() {
             setCurrentSlideIndex(e)
           }}
           afterChange={(e)=>{
+            // focus the video player on enable the keyboard controls
+            videoPlayerRefs?.current[0]?.focus();
+
             if(userMedia?.primaryAudio == null && isPlaying){
               audioPlayerRefs.current[e].volume = 0;
             }
@@ -364,6 +370,7 @@ function ItemDetail() {
                     style={{ borderRadius: "10px",objectFit:"contain",width:"100%", height: isPortrait? "100%":"auto"}}
                     controls
                     controlsList="nodownload noplaybackrate"
+                    disablePictureInPicture
                     muted
                     src={`${process.env.REACT_APP_BASE_URL}${singleVideo?.video}`}
                     type="video/mp4"

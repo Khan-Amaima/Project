@@ -177,7 +177,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
         }
     }else {
       setIsErrorCase(true)
-      setMessage("Cant Add More than 4 Videos")
+      setMessage("Cant Add More than 20 Videos")
       setIsConfirmationModalOpen(true);
     }
   };
@@ -189,7 +189,7 @@ function UploadVideo({ isModalOpen, handleModal, fetchVideos}) {
     if (tableData.length <= 1) {
       setVideoDuration(null);
     }
-    if (tableData.length <= 4) {
+    if (tableData.length <= 20) {
       setButtonDisable(false);
     }
     
