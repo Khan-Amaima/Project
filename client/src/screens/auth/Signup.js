@@ -99,13 +99,13 @@ function SignUp() {
       maxWidth="auto"
       style={{
         height: "100vh",
+        overflow:"scroll",
         backgroundColor: AppColors.backgroundColor,
-        display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Container component="main" maxWidth="sm" disableGutters>
+      <Container component="main" maxWidth="sm" maxHeight="sm" disableGutters style={{marginTop:"50px",marginBottom:"50px"}}>
         <Container
           style={{
             display: "flex",
