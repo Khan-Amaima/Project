@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'Account',
     'UploadVideo',
     'corsheaders',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -139,12 +140,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_URL = 'https://focusplayermedia.s3.amazonaws.com/static'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
 BASE_MEDIA = 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS_ACCESS_KEY_ID = 'AKIAVJ7N6W6OHSFXYXHI'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'focusplayermedia'
+# AWS_S3_CUSTOM_DOMAIN = f"focusplayermedia.s3.amazonaws.com"
+# AWS_S3_File_OVERWRITE = True
+
+# STORAGES = {
+#             "default": {"BACKEND": 'storages.backends.s3boto3.S3Boto3Storage'},
+#             "staticfiles": {"BACKEND": 'storages.backends.s3boto3.S3Boto3Storage'},
+#             "OPTIONS": {
+#                 "bucket_name": 'focusplayermedia'
+#         },
+#     }

@@ -84,6 +84,11 @@ const ApiManager = {
       formData.append("profilePicture", profilePicture);
       const response = await axios.post(url, formData, {
         headers: { Authorization: `Token ${authToken}` },
+
+        onUploadProgress : ({loaded, total}) => {
+          const progress = parseInt(Math.round((loaded * 100) / total));
+          console.log(progress, '===================')
+        },
       });
       return response.data;
     } catch (error) {
@@ -104,7 +109,12 @@ const ApiManager = {
       for (let i = 0; i < videos.length; i++) {
         formData.append(videos[i].file.name, videos[i].file);
       }
-      const response = await axios.post(url, formData);
+      const response = await axios.post(url, formData,
+        {onUploadProgress : (progressEvent) => {
+          const progress = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+          // console.log(progress, '===================')
+        },}
+      );
       return response;
     } catch (error) {
       console.error(error);
