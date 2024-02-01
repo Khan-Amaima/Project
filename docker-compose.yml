@@ -9,7 +9,7 @@ services:
     volumes:
       - ./focusplayer_database:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5432:5434
     environment:
       - POSTGRES_USER=mahmad
       - POSTGRES_PASSWORD=1234
